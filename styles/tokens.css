@@ -1,0 +1,15 @@
+:root {
+  --bg: #0b0b0d;
+  --surface: #171719;
+  --text: #f5f4f0;
+  --muted: #a6a6a8;
+  --paper: #eceae5;
+  --ink: #171719;
+  --brand: #eb2266;
+  --champagne: var(--brand);
+  --line: #ffffff26;
+  --glass: #ffffff0d;
+  --rim: #ffffff45;
+  --gutter: clamp(22px, 4.2vw, 80px);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}

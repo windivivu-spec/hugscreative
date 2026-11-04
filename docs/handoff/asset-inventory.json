@@ -1,0 +1,116 @@
+[
+  {
+    "path": "public/media/architecture.jpg",
+    "bytes": 170933,
+    "source": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
+    "status": "Concept/demo only. Confirm permitted production use or replace with owner-approved media."
+  },
+  {
+    "path": "public/media/coffee.jpg",
+    "bytes": 101762,
+    "source": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085",
+    "status": "Concept/demo only. Confirm permitted production use or replace with owner-approved media."
+  },
+  {
+    "path": "public/media/desert.jpg",
+    "bytes": 592254,
+    "source": "https://images.unsplash.com/photo-1509316785289-025f5b846b35",
+    "status": "Concept/demo only. Confirm permitted production use or replace with owner-approved media."
+  },
+  {
+    "path": "public/media/dunes.jpg",
+    "bytes": 1030588,
+    "source": "https://images.unsplash.com/photo-1751817617405-fa66da15276b",
+    "status": "Concept/demo only. Confirm permitted production use or replace with owner-approved media."
+  },
+  {
+    "path": "public/media/fashion.jpg",
+    "bytes": 86466,
+    "source": "https://images.unsplash.com/photo-1483985988355-763728e1935b",
+    "status": "Concept/demo only. Confirm permitted production use or replace with owner-approved media."
+  },
+  {
+    "path": "public/media/hugs-direction-reel.mp4",
+    "bytes": 1458838,
+    "source": "Derived silent montage of the listed stock stills",
+    "status": "Concept/demo only. Confirm permitted production use or replace with owner-approved media."
+  },
+  {
+    "path": "public/media/landscape.jpg",
+    "bytes": 129603,
+    "source": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05",
+    "status": "Concept/demo only. Confirm permitted production use or replace with owner-approved media."
+  },
+  {
+    "path": "public/media/night.jpg",
+    "bytes": 113060,
+    "source": "https://images.unsplash.com/photo-1519608487953-e999c86e7455",
+    "status": "Concept/demo only. Confirm permitted production use or replace with owner-approved media."
+  },
+  {
+    "path": "public/media/ocean.jpg",
+    "bytes": 71955,
+    "source": "https://images.unsplash.com/photo-1518837695005-2083093ee35b",
+    "status": "Concept/demo only. Confirm permitted production use or replace with owner-approved media."
+  },
+  {
+    "path": "public/media/portrait.jpg",
+    "bytes": 121466,
+    "source": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1",
+    "status": "Concept/demo only. Confirm permitted production use or replace with owner-approved media."
+  },
+  {
+    "path": "public/media/skincare.jpg",
+    "bytes": 109969,
+    "source": "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108",
+    "status": "Concept/demo only. Confirm permitted production use or replace with owner-approved media."
+  },
+  {
+    "path": "public/media/sneaker.jpg",
+    "bytes": 91080,
+    "source": "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+    "status": "Concept/demo only. Confirm permitted production use or replace with owner-approved media."
+  },
+  {
+    "path": "public/fonts/OVSoge-Bold.otf",
+    "bytes": 11112,
+    "source": "Supplied by owner in font/",
+    "status": "Confirm production embedding rights. No license document supplied for owner fonts."
+  },
+  {
+    "path": "public/fonts/OVSoge-ExtraBold.otf",
+    "bytes": 11220,
+    "source": "Supplied by owner in font/",
+    "status": "Confirm production embedding rights. No license document supplied for owner fonts."
+  },
+  {
+    "path": "public/fonts/OVSoge-Medium.otf",
+    "bytes": 11208,
+    "source": "Supplied by owner in font/",
+    "status": "Confirm production embedding rights. No license document supplied for owner fonts."
+  },
+  {
+    "path": "public/fonts/OVSoge-Regular.otf",
+    "bytes": 10932,
+    "source": "Supplied by owner in font/",
+    "status": "Confirm production embedding rights. No license document supplied for owner fonts."
+  },
+  {
+    "path": "public/fonts/OVSoge-SemiBold.otf",
+    "bytes": 11272,
+    "source": "Supplied by owner in font/",
+    "status": "Confirm production embedding rights. No license document supplied for owner fonts."
+  },
+  {
+    "path": "public/fonts/geist.woff2",
+    "bytes": 29400,
+    "source": "Google Fonts / Geist",
+    "status": "Confirm production embedding rights. No license document supplied for owner fonts."
+  },
+  {
+    "path": "public/fonts/retroscope-italic.ttf",
+    "bytes": 77136,
+    "source": "Supplied by owner in font/",
+    "status": "Confirm production embedding rights. No license document supplied for owner fonts."
+  }
+]
