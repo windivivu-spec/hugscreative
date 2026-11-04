@@ -1,103 +1,154 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { site } from "@/data/site";
-import { CloseIcon } from "@/components/ui/Icons";
+import VideoPreview from "@/components/ui/VideoPreview";
+
+function formatTime(time: number) {
+  const value = Number.isFinite(time) ? Math.max(0, Math.floor(time)) : 0;
+  return `${String(Math.floor(value / 60)).padStart(2, "0")}:${String(value % 60).padStart(2, "0")}`;
+}
+
 export default function ReelSection() {
-  const [open, setOpen] = useState(false);
+  const fullVideo = useRef<HTMLVideoElement>(null);
+  const [active, setActive] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [duration, setDuration] = useState(10);
+  const [previewProgress, setPreviewProgress] = useState(0);
+
+  function togglePlayback() {
+    const video = fullVideo.current;
+    if (!video) return;
+    if (!active) {
+      setActive(true);
+      video.muted = false;
+      setMuted(false);
+      void video.play().catch(() => setPlaying(false));
+    } else if (video.paused) {
+      void video.play().catch(() => setPlaying(false));
+    } else {
+      video.pause();
+    }
+  }
+  function toggleMute() {
+    const video = fullVideo.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setMuted(video.muted);
+  }
+  const progress =
+    active && duration > 0 ? current / duration : previewProgress;
+
   return (
     <section className="reel-section" id="reel" aria-labelledby="reel-heading">
       <div className="reel-intro">
         <span className="eyebrow">A LITTLE OF OUR CREATIVE WORLD</span>
         <h2 id="reel-heading">
-          A feel for
+          A <em>feel</em> for
           <br />
           what’s <em>possible.</em>
         </h2>
         <p>Images, rhythm, and a different point of view.</p>
-        <span className="reel-demo">
-          {site.reelIsDemo
-            ? "VISUAL DIRECTION / CONCEPT REEL"
-            : "HUGs CREATIVE / SHOWREEL"}
-        </span>
+        <span className="reel-demo">VISUAL DIRECTION / MEDIA PACK</span>
       </div>
-      <button
-        className="reel-poster"
-        onClick={() => setOpen(true)}
-        aria-label="Watch 15-second concept reel, stock imagery"
-      >
-        <Image
-          src={site.reelPoster}
-          alt="Warm desert dunes from the concept reel"
-          fill
-          sizes="(max-width:767px) 90vw, 55vw"
-        />
-        <span className="reel-play" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-            <path d="m8 4 12 8-12 8z" />
-          </svg>
-        </span>
-        <span className="reel-poster-bottom">
-          <span>PLAY THE CONCEPT REEL</span>
-          <span>00:15 / SILENT</span>
-        </span>
-      </button>
-      {open && <ReelDialog onClose={() => setOpen(false)} />}
+      <div className="reel-player">
+        <div className="reel-poster">
+          <Image
+            src={site.reelPoster}
+            alt="Camera product film"
+            fill
+            sizes="(max-width:767px) 90vw, 55vw"
+          />
+          <VideoPreview
+            src="/media/pack/v5-hq-preview.mp4"
+            enabled={!active}
+            onProgress={(time, total) => {
+              if (!active && total > 0) setPreviewProgress(time / total);
+            }}
+          />
+          <video
+            ref={fullVideo}
+            className={`reel-full-video${active ? " is-active" : ""}`}
+            src={site.reel}
+            playsInline
+            preload="none"
+            aria-label="Camera product film"
+            onPlay={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            onEnded={() => setPlaying(false)}
+            onTimeUpdate={(event) =>
+              setCurrent(event.currentTarget.currentTime)
+            }
+            onDurationChange={(event) => {
+              if (Number.isFinite(event.currentTarget.duration))
+                setDuration(event.currentTarget.duration);
+            }}
+          >
+            Your browser does not support embedded video.{" "}
+            <a href={site.reel}>Download the video</a>.
+          </video>
+          <button
+            className="reel-preview-trigger"
+            onClick={togglePlayback}
+            aria-label={
+              !active
+                ? "Play the full camera video"
+                : playing
+                  ? "Pause video"
+                  : "Play video"
+            }
+          />
+        </div>
+        <div className="reel-controls">
+          <button
+            className="reel-control-button"
+            onClick={togglePlayback}
+            aria-label={
+              !active
+                ? "Play the full camera video"
+                : playing
+                  ? "Pause video"
+                  : "Play video"
+            }
+          >
+            {active && playing ? "❚❚" : "▶"}
+          </button>
+          <input
+            className="reel-progress"
+            type="range"
+            min="0"
+            max={active ? duration : 1}
+            step="0.01"
+            value={active ? Math.min(current, duration) : progress}
+            disabled={!active}
+            aria-label="Video progress"
+            style={
+              {
+                "--reel-progress": `${Math.min(100, Math.max(0, progress * 100))}%`,
+              } as React.CSSProperties
+            }
+            onChange={(event) => {
+              const time = Number(event.target.value);
+              if (fullVideo.current) fullVideo.current.currentTime = time;
+              setCurrent(time);
+            }}
+          />
+          <span className="reel-time">
+            {active ? formatTime(current) : "00:00"} / {formatTime(duration)}
+          </span>
+          <button
+            className="reel-control-button reel-mute"
+            onClick={toggleMute}
+            disabled={!active}
+            aria-label={muted ? "Unmute video" : "Mute video"}
+            aria-pressed={muted}
+          >
+            {muted ? "SOUND OFF" : "SOUND ON"}
+          </button>
+        </div>
+      </div>
     </section>
-  );
-}
-function ReelDialog({ onClose }: { onClose: () => void }) {
-  const dialog = useRef<HTMLDialogElement>(null);
-  useEffect(() => {
-    const focused = document.activeElement as HTMLElement | null;
-    const d = dialog.current,
-      old = document.body.style.overflow;
-    d?.showModal();
-    document.body.style.overflow = "hidden";
-    return () => {
-      d?.close();
-      document.body.style.overflow = old;
-      focused?.focus({ preventScroll: true });
-    };
-  }, []);
-  return (
-    <dialog
-      className="reel-dialog"
-      ref={dialog}
-      onCancel={(e) => {
-        e.preventDefault();
-        onClose();
-      }}
-      aria-labelledby="reel-dialog-title"
-    >
-      <div className="detail-toolbar">
-        <h2 className="eyebrow" id="reel-dialog-title">
-          HUGs Creative — {site.reelIsDemo ? "Concept reel" : "Showreel"}
-        </h2>
-        <button
-          className="circle-button"
-          aria-label="Close reel"
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </button>
-      </div>
-      <video
-        controls
-        playsInline
-        preload="none"
-        poster={site.reelPoster}
-        aria-label="15-second silent visual direction reel"
-      >
-        <source src={site.reel} type="video/mp4" />
-        Your browser does not support embedded video.{" "}
-        <a href={site.reel}>Download the reel</a>.
-      </video>
-      <p>
-        {site.reelIsDemo
-          ? "A visual direction study made with stock photography. This is sample creative direction, not commissioned client work. The reel is silent."
-          : "Our creative work, in motion."}
-      </p>
-    </dialog>
   );
 }

@@ -69,8 +69,8 @@ export default function FloatingMediaCard({
               <Image
                 src={
                   media.kind === "phone"
-                    ? "/media/skincare.jpg"
-                    : "/media/architecture.jpg"
+                    ? "/media/pack/a1.webp"
+                    : "/media/pack/a2.webp"
                 }
                 alt=""
                 fill

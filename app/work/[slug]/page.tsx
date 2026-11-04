@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { projects } from "@/data/projects";
 import CaseStudyContact from "@/components/ui/CaseStudyContact";
+import ProjectVideos from "@/components/ui/ProjectVideos";
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.id }));
 }
@@ -16,7 +17,7 @@ export async function generateMetadata({
   const p = projects.find((p) => p.id === slug);
   return {
     title: p
-      ? `${p.name} — Concept project | HUGs Creative`
+      ? `${p.name} — Selected visual | HUGs Creative`
       : "Project not found",
   };
 }
@@ -33,7 +34,7 @@ export default async function CaseStudy({
     <main className="case-page">
       <header className="detail-toolbar">
         <Link href="/" className="wordmark">
-          HUGs<small className="wordmark-sub">Creative</small>
+          <img src="/hugs%20creative%20logo.png?v=2" alt="HUGs Creative" width="1322" height="490" />
         </Link>
         <Link className="glass-button" href="/#work">
           Back to selected work
@@ -41,17 +42,17 @@ export default async function CaseStudy({
       </header>
       <div className="case-page-title">
         <span className="eyebrow">
-          CONCEPT PROJECT / {p.category} / {p.year}
+          SELECTED VISUAL / {p.category} / {p.year}
         </span>
         <h1>{p.name}</h1>
         <p>{p.description}</p>
       </div>
       <div className="detail-feature">
-        <Image src={p.image} alt={p.alt} fill priority sizes="100vw" />
+        <Image src={p.image} alt={p.alt} fill priority sizes="100vw" style={{ objectFit: p.fit }} />
       </div>
       <div className="case-share">
         <span>{p.industry}</span>
-        <span>Independent exploration / stock imagery</span>
+        <span>Selected visuals / media pack</span>
       </div>
       <div className="case-facts">
         <article>
@@ -71,6 +72,7 @@ export default async function CaseStudy({
           </ul>
         </article>
       </div>
+      <ProjectVideos videos={p.videos} />
       <div className="detail-gallery">
         {p.gallery.map((image, i) => (
           <div key={image + i}>
@@ -84,9 +86,8 @@ export default async function CaseStudy({
         ))}
       </div>
       <p className="case-disclosure">
-        Fictional concept project. Stock photographs illustrate the creative
-        direction; this is not commissioned client work and no business results
-        are claimed.
+        Visuals supplied in the media pack. Project details and credits are
+        pending confirmation.
       </p>
       <div className="case-cta">
         <h2>

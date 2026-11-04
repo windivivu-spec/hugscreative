@@ -1,5 +1,8 @@
+"use client";
 import SectionLabel from "@/components/ui/SectionLabel";
+import ImpactSculpture from "@/components/ui/ImpactSculpture";
 import { Asterisk, Arrow } from "@/components/ui/Icons";
+
 export default function AboutProcess() {
   return (
     <section
@@ -12,11 +15,15 @@ export default function AboutProcess() {
         <Asterisk />
       </div>
       <div className="about-main">
-        <h2 id="about-heading">
-          From <em>idea</em>
-          <br />
-          to impact<span>.</span>
-        </h2>
+        <div className="about-lead">
+          <h2 id="about-heading">
+            From <em>idea</em>
+            <br />
+            to <em className="impact-word">impact</em>
+            <span>.</span>
+          </h2>
+          <ImpactSculpture />
+        </div>
         <div className="about-copy">
           <h3 className="about-brand-line">
             HUGs Creative — Born in Da Nang. Driven by Creativity.

@@ -4,6 +4,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import type { Project } from "@/data/projects";
 import { Arrow, CloseIcon } from "./Icons";
+import ProjectVideos from "./ProjectVideos";
 export default function ProjectDetail({
   project,
   origin,
@@ -22,6 +23,8 @@ export default function ProjectDetail({
   const opened = useRef(false);
   const closing = useRef(false);
   const savedOrigin = useRef(origin);
+  const openingTween = useRef<gsap.core.Tween | null>(null);
+  const exitTimeline = useRef<gsap.core.Timeline | null>(null);
   useEffect(() => {
     const d = dialog.current;
     if (!d) return;
@@ -33,6 +36,7 @@ export default function ProjectDetail({
     document.body.style.overflow = "hidden";
     d.showModal();
     return () => {
+      exitTimeline.current?.kill();
       d.close();
       document.body.style.overflow = previous;
       document.body.style.paddingRight = padding;
@@ -50,7 +54,7 @@ export default function ProjectDetail({
     const ctx = gsap.context(() => {
       if (!opened.current && origin && !reduced) {
         const r = node.getBoundingClientRect();
-        gsap.fromTo(
+        openingTween.current = gsap.fromTo(
           node,
           {
             x: origin.left - r.left,
@@ -71,7 +75,7 @@ export default function ProjectDetail({
           },
         );
       } else if (!reduced) {
-        gsap.fromTo(node, { opacity: 0.3 }, { opacity: 1, duration: 0.35 });
+        openingTween.current = gsap.fromTo(node, { opacity: 0.3 }, { opacity: 1, duration: 0.35 });
       }
     });
     opened.current = true;
@@ -81,25 +85,49 @@ export default function ProjectDetail({
     if (closing.current) return;
     closing.current = true;
     const node = media.current;
+    const d = dialog.current;
     const r = savedOrigin.current;
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    if (node && r && !reduced) {
-      dialog.current?.scrollTo({ top: 0, behavior: "instant" });
+    if (node && d && !reduced) {
+      openingTween.current?.kill();
+      d.scrollTo({ top: 0, behavior: "instant" });
       const b = node.getBoundingClientRect();
-      gsap.to(node, {
-        x: r.left - b.left,
-        y: r.top - b.top,
-        scaleX: r.width / b.width,
-        scaleY: r.height / b.height,
-        transformOrigin: "0 0",
+      const tl = gsap.timeline({ onComplete: onClose });
+      exitTimeline.current = tl;
+      // Reveal the portfolio underneath throughout the zoom, not after it.
+      tl.to(d, {
+        backgroundColor: "rgba(10, 10, 10, 0)",
+        "--project-backdrop-opacity": 0,
+        "--project-backdrop-blur": "0px",
+        duration: 0.6,
+        ease: "power2.out",
+      }, 0);
+      tl.to(d.querySelectorAll(".detail-toolbar, .detail-info, .case-facts, .case-share, .case-videos, .detail-gallery, .case-cta, .detail-navigation"), {
+        opacity: 0,
+        filter: "blur(5px)",
+        duration: 0.28,
+        ease: "power2.out",
+      }, 0);
+      tl.to(node, {
+        ...(r ? {
+          x: r.left - b.left,
+          y: r.top - b.top,
+          scaleX: r.width / b.width,
+          scaleY: r.height / b.height,
+          transformOrigin: "0 0",
+        } : { scale: 0.94, transformOrigin: "50% 50%" }),
         borderRadius: 12,
-        duration: 0.5,
+        duration: 0.68,
         ease: "power3.inOut",
-        onComplete: onClose,
-      });
-      gsap.to(".detail-info, .detail-gallery", { opacity: 0, duration: 0.2 });
+      }, 0);
+      tl.to(node, {
+        filter: "blur(7px)",
+        opacity: 0,
+        duration: 0.48,
+        ease: "power1.inOut",
+      }, 0.18);
     } else onClose();
   }
   return (
@@ -114,9 +142,9 @@ export default function ProjectDetail({
     >
       <div className="detail-toolbar">
         <span className="wordmark">
-          HUGs<small className="wordmark-sub">Creative</small>
+          <img src="/hugs%20creative%20logo.png?v=2" alt="HUGs Creative" width="1322" height="490" />
         </span>
-        <span className="eyebrow">INDEPENDENT EXPLORATION / DEMO CONCEPT</span>
+        <span className="eyebrow">SELECTED VISUALS / MEDIA PACK</span>
         <button className="glass-button" onClick={close}>
           Back to work <CloseIcon />
         </button>
@@ -128,6 +156,7 @@ export default function ProjectDetail({
           fill
           priority
           sizes="100vw"
+          style={{ objectFit: project.fit }}
         />
         <div className="detail-image-caption">
           <span>HUGs Creative / {project.year}</span>
@@ -145,8 +174,8 @@ export default function ProjectDetail({
         <div>
           <p>{project.description}</p>
           <small>
-            This is a fictional portfolio concept using curated stock imagery.
-            It does not represent commissioned client work.
+            Visuals supplied in the media pack. Project details and credits are
+            pending confirmation.
           </small>
         </div>
       </div>
@@ -174,6 +203,7 @@ export default function ProjectDetail({
           View shareable case study <Arrow />
         </a>
       </div>
+      <ProjectVideos videos={project.videos} />
       <div className="detail-gallery">
         {project.gallery.map((img, i) => (
           <div key={`${project.id}-${i}`}>

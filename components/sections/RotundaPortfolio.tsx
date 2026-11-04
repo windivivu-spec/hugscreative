@@ -5,6 +5,7 @@ import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { projects, type Project } from "@/data/projects";
 import { Arrow } from "@/components/ui/Icons";
 import SectionLabel from "@/components/ui/SectionLabel";
+import VideoPreview from "@/components/ui/VideoPreview";
 export type OpenProject = (project: Project, rect?: DOMRect) => void;
 const wrap = (n: number) =>
   ((n % projects.length) + projects.length) % projects.length;
@@ -41,6 +42,7 @@ export default function RotundaPortfolio({
     scrollProgress: 0,
   });
   const wake = useRef<() => void>(() => {});
+  const wheelSnapTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
     const s = state.current;
     const trackNode = track.current;
@@ -134,7 +136,8 @@ export default function RotundaPortfolio({
         Math.min(1, -node.getBoundingClientRect().top / travel),
       );
       if (progress !== s.scrollProgress) {
-        s.target += (progress - s.scrollProgress) * projects.length / 2;
+        if (!s.paused)
+          s.target += (progress - s.scrollProgress) * projects.length / 2;
         s.scrollProgress = progress;
         node.style.setProperty("--orbit-scroll", `${progress * 100}%`);
         wake.current();
@@ -155,20 +158,20 @@ export default function RotundaPortfolio({
       if (!horizontal) return;
       e.preventDefault();
       s.target += (e.shiftKey ? e.deltaY : e.deltaX) * 0.003;
-      clearTimeout(timer);
-      timer = setTimeout(() => {
+      clearTimeout(wheelSnapTimer.current);
+      wheelSnapTimer.current = setTimeout(() => {
+        if (s.paused) return;
         s.target = Math.round(s.target);
         wake.current();
       }, 120);
       wake.current();
     };
-    let timer: ReturnType<typeof setTimeout>;
     node?.addEventListener("wheel", wheel, { passive: false });
     paint();
     return () => {
       observer.disconnect();
       cancelAnimationFrame(s.frame);
-      clearTimeout(timer);
+      clearTimeout(wheelSnapTimer.current);
       media.removeEventListener("change", change);
       window.removeEventListener("scroll", syncScroll);
       window.removeEventListener("resize", syncScroll);
@@ -178,9 +181,30 @@ export default function RotundaPortfolio({
     };
   }, []);
   useEffect(() => {
-    state.current.paused = paused;
+    const s = state.current;
+    if (s.paused !== paused) {
+      clearTimeout(wheelSnapTimer.current);
+      s.target = s.current;
+      s.velocity = 0;
+      s.paused = paused;
+      // Scroll locking can move the page without representing an orbit gesture.
+      const node = track.current;
+      if (node) {
+        const travel = Math.max(1, node.offsetHeight - window.innerHeight);
+        s.scrollProgress = Math.max(0, Math.min(1, -node.getBoundingClientRect().top / travel));
+        node.style.setProperty("--orbit-scroll", `${s.scrollProgress * 100}%`);
+      }
+    }
     if (!paused) wake.current();
   }, [paused]);
+  function openCard(project: Project, rect?: DOMRect) {
+    const s = state.current;
+    clearTimeout(wheelSnapTimer.current);
+    s.target = s.current;
+    s.velocity = 0;
+    s.paused = true;
+    onOpen(project, rect);
+  }
   function move(delta: number) {
     const s = state.current;
     if (s.paused) return;
@@ -229,8 +253,7 @@ export default function RotundaPortfolio({
         const card = stage.current?.querySelector<HTMLElement>(
           `[data-project="${s.card}"]`,
         );
-        s.target = Math.round(s.current);
-        onOpen(projects[s.card], card?.getBoundingClientRect());
+        openCard(projects[s.card], card?.getBoundingClientRect());
       } else {
         const difference =
           wrap(s.card - s.active + projects.length / 2) - projects.length / 2;
@@ -284,7 +307,7 @@ export default function RotundaPortfolio({
               move(-1);
             }
             if (e.key === "Enter") {
-              onOpen(
+              openCard(
                 p,
                 stage.current
                   ?.querySelector<HTMLElement>(`[data-project="${active}"]`)
@@ -321,11 +344,11 @@ export default function RotundaPortfolio({
                       } as CSSProperties
                     }
                     tabIndex={i === active ? 0 : -1}
-                    aria-label={`Open ${project.name}, ${project.category}, demo project`}
+                    aria-label={`Open ${project.name}, ${project.category}, media pack visual`}
                     aria-current={i === active ? "true" : undefined}
                     onClick={(e) => {
                       if (e.detail === 0)
-                        onOpen(
+                        openCard(
                           project,
                           e.currentTarget.getBoundingClientRect(),
                         );
@@ -337,13 +360,21 @@ export default function RotundaPortfolio({
                       fill
                       sizes="(max-width: 700px) 65vw, 430px"
                       draggable={false}
+                      style={project.videos?.length ? { objectFit: "contain", background: "#0b0b0d" } : undefined}
                     />
+                    {project.videos?.[0] && (
+                      <VideoPreview
+                        src={project.videos[0].src.replace(/\.mp4$/, "-preview.mp4")}
+                        enabled={!paused && Math.abs(wrap(i - active + Math.floor(projects.length / 2)) - Math.floor(projects.length / 2)) <= 1}
+                        renderAsCanvas
+                      />
+                    )}
                     <div className="ring-card-overlay">
                       <span>{project.name}</span>
                       <Arrow />
                     </div>
                     <span className="ring-card-number">
-                      {String(i + 1).padStart(2, "0")} / CONCEPT
+                      {String(i + 1).padStart(2, "0")} / VISUAL
                     </span>
                   </button>
                 ))}
@@ -358,7 +389,7 @@ export default function RotundaPortfolio({
             </span>
             <button
               onClick={() =>
-                onOpen(
+                openCard(
                   p,
                   stage.current
                     ?.querySelector<HTMLElement>(`[data-project="${active}"]`)
@@ -423,7 +454,7 @@ export default function RotundaPortfolio({
         </a>
         <div className="demo-caption">
           <span className="tiny-cross">+</span> INDEPENDENT EXPLORATIONS. ALL
-          PROJECTS SHOWN ARE DEMO CONCEPTS.
+          SELECTED VISUALS FROM THE MEDIA PACK.
         </div>
       </div>
     </section>

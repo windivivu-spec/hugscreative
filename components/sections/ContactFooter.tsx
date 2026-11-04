@@ -54,7 +54,7 @@ export default function ContactFooter({
       </section>
       <footer className="footer">
         <a className="wordmark" href="#home">
-          HUGs<small className="wordmark-sub">Creative</small>
+          <img src="/hugs%20creative%20logo.png?v=2" alt="HUGs Creative" width="1322" height="490" />
         </a>
         <div className="footer-links">
           {["Work", "Services", "About", "Contact"].map((n) => (

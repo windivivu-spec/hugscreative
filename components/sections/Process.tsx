@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionLabel from "@/components/ui/SectionLabel";
@@ -11,6 +12,7 @@ const steps = [
     description:
       "Tell us about your goals, deliverables, timeline, and available assets.",
     label: "A GOOD START",
+    artwork: "/media/process/brief-ny-journal.webp",
     items: [
       "Your goals & audience",
       "Deliverables & references",
@@ -23,6 +25,7 @@ const steps = [
     description:
       "We confirm the deliverables, quote, schedule, and revision rounds before work begins.",
     label: "EVERY DETAIL, ALIGNED",
+    artwork: "/media/process/scope-ny-journal-v2.webp",
     items: [
       "Deliverables confirmed",
       "Quote & schedule agreed",
@@ -35,6 +38,7 @@ const steps = [
     description:
       "We coordinate production, collect your feedback, and deliver the agreed final files.",
     label: "FROM FIRST DRAFT TO FINAL",
+    artwork: "/media/process/deliver-ny-journal-v2.webp",
     items: [
       "Production in motion",
       "Your feedback, refined",
@@ -68,18 +72,16 @@ export default function Process() {
           const art = panel.querySelector(".process-art");
           const lines = panel.querySelectorAll(".process-copy > *");
           const sheen = panel.querySelector(".process-page-sheen");
-          gsap.set(panel, { zIndex: i + 1, transformOrigin: "0% 50%" });
+          gsap.set(panel, { zIndex: i + 1 });
           if (i > 0) {
             const entry = i - 0.28;
             gsap.set(panel, { autoAlpha: 0 });
             tl.set(panel, { autoAlpha: 1 }, entry);
             tl.fromTo(
               panel,
-              { xPercent: 105, rotationY: compact ? 8 : 14, scale: 0.94 },
+              { xPercent: 105 },
               {
                 xPercent: 0,
-                rotationY: 0,
-                scale: 1,
                 duration: 0.64,
                 ease: "power2.inOut",
               },
@@ -101,18 +103,14 @@ export default function Process() {
             tl.fromTo(
               art,
               {
-                xPercent: 12,
-                rotationY: compact ? -22 : -48,
-                rotationZ: 7,
-                scale: 0.88,
+                filter: compact ? "blur(6px)" : "blur(10px)",
+                opacity: 0,
               },
               {
-                xPercent: 0,
-                rotationY: 0,
-                rotationZ: 0,
-                scale: 1,
-                duration: 0.72,
-                ease: "power3.out",
+                filter: "blur(0px)",
+                opacity: 1,
+                duration: 0.58,
+                ease: "power2.out",
               },
               entry + 0.06,
             );
@@ -135,7 +133,7 @@ export default function Process() {
               copy,
               {
                 xPercent: -12,
-                rotationY: 8,
+                filter: compact ? "blur(6px)" : "blur(10px)",
                 opacity: 0,
                 duration: 0.45,
                 ease: "power2.in",
@@ -145,10 +143,8 @@ export default function Process() {
             tl.to(
               art,
               {
-                xPercent: -18,
-                rotationY: compact ? 25 : 55,
-                rotationZ: -9,
-                scale: 0.86,
+                filter: compact ? "blur(8px)" : "blur(14px)",
+                opacity: 0,
                 duration: 0.55,
                 ease: "power2.inOut",
               },
@@ -158,8 +154,6 @@ export default function Process() {
               panel,
               {
                 xPercent: -110,
-                rotationY: compact ? -8 : -16,
-                scale: 0.94,
                 duration: 0.62,
                 ease: "power2.inOut",
               },
@@ -227,37 +221,9 @@ export default function Process() {
               </div>
               <div className="process-art" aria-hidden="true">
                 <span className="process-big-number">0{i + 1}</span>
-                <div className="process-document">
-                  <div className="process-document-top">
-                    <span>HUGs Creative</span>
-                    <span>0{i + 1} / 03</span>
-                  </div>
-                  <div className="process-document-title">
-                    {["The beginning.", "The agreement.", "The handoff."][i]}
-                  </div>
-                  <div className="process-document-lines">
-                    {s.items.map((text, j) => (
-                      <div key={text}>
-                        <span className="process-check">
-                          {i === 0 ? `0${j + 1}` : "✓"}
-                        </span>
-                        {text}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="process-document-bottom">
-                    <span>
-                      {
-                        [
-                          "LET’S PUT IDEAS ON PAPER",
-                          "CLEAR EXPECTATIONS. BETTER WORK.",
-                          "MADE TO MAKE AN IMPACT.",
-                        ][i]
-                      }
-                    </span>
-                    <Arrow />
-                  </div>
-                </div>
+                <figure className="process-newspaper">
+                  <Image src={s.artwork} alt="" width={1086} height={1448} sizes="(max-width: 767px) 180px, (max-height: 700px) 260px, 420px" />
+                </figure>
                 <span className="process-orbit" />
               </div>
             </article>

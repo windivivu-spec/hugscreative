@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import GlassButton from "@/components/ui/GlassButton";
 import RevealText from "@/components/ui/RevealText";
 import { Arrow, Asterisk } from "@/components/ui/Icons";
+import VideoPreview from "@/components/ui/VideoPreview";
 export default function Hero({ onContact }: { onContact: () => void }) {
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -49,13 +50,14 @@ export default function Hero({ onContact }: { onContact: () => void }) {
     >
       <div className="hero-image">
         <Image
-          src="/media/dunes.jpg"
-          alt="Sweeping sand dunes, sculpted by light and movement"
+          src="/media/pack/v1-poster.webp"
+          alt="Headphones in a cinematic studio spotlight"
           fill
           priority
           sizes="100vw"
           quality={90}
         />
+        <VideoPreview src="/media/pack/v1-hq.mp4" />
       </div>
       <div className="hero-shade" />
       <div className="hero-main">

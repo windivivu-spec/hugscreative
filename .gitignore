@@ -1,5 +1,14 @@
 # Dependencies
 /node_modules/
+/Pack Media/
+/public/Pack Media/
+# Superseded low-resolution video encodes retained locally
+/public/media/pack/v[0-9].mp4
+/public/media/pack/v[0-9]-preview.mp4
+/public/media/pack/loops-16x9.mp4
+/public/media/pack/loops-16x9-preview.mp4
+/public/media/pack/loops-9x16.mp4
+/public/media/pack/loops-9x16-preview.mp4
 /.pnp/
 .pnp.*
 

@@ -37,11 +37,11 @@ export default function ServiceScope({
 }) {
   const [preview, setPreview] = useState(0);
   const images = [
-    "/media/fashion.jpg",
-    "/media/dunes.jpg",
-    "/media/architecture.jpg",
-    "/media/coffee.jpg",
-    "/media/portrait.jpg",
+    "/media/pack/a6.webp",
+    "/media/pack/loops-16x9-poster.webp",
+    "/media/pack/a2.webp",
+    "/media/pack/a1.webp",
+    "/media/pack/v5-poster.webp",
   ];
   return (
     <section className="scope-section" aria-labelledby="scope-heading">
@@ -61,7 +61,7 @@ export default function ServiceScope({
           <div className="scope-visual-photo">
             <Image
               src={images[preview]}
-              alt={`Stock visual direction for ${offerings[preview][0]}`}
+              alt={`Media pack visual direction for ${offerings[preview][0]}`}
               fill
               sizes="(max-width:767px) 90vw,40vw"
             />
@@ -69,7 +69,7 @@ export default function ServiceScope({
           <span className="scope-visual-index">0{preview + 1} / 05</span>
           <div className="scope-visual-caption">
             <strong>{offerings[preview][0]}</strong>
-            <small>CONCEPT DIRECTION / STOCK IMAGERY</small>
+            <small>VISUAL DIRECTION / MEDIA PACK</small>
           </div>
         </div>
       </div>

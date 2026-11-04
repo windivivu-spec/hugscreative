@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import GlassButton from "@/components/ui/GlassButton";
+import PartnershipSculpture from "@/components/ui/PartnershipSculpture";
 export default function Partnership({ onContact }: { onContact: () => void }) {
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -25,8 +26,8 @@ export default function Partnership({ onContact }: { onContact: () => void }) {
           },
         });
         gsap.from(".partner-symbol", {
-          rotation: -70,
-          scale: 0.7,
+          y: 25,
+          opacity: 0,
           duration: 1.2,
           ease: "power3.out",
           scrollTrigger: {
@@ -43,15 +44,14 @@ export default function Partnership({ onContact }: { onContact: () => void }) {
   return (
     <section className="partner-section" ref={root}>
       <div className="partner-symbol" aria-hidden="true">
-        <span />
-        <span />
+        <PartnershipSculpture />
       </div>
       <div className="partner-content">
         <span className="eyebrow partner-line">
           FOR BRANDS. FOR AGENCIES. FOR THE NEXT IDEA.
         </span>
         <h2 className="partner-line">
-          Your vision.
+          Your <em>vision</em>.
           <br />
           Our <em>creative</em> company.
         </h2>

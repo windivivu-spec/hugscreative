@@ -6,6 +6,7 @@ import type { OpenProject } from "./RotundaPortfolio";
 import SectionLabel from "@/components/ui/SectionLabel";
 import GlowCard from "@/components/ui/GlowCard";
 import { Arrow } from "@/components/ui/Icons";
+import VideoPreview from "@/components/ui/VideoPreview";
 export default function WorkArchive({ onOpen }: { onOpen: OpenProject }) {
   const [filter, setFilter] = useState<(typeof categories)[number]>("All");
   const visible =
@@ -25,7 +26,7 @@ export default function WorkArchive({ onOpen }: { onOpen: OpenProject }) {
         </span>
       </div>
       <h2 id="archive-heading">
-        More than just
+        More <em>than</em> just
         <br />
         <em>good</em> looking<span className="heading-period">.</span>
       </h2>
@@ -48,14 +49,14 @@ export default function WorkArchive({ onOpen }: { onOpen: OpenProject }) {
             </button>
           ))}
         </div>
-        <span className="eyebrow archive-demo">CONCEPT WORK / 2025—26</span>
+        <span className="eyebrow archive-demo">SELECTED VISUALS / MEDIA PACK</span>
       </div>
       <div className="project-grid" aria-live="polite">
         {visible.map((p, i) => (
           <GlowCard
             key={p.id}
             className="archive-card"
-            label={`View ${p.name}, ${p.category}, demo project`}
+            label={`View ${p.name}, ${p.category}, media pack visual`}
             onClick={(e) =>
               onOpen(
                 p,
@@ -65,14 +66,16 @@ export default function WorkArchive({ onOpen }: { onOpen: OpenProject }) {
               )
             }
           >
-            <div className="archive-image">
+            <div className={`archive-image${p.videos?.length ? " has-video" : ""}`}>
               <Image
                 src={p.image}
                 alt={p.alt}
                 fill
                 sizes="(max-width: 700px) 90vw, (max-width: 1000px) 45vw, 30vw"
+                style={p.videos?.length ? { objectFit: "contain", background: "#0b0b0d" } : undefined}
               />
-              <span className="project-demo-tag">DEMO CONCEPT</span>
+              {p.videos?.[0] && <VideoPreview src={p.videos[0].src.replace(/\.mp4$/, "-preview.mp4")} />}
+              <span className="project-demo-tag">MEDIA PACK</span>
               <span className="project-open">
                 <Arrow />
               </span>

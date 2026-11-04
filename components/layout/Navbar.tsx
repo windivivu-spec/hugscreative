@@ -33,7 +33,7 @@ export default function Navbar({ onContact }: { onContact: () => void }) {
       className={`navbar ${scrolled ? "is-scrolled" : ""} ${menu ? "menu-open" : ""}`}
     >
       <a href="#home" aria-label="HUGs Creative home" className="wordmark">
-        HUGs<small className="wordmark-sub">Creative</small>
+        <img src="/hugs%20creative%20logo.png?v=2" alt="HUGs Creative" width="1322" height="490" />
       </a>
       <nav className="desktop-nav" aria-label="Main navigation">
         {links.map(([name, id]) => (
