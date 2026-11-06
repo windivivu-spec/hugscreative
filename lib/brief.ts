@@ -1,11 +1,6 @@
-export const serviceOptions = [
-  "Graphic Design",
-  "Video Editing & Motion Graphics",
-  "Website Design",
-  "Social Media & Digital Content",
-  "Event Photography",
-  "Not sure yet",
-] as const;
+import { serviceNames } from "../data/services.ts";
+
+export const serviceOptions = [...serviceNames, "Not sure yet"] as const;
 export type Brief = {
   name: string;
   email: string;

@@ -16,7 +16,7 @@ export default function ContactFooter({
         aria-labelledby="contact-heading"
       >
         <div className="contact-top">
-          <SectionLabel index="08">THE NEXT CHAPTER STARTS HERE</SectionLabel>
+          <SectionLabel index="05">THE NEXT CHAPTER STARTS HERE</SectionLabel>
           <span className="contact-status">
             <span className="status-dot" /> OPEN TO NEW POSSIBILITIES
           </span>
@@ -54,7 +54,12 @@ export default function ContactFooter({
       </section>
       <footer className="footer">
         <a className="wordmark" href="#home">
-          <img src="/hugs%20creative%20logo.png?v=2" alt="HUGs Creative" width="1322" height="490" />
+          <img
+            src="/hugs%20creative%20logo.png?v=2"
+            alt="HUGs Creative"
+            width="1322"
+            height="490"
+          />
         </a>
         <div className="footer-links">
           {["Work", "Services", "About", "Contact"].map((n) => (

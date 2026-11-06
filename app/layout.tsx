@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || "http://localhost:3107"),
   title: "HUGs Creative — Born in Da Nang. Driven by Creativity.",
   description:
-    "Video, graphic design, websites, and digital content from HUGs Creative, based in Da Nang, Vietnam.",
+    "Creative production for brands and agencies. Design, video, websites, social media management, and event photography—with one dedicated project lead. Based in Da Nang, Vietnam.",
   robots: {
     index: process.env.SITE_PUBLISHED === "true",
     follow: process.env.SITE_PUBLISHED === "true",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "HUGs Creative — Born in Da Nang. Driven by Creativity.",
     description:
-      "Video, design, websites and digital content — one creative point of contact.",
+      "Creative production for brands and agencies—with one dedicated project lead. Design, video, websites, social media, and event photography from Da Nang, Vietnam.",
     type: "website",
     images: [
       {
@@ -30,7 +30,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}<MotionAtmosphere /></body>
+      <body>
+        {children}
+        <MotionAtmosphere />
+      </body>
     </html>
   );
 }

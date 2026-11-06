@@ -45,3 +45,6 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+
+# Original commercial source files are retained locally; optimized assets live in public/media/commercial.
+/public/media/showcase/video-comercial/

@@ -25,17 +25,6 @@ export default function Hero({ onContact }: { onContact: () => void }) {
             scrub: true,
           },
         });
-        gsap.to(".hero-main", {
-          y: 100,
-          opacity: 0.12,
-          ease: "none",
-          scrollTrigger: {
-            trigger: root.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-          },
-        });
       }, root);
       return () => ctx.revert();
     });
@@ -76,11 +65,16 @@ export default function Hero({ onContact }: { onContact: () => void }) {
           />
         </h1>
         <div className="hero-under">
-          <p>
-            Design, video editing, websites, social content,
-            <br className="desktop-break" /> and event photography — one
-            dedicated contact.
-          </p>
+          <div className="hero-copy">
+            <p>
+              Creative production for brands and agencies.
+              <br className="desktop-break" /> Design, video, websites, and
+              social content—with one dedicated project lead.
+            </p>
+            <a className="hero-photography" href="#event-photography">
+              Event photography · Da Nang–based. Other locations by arrangement.
+            </a>
+          </div>
           <div className="hero-actions">
             <GlassButton onClick={onContact} primary>
               Start a project
@@ -105,8 +99,8 @@ export default function Hero({ onContact }: { onContact: () => void }) {
           <Arrow direction="down" />
         </a>
         <div className="hero-caption">
-          <span className="status-dot" /> EVENT PHOTOGRAPHY / LOCATION ON
-          REQUEST.
+          <span className="status-dot" /> DA NANG, VIETNAM / REMOTE &amp; ON
+          LOCATION
         </div>
         <span className="hero-coordinate">CREATIVE WITHOUT LIMITS. ©26</span>
       </div>

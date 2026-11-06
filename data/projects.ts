@@ -1,13 +1,11 @@
-export type Category =
-  | "Graphic Design"
-  | "Video Editing & Motion Graphics"
-  | "Social Media & Digital Content"
-  | "Website Design";
+import { serviceNames, type ServiceName } from "./services.ts";
+export type Category = ServiceName;
 export type ProjectVideo = {
   src: string;
   poster: string;
   title: string;
   orientation: "landscape" | "portrait";
+  previewSrc?: string | null;
 };
 export type Project = {
   id: string;
@@ -20,7 +18,8 @@ export type Project = {
   description: string;
   direction: string;
   gallery: string[];
-  demo: true;
+  demo: boolean;
+  projectType?: "commercial";
   industry: string;
   brief: string;
   role: string;
@@ -28,6 +27,10 @@ export type Project = {
   videos?: ProjectVideo[];
   fit?: "cover" | "contain";
 };
+export const getVideoPreview = (video: ProjectVideo): string | undefined =>
+  video.previewSrc === null
+    ? undefined
+    : (video.previewSrc ?? video.src.replace(/\.mp4$/, "-preview.mp4"));
 const asset = (name: string) => `/media/pack/${name}`;
 const clip = (name: string, title: string): ProjectVideo => ({
   src: asset(`${name}-hq.mp4`),
@@ -74,7 +77,7 @@ const items: Array<
   {
     id: "daily-ritual",
     name: "Peach Milk Cooler",
-    category: "Social Media & Digital Content",
+    category: "Social Media Management & Channel Operations",
     image: "a1.webp",
     alt: "Peach milk cooler product campaign artwork",
     color: "#f39a5a",
@@ -135,7 +138,7 @@ const items: Array<
   {
     id: "new-current",
     name: "Ozaura Collection",
-    category: "Social Media & Digital Content",
+    category: "Social Media Management & Channel Operations",
     image: "ozaura-collection.webp",
     alt: "Skincare products arranged against a tropical sunset",
     color: "#d89b9f",
@@ -177,14 +180,8 @@ const items: Array<
     ],
   },
 ];
-export const categories = [
-  "All",
-  "Graphic Design",
-  "Video Editing & Motion Graphics",
-  "Social Media & Digital Content",
-  "Website Design",
-] as const;
-export const projects: Project[] = items.map((item) => ({
+export const categories = ["All", ...serviceNames] as const;
+export const mediaProjects: Project[] = items.map((item) => ({
   ...item,
   image: asset(item.image),
   gallery: item.gallery.map(asset),
@@ -201,3 +198,187 @@ export const projects: Project[] = items.map((item) => ({
     ? ["Product visuals", "Motion preview"]
     : ["Visual direction", "Product imagery"],
 }));
+
+// Client content and scope are supplied by HUGs. No dates or performance claims
+// are inferred from the showcase artwork.
+const showcase = (folder: string, file: string) =>
+  `/media/showcase/${encodeURIComponent(folder)}/${file}.png`;
+
+export const socialProjects: Project[] = [
+  {
+    id: "kyoto-sushi",
+    name: "Kyoto Sushi",
+    industry: "F&B Marketing",
+    direction:
+      "Social Media Strategy & Execution for a Premium Japanese Restaurant",
+    description:
+      "KYOTO Sushi & Teppanyaki is a premium Japanese restaurant, offering authentic sushi, fresh seafood, and live Teppanyaki experiences. Located near My Khe Beach, KYOTO brings refined Japanese dining to local and international guests.",
+    deliverables: [
+      "Developing and executing social media strategies to strengthen brand presence",
+      "Facebook Fanpage Management",
+    ],
+    folder: "KYOTO",
+    files: ["1", "2", "3", "4"],
+    color: "#b42a2e",
+  },
+  {
+    id: "verita",
+    name: "Verita",
+    industry: "Healthcare & Wellness",
+    direction:
+      "Brand Marketing & Social Media Strategy for a Premium Wellness Brand",
+    description:
+      "Verita Health Hoi An is a premium healthcare and wellness destination combining modern medical expertise with refined wellness experiences for local and international clients.",
+    deliverables: [
+      "Building a strategic marketing foundation and developing social media platforms",
+      "Facebook Fanpage Management",
+      "TikTok Channel Development & Management",
+    ],
+    folder: "VERITA",
+    files: ["1", "2", "3"],
+    color: "#50a7bb",
+  },
+  {
+    id: "chinhuei",
+    name: "ChinHuei",
+    industry: "Manufacturing & Interior Materials",
+    direction: "Integrated Marketing Solutions & Digital Channel Development",
+    description:
+      "ChinHuei Plastic Industrial JSC is a Taiwan-invested manufacturer with 28 years of experience in Vietnam, specializing in premium plastic interior materials and solutions.",
+    deliverables: [
+      "Facebook Fanpage Development & Management",
+      "TikTok Strategy & Channel Development",
+      "SEO Strategy & Implementation",
+    ],
+    folder: "CHINHUEI",
+    files: ["1", "2", "3"],
+    color: "#bd3146",
+  },
+  {
+    id: "nam-duong-land",
+    name: "Nam Duong Land",
+    industry: "Real Estate Marketing",
+    direction:
+      "A Strategic Partnership Between HUGs and Nam Duong Land at Casamia Balanca",
+    description:
+      "A strategic marketing collaboration between HUGs and Nam Duong Land at Casamia Balanca, strengthening project positioning, enhancing brand visibility, and communicating the project’s unique value.",
+    deliverables: [
+      "Strategic marketing collaboration for Casamia Balanca",
+      "Project positioning and brand visibility",
+      "Communication of the project’s unique value",
+    ],
+    folder: "NAM DƯƠNG LAND",
+    files: ["1", "2", "3"],
+    color: "#538d81",
+  },
+  {
+    id: "lifehouse",
+    name: "Lifehouse",
+    industry: "Interior Design & Build",
+    direction: "Marketing Foundation & Digital Channel Development",
+    description:
+      "Lifehouse is a professional Design & Build company specializing in interior design and construction, delivering refined, sustainable, and functional spatial solutions through creative thinking and precise execution.",
+    deliverables: [
+      "Established a strategic marketing foundation to position and grow the business",
+      "Facebook Fanpage Management",
+      "TikTok Channel Development & Management",
+    ],
+    folder: "LIFEHOUSE",
+    files: ["1", "2", "3"],
+    color: "#79975d",
+  },
+  {
+    id: "wafaifo-hoi-an",
+    name: "Wafaifo Hoi An",
+    industry: "Hospitality Marketing",
+    direction:
+      "Social Media Strategy & Brand Positioning for a Premium Boutique Resort",
+    description:
+      "Wafaifo Resort Hoi An is a 4-star boutique resort located in the heart of Hoi An, offering premium accommodation and a diverse range of dining, wellness, and event experiences.",
+    deliverables: [
+      "Developed social media strategies to strengthen brand identity and enhance market positioning",
+      "Facebook Fanpage Management",
+      "TikTok Channel Development & Management",
+    ],
+    folder: "WAFAIFO",
+    files: ["01", "02", "03"],
+    color: "#74b5d3",
+  },
+].map(({ folder, files, ...project }): Project => ({
+  ...project,
+  category: "Social Media Management & Channel Operations",
+  year: "",
+  demo: false,
+  image: showcase(folder, files[0]),
+  alt: `${project.name} — social media and marketing showcase`,
+  gallery: files.slice(1).map((file) => showcase(folder, file)),
+  fit: "contain",
+  brief: project.description,
+  role: project.direction,
+}));
+
+export const commercialProjects: Project[] = [
+  {
+    id: "acb-commercial",
+    name: "ACB",
+    file: "acb",
+    title: "ACB Corporate 2026",
+  },
+  {
+    id: "bvbank-commercial",
+    name: "BVBank",
+    file: "bvbank",
+    title: "BVBank Commercial",
+  },
+  {
+    id: "cityland-commercial",
+    name: "CityLand",
+    file: "cityland",
+    title: "CityLand Commercial",
+  },
+].map(({ id, name, file, title }) => ({
+  id,
+  name,
+  category: "Video Editing & Motion Graphics",
+  projectType: "commercial",
+  year: "",
+  demo: false,
+  industry: "Commercial Video",
+  direction: title,
+  image: `/media/commercial/${file}.webp`,
+  alt: `${title} video poster`,
+  color: "#a94f65",
+  description: `Watch the ${title} video.`,
+  brief: `Watch the ${title} video.`,
+  role: "Commercial video",
+  deliverables: [],
+  gallery: [],
+  fit: "contain",
+  videos: [
+    {
+      src: `/media/commercial/${file}.webm`,
+      poster: `/media/commercial/${file}.webp`,
+      title,
+      orientation: "landscape",
+      previewSrc: `/media/commercial/${file}-preview.webm`,
+    },
+  ],
+}));
+
+export const selectedProjects: Project[] = [
+  socialProjects[0],
+  commercialProjects[0],
+  socialProjects[5],
+  commercialProjects[1],
+  socialProjects[1],
+  socialProjects[2],
+  commercialProjects[2],
+  socialProjects[4],
+  mediaProjects[8],
+  socialProjects[3],
+];
+export const projects: Project[] = [
+  ...socialProjects,
+  ...commercialProjects,
+  ...mediaProjects,
+];

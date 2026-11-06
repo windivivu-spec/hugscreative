@@ -5,6 +5,7 @@ import gsap from "gsap";
 import type { Project } from "@/data/projects";
 import { Arrow, CloseIcon } from "./Icons";
 import ProjectVideos from "./ProjectVideos";
+import { ProjectStory, ProjectGallery, ShowcaseCaption } from "./ProjectStory";
 export default function ProjectDetail({
   project,
   origin,
@@ -52,7 +53,7 @@ export default function ProjectDetail({
     ).matches;
     const origin = savedOrigin.current;
     const ctx = gsap.context(() => {
-      if (!opened.current && origin && !reduced) {
+      if (!opened.current && origin && !reduced && project.demo) {
         const r = node.getBoundingClientRect();
         openingTween.current = gsap.fromTo(
           node,
@@ -75,7 +76,11 @@ export default function ProjectDetail({
           },
         );
       } else if (!reduced) {
-        openingTween.current = gsap.fromTo(node, { opacity: 0.3 }, { opacity: 1, duration: 0.35 });
+        openingTween.current = gsap.fromTo(
+          node,
+          { opacity: 0.3 },
+          { opacity: 1, duration: 0.35 },
+        );
       }
     });
     opened.current = true;
@@ -90,6 +95,12 @@ export default function ProjectDetail({
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    if (d && !reduced && !project.demo) {
+      exitTimeline.current = gsap
+        .timeline({ onComplete: onClose })
+        .to(d, { opacity: 0, duration: 0.25, ease: "power2.out" });
+      return;
+    }
     if (node && d && !reduced) {
       openingTween.current?.kill();
       d.scrollTo({ top: 0, behavior: "instant" });
@@ -97,42 +108,62 @@ export default function ProjectDetail({
       const tl = gsap.timeline({ onComplete: onClose });
       exitTimeline.current = tl;
       // Reveal the portfolio underneath throughout the zoom, not after it.
-      tl.to(d, {
-        backgroundColor: "rgba(10, 10, 10, 0)",
-        "--project-backdrop-opacity": 0,
-        "--project-backdrop-blur": "0px",
-        duration: 0.6,
-        ease: "power2.out",
-      }, 0);
-      tl.to(d.querySelectorAll(".detail-toolbar, .detail-info, .case-facts, .case-share, .case-videos, .detail-gallery, .case-cta, .detail-navigation"), {
-        opacity: 0,
-        filter: "blur(5px)",
-        duration: 0.28,
-        ease: "power2.out",
-      }, 0);
-      tl.to(node, {
-        ...(r ? {
-          x: r.left - b.left,
-          y: r.top - b.top,
-          scaleX: r.width / b.width,
-          scaleY: r.height / b.height,
-          transformOrigin: "0 0",
-        } : { scale: 0.94, transformOrigin: "50% 50%" }),
-        borderRadius: 12,
-        duration: 0.68,
-        ease: "power3.inOut",
-      }, 0);
-      tl.to(node, {
-        filter: "blur(7px)",
-        opacity: 0,
-        duration: 0.48,
-        ease: "power1.inOut",
-      }, 0.18);
+      tl.to(
+        d,
+        {
+          backgroundColor: "rgba(10, 10, 10, 0)",
+          "--project-backdrop-opacity": 0,
+          "--project-backdrop-blur": "0px",
+          duration: 0.6,
+          ease: "power2.out",
+        },
+        0,
+      );
+      tl.to(
+        d.querySelectorAll(
+          ".detail-toolbar, .detail-info, .case-facts, .case-share, .case-videos, .detail-gallery, .case-cta, .detail-navigation",
+        ),
+        {
+          opacity: 0,
+          filter: "blur(5px)",
+          duration: 0.28,
+          ease: "power2.out",
+        },
+        0,
+      );
+      tl.to(
+        node,
+        {
+          ...(r
+            ? {
+                x: r.left - b.left,
+                y: r.top - b.top,
+                scaleX: r.width / b.width,
+                scaleY: r.height / b.height,
+                transformOrigin: "0 0",
+              }
+            : { scale: 0.94, transformOrigin: "50% 50%" }),
+          borderRadius: 12,
+          duration: 0.68,
+          ease: "power3.inOut",
+        },
+        0,
+      );
+      tl.to(
+        node,
+        {
+          filter: "blur(7px)",
+          opacity: 0,
+          duration: 0.48,
+          ease: "power1.inOut",
+        },
+        0.18,
+      );
     } else onClose();
   }
   return (
     <dialog
-      className="project-dialog"
+      className={`project-dialog${project.demo ? "" : " client-case"}`}
       ref={dialog}
       aria-labelledby="project-title"
       onCancel={(e) => {
@@ -142,80 +173,141 @@ export default function ProjectDetail({
     >
       <div className="detail-toolbar">
         <span className="wordmark">
-          <img src="/hugs%20creative%20logo.png?v=2" alt="HUGs Creative" width="1322" height="490" />
+          <img
+            src="/hugs%20creative%20logo.png?v=2"
+            alt="HUGs Creative"
+            width="1322"
+            height="490"
+          />
         </span>
-        <span className="eyebrow">SELECTED VISUALS / MEDIA PACK</span>
+        <span className="eyebrow">
+          {project.demo
+            ? "VISUAL STUDY / MEDIA PACK"
+            : project.projectType === "commercial"
+              ? "COMMERCIAL VIDEO"
+              : "CLIENT PROJECT / SOCIAL MEDIA"}
+        </span>
         <button className="glass-button" onClick={close}>
           Back to work <CloseIcon />
         </button>
       </div>
-      <div className="detail-feature" ref={media}>
-        <Image
-          src={project.image}
-          alt={project.alt}
-          fill
-          priority
-          sizes="100vw"
-          style={{ objectFit: project.fit }}
-        />
-        <div className="detail-image-caption">
-          <span>HUGs Creative / {project.year}</span>
-          <span>{project.name.toUpperCase()}</span>
-        </div>
-      </div>
-      <div className="detail-info">
-        <div>
-          <span className="eyebrow muted">
-            {project.category} — {project.year}
-          </span>
-          <h2 id="project-title">{project.name}</h2>
-          <p className="detail-direction">{project.direction}</p>
-        </div>
-        <div>
-          <p>{project.description}</p>
-          <small>
-            Visuals supplied in the media pack. Project details and credits are
-            pending confirmation.
-          </small>
-        </div>
-      </div>
-      <div className="case-facts">
-        <article>
-          <span className="eyebrow">THE BRIEF</span>
-          <p>{project.brief}</p>
-        </article>
-        <article>
-          <span className="eyebrow">OUR ROLE / CONCEPT EXPLORATION</span>
-          <p>{project.role}</p>
-        </article>
-        <article>
-          <span className="eyebrow">PROPOSED DELIVERABLES</span>
-          <ul>
-            {project.deliverables.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </article>
-      </div>
-      <div className="case-share">
-        <span>{project.industry}</span>
-        <a href={`/work/${project.id}`} className="text-link">
-          View shareable case study <Arrow />
-        </a>
-      </div>
-      <ProjectVideos videos={project.videos} />
-      <div className="detail-gallery">
-        {project.gallery.map((img, i) => (
-          <div key={`${project.id}-${i}`}>
+      {project.demo ? (
+        <>
+          <div
+            className={`detail-feature${project.demo ? "" : " showcase-feature"}`}
+            ref={media}
+          >
             <Image
-              src={img}
-              alt={`${project.name} — supporting visual direction ${i + 1}`}
+              src={project.image}
+              alt={project.alt}
               fill
-              sizes="(max-width: 700px) 90vw, 45vw"
+              priority
+              sizes="100vw"
+              style={{ objectFit: project.fit }}
             />
+            <div className="detail-image-caption">
+              <span>
+                HUGs Creative / {project.demo ? project.year : "CLIENT WORK"}
+              </span>
+              <span>{project.name.toUpperCase()}</span>
+            </div>
           </div>
-        ))}
-      </div>
+          <div className="detail-info">
+            <div>
+              <span className="eyebrow muted">{project.category}</span>
+              <h2 id="project-title">{project.name}</h2>
+              <p className="detail-direction">
+                {project.industry} | {project.direction}
+              </p>
+            </div>
+            <div>
+              {project.demo && (
+                <>
+                  <p>{project.description}</p>
+                  <small>
+                    Visuals supplied in the media pack. Project details and
+                    credits are pending confirmation.
+                  </small>
+                </>
+              )}
+            </div>
+          </div>
+          <ProjectStory project={project} />
+        </>
+      ) : (
+        <div className="client-case-content">
+          <div className="detail-info">
+            <div>
+              <span className="eyebrow muted">{project.category}</span>
+              <h2 id="project-title">{project.name}</h2>
+              <p className="detail-direction">
+                {project.industry} | {project.direction}
+              </p>
+            </div>
+            <div>
+              {project.demo && (
+                <>
+                  <p>{project.description}</p>
+                  <small>
+                    Visuals supplied in the media pack. Project details and
+                    credits are pending confirmation.
+                  </small>
+                </>
+              )}
+            </div>
+          </div>
+          <ProjectStory project={project} />
+          {project.projectType === "commercial" ? (
+            <div className="commercial-player" ref={media}>
+              <ProjectVideos videos={project.videos} />
+            </div>
+          ) : (
+            <figure className="showcase-lead">
+              <div
+                className={`detail-feature${project.demo ? "" : " showcase-feature"}`}
+                ref={media}
+              >
+                <Image
+                  src={project.image}
+                  alt={project.alt}
+                  fill
+                  priority
+                  sizes="100vw"
+                  style={{ objectFit: project.fit }}
+                />
+                <div className="detail-image-caption">
+                  <span>
+                    HUGs Creative /{" "}
+                    {project.demo ? project.year : "CLIENT WORK"}
+                  </span>
+                  <span>{project.name.toUpperCase()}</span>
+                </div>
+              </div>
+              <ShowcaseCaption project={project} index={1} />
+            </figure>
+          )}
+        </div>
+      )}
+      {project.demo && (
+        <div className="case-share">
+          <span>{project.industry}</span>
+          <a href={`/work/${project.id}`} className="text-link">
+            View shareable case study <Arrow />
+          </a>
+        </div>
+      )}
+      {project.projectType !== "commercial" && (
+        <ProjectVideos videos={project.videos} />
+      )}
+      <ProjectGallery project={project} />
+      {!project.demo && (
+        <div className="case-share">
+          <span>{project.industry}</span>
+          <a href={`/work/${project.id}`} className="text-link">
+            View shareable case study <Arrow />
+          </a>
+        </div>
+      )}
       <div className="case-cta">
         <h3>
           A similar idea

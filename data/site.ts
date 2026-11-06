@@ -8,5 +8,5 @@ export const site = {
   reelPoster: "/media/pack/v5-poster.webp",
   reelIsDemo: true,
   photographyCoverage:
-    "Availability is confirmed for each location. Share the city and date with your brief.",
+    "Based in Da Nang, Vietnam. Share your event city and date to confirm coverage; other locations by arrangement.",
 };

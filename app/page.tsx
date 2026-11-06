@@ -1,14 +1,8 @@
 "use client";
 import { useState, useCallback } from "react";
 import Navbar from "@/components/layout/Navbar";
-import ReelSection from "@/components/sections/ReelSection";
-import Partnership from "@/components/sections/Partnership";
 import Hero from "@/components/sections/Hero";
-import ServicesShowcase from "@/components/sections/ServicesShowcase";
-import MarqueeSection from "@/components/sections/MarqueeSection";
 import RotundaPortfolio from "@/components/sections/RotundaPortfolio";
-import WorkArchive from "@/components/sections/WorkArchive";
-import Process from "@/components/sections/Process";
 import AboutProcess from "@/components/sections/AboutProcess";
 import ServiceScope from "@/components/sections/ServiceScope";
 import FAQ from "@/components/sections/FAQ";
@@ -16,7 +10,7 @@ import ContactFooter from "@/components/sections/ContactFooter";
 import ProjectDetail from "@/components/ui/ProjectDetail";
 import ContactDialog from "@/components/ui/ContactDialog";
 import DebugPanel from "@/components/DebugPanel";
-import { projects, type Project } from "@/data/projects";
+import { selectedProjects, type Project } from "@/data/projects";
 export default function Home() {
   const [selected, setSelected] = useState<{
     project: Project;
@@ -42,18 +36,12 @@ export default function Home() {
       <Navbar onContact={() => openContact()} />
       <main id="main">
         <Hero onContact={() => openContact()} />
-        <ReelSection />
         <RotundaPortfolio
           onOpen={openProject}
           paused={!!selected || !!contact}
         />
-        <ServicesShowcase />
         <ServiceScope onContact={openContact} />
-        <MarqueeSection />
-        <WorkArchive onOpen={openProject} />
         <AboutProcess />
-        <Process />
-        <Partnership onContact={() => openContact()} />
         <FAQ />
         <ContactFooter onContact={() => openContact()} />
       </main>
@@ -73,11 +61,13 @@ export default function Home() {
                 ? {
                     ...v,
                     project:
-                      projects[
-                        (projects.findIndex((p) => p.id === v.project.id) +
+                      selectedProjects[
+                        (selectedProjects.findIndex(
+                          (p) => p.id === v.project.id,
+                        ) +
                           delta +
-                          projects.length) %
-                          projects.length
+                          selectedProjects.length) %
+                          selectedProjects.length
                       ],
                   }
                 : null,

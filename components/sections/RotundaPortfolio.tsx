@@ -1,8 +1,13 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
-import { projects, type Project } from "@/data/projects";
+import {
+  selectedProjects as projects,
+  getVideoPreview,
+  type Project,
+} from "@/data/projects";
 import { Arrow } from "@/components/ui/Icons";
 import SectionLabel from "@/components/ui/SectionLabel";
 import VideoPreview from "@/components/ui/VideoPreview";
@@ -42,7 +47,9 @@ export default function RotundaPortfolio({
     scrollProgress: 0,
   });
   const wake = useRef<() => void>(() => {});
-  const wheelSnapTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const wheelSnapTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
   useEffect(() => {
     const s = state.current;
     const trackNode = track.current;
@@ -74,10 +81,7 @@ export default function RotundaPortfolio({
       if (!s.visible || s.paused || document.hidden) return;
       const dt = Math.min(2, (now - last) / 16.667 || 1);
       last = now;
-      const auto =
-        !s.reduced &&
-        !s.autoPaused &&
-        !s.down;
+      const auto = !s.reduced && !s.autoPaused && !s.down;
       if (auto) s.target += 0.0018 * dt;
       if (!s.down) {
         if (s.reduced) {
@@ -137,7 +141,7 @@ export default function RotundaPortfolio({
       );
       if (progress !== s.scrollProgress) {
         if (!s.paused)
-          s.target += (progress - s.scrollProgress) * projects.length / 2;
+          s.target += ((progress - s.scrollProgress) * projects.length) / 2;
         s.scrollProgress = progress;
         node.style.setProperty("--orbit-scroll", `${progress * 100}%`);
         wake.current();
@@ -191,7 +195,10 @@ export default function RotundaPortfolio({
       const node = track.current;
       if (node) {
         const travel = Math.max(1, node.offsetHeight - window.innerHeight);
-        s.scrollProgress = Math.max(0, Math.min(1, -node.getBoundingClientRect().top / travel));
+        s.scrollProgress = Math.max(
+          0,
+          Math.min(1, -node.getBoundingClientRect().top / travel),
+        );
         node.style.setProperty("--orbit-scroll", `${s.scrollProgress * 100}%`);
       }
     }
@@ -284,9 +291,11 @@ export default function RotundaPortfolio({
             </h2>
           </div>
           <p>
-            A collection of ideas
+            Client collaborations &amp; creative studies.
             <br />
-            brought to life.
+            <Link href="/work" className="text-link">
+              Explore all work <Arrow />
+            </Link>
           </p>
         </div>
         <div
@@ -344,7 +353,7 @@ export default function RotundaPortfolio({
                       } as CSSProperties
                     }
                     tabIndex={i === active ? 0 : -1}
-                    aria-label={`Open ${project.name}, ${project.category}, media pack visual`}
+                    aria-label={`Open ${project.name}, ${project.category}`}
                     aria-current={i === active ? "true" : undefined}
                     onClick={(e) => {
                       if (e.detail === 0)
@@ -360,21 +369,33 @@ export default function RotundaPortfolio({
                       fill
                       sizes="(max-width: 700px) 65vw, 430px"
                       draggable={false}
-                      style={project.videos?.length ? { objectFit: "contain", background: "#0b0b0d" } : undefined}
+                      style={{
+                        objectFit: project.fit ?? "cover",
+                        background: "#0b0b0d",
+                      }}
                     />
-                    {project.videos?.[0] && (
-                      <VideoPreview
-                        src={project.videos[0].src.replace(/\.mp4$/, "-preview.mp4")}
-                        enabled={!paused && Math.abs(wrap(i - active + Math.floor(projects.length / 2)) - Math.floor(projects.length / 2)) <= 1}
-                        renderAsCanvas
-                      />
-                    )}
+                    {project.videos?.[0] &&
+                      getVideoPreview(project.videos[0]) && (
+                        <VideoPreview
+                          src={getVideoPreview(project.videos[0])!}
+                          enabled={
+                            !paused &&
+                            Math.abs(
+                              wrap(
+                                i - active + Math.floor(projects.length / 2),
+                              ) - Math.floor(projects.length / 2),
+                            ) <= 1
+                          }
+                          renderAsCanvas
+                        />
+                      )}
                     <div className="ring-card-overlay">
                       <span>{project.name}</span>
                       <Arrow />
                     </div>
                     <span className="ring-card-number">
-                      {String(i + 1).padStart(2, "0")} / VISUAL
+                      {String(i + 1).padStart(2, "0")} /{" "}
+                      {project.demo ? "VISUAL STUDY" : "CLIENT WORK"}
                     </span>
                   </button>
                 ))}
@@ -385,7 +406,7 @@ export default function RotundaPortfolio({
         <div className="orbit-info">
           <div className="orbit-project" key={p.id}>
             <span className="eyebrow muted">
-              {p.category} / {p.year}
+              {p.demo ? p.category : p.industry}
             </span>
             <button
               onClick={() =>
@@ -453,8 +474,15 @@ export default function RotundaPortfolio({
           Continue to services <Arrow direction="down" />
         </a>
         <div className="demo-caption">
-          <span className="tiny-cross">+</span> INDEPENDENT EXPLORATIONS. ALL
-          SELECTED VISUALS FROM THE MEDIA PACK.
+          <span className="tiny-cross">+</span>{" "}
+          {p.demo
+            ? "VISUAL STUDY / MEDIA PACK"
+            : `${p.industry} | ${p.direction}`}
+          {!p.demo && p.projectType !== "commercial" && (
+            <Link href="/work/social-media" className="text-link">
+              Social media projects <Arrow />
+            </Link>
+          )}
         </div>
       </div>
     </section>

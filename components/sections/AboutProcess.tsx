@@ -1,7 +1,7 @@
 "use client";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ImpactSculpture from "@/components/ui/ImpactSculpture";
-import { Asterisk, Arrow } from "@/components/ui/Icons";
+import { Asterisk } from "@/components/ui/Icons";
 
 export default function AboutProcess() {
   return (
@@ -11,7 +11,7 @@ export default function AboutProcess() {
       aria-labelledby="about-heading"
     >
       <div className="about-top">
-        <SectionLabel index="05">HUGs CREATIVE / DA NANG, VIETNAM</SectionLabel>
+        <SectionLabel index="03">HUGs CREATIVE / DA NANG, VIETNAM</SectionLabel>
         <Asterisk />
       </div>
       <div className="about-main">
@@ -31,19 +31,61 @@ export default function AboutProcess() {
           <p className="brand-story">
             With over six years of hands-on experience in creative production
             and digital communications, HUGs Creative is based in Da Nang,
-            Vietnam — a dynamic, fast-growing city emerging as a hub for
-            technology and innovation. We bring ideas to life through video,
-            design, websites, and digital content crafted to make an impact.
+            Vietnam. We bring ideas to life through design, video, websites,
+            social media, and event photography.
           </p>
           <p className="partner-story">
-            One point of contact. A network of specialists in Vietnam, brought
-            together around your project — from the initial brief through review
+            A creative partner for brands, and specialist production support for
+            agencies. Bring us a single project or an ongoing content need. One
+            dedicated project lead coordinates the right specialists, feedback,
             and delivery.
           </p>
-          <a href="#process" className="text-link">
-            See how we work <Arrow />
-          </a>
+          <span className="about-location">
+            BASED IN DA NANG / COLLABORATING REMOTELY
+          </span>
         </div>
+      </div>
+      <div
+        id="process"
+        className="compact-process"
+        aria-labelledby="process-heading"
+      >
+        <div className="compact-process-heading">
+          <h3 id="process-heading">A clear path from brief to delivery.</h3>
+          <span className="eyebrow">ONE PROJECT LEAD, EVERY STEP.</span>
+        </div>
+        <ol>
+          <li>
+            <span className="process-step-number">01</span>
+            <div>
+              <h4>Share your brief.</h4>
+              <p>
+                Your goals, audience, deliverables, timeline, and available
+                assets.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span className="process-step-number">02</span>
+            <div>
+              <h4>Agree on the scope.</h4>
+              <p>
+                Deliverables, quote, schedule, and revision rounds agreed before
+                we begin.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span className="process-step-number">03</span>
+            <div>
+              <h4>Create, review &amp; deliver.</h4>
+              <p>
+                We coordinate production, refine with your feedback, and deliver
+                the final files.
+              </p>
+            </div>
+          </li>
+        </ol>
       </div>
     </section>
   );
