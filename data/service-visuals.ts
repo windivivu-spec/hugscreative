@@ -1,35 +1,31 @@
 import type { Service } from "./services";
 type Visual = Service["media"][number];
 const image = (name: string): Visual => ({ image: `/media/pack/${name}.webp` });
-const poster = (text: string, theme: string): Visual => ({
-  kind: "poster",
-  text,
-  theme,
-});
+const clip = (image: string, preview: string): Visual => ({ image, preview });
 export const serviceVisuals: Visual[][] = [
   [
     image("spray-collection"),
-    poster("STAY\nIN\nMOTION.", "coral"),
+    image("a6"),
     image("a3"),
     image("a7"),
-    poster("less,\nbut better.", "cream"),
+    { image: "/media/poster/2.png" },
     image("flower-wine"),
+    { image: "/media/poster/1.png" },
   ],
   [
-    { image: "/media/commercial/acb.webp" },
-    poster("MAKE\nA\nMOVE.", "purple"),
-    { image: "/media/commercial/bvbank.webp" },
-    { image: "/media/commercial/cityland.webp" },
-    poster("PLAY\nIT LOUD.", "coral"),
-    image("v3-poster"),
+    clip("/media/commercial/acb.webp", "/media/commercial/acb-preview.webm"),
+    clip("/media/commercial/bvbank.webp", "/media/commercial/bvbank-preview.webm"),
+    clip("/media/pack/v5-poster.webp", "/media/pack/v5-hq-preview.mp4"),
+    clip("/media/pack/v6-poster.webp", "/media/pack/v6-hq-preview.mp4"),
+    clip("/media/pack/v8-poster.webp", "/media/pack/v8-hq-preview.mp4"),
+    clip("/media/commercial/mascot-bvbank.png", "/media/commercial/mascot-bvbank-web-preview.mp4"),
+    clip("/media/commercial/xe-tot.png", "/media/commercial/xe-tot-web-preview.mp4"),
   ],
   [
-    { kind: "website", text: "Spaces for living." },
-    { kind: "phone", text: "aura." },
-    image("a2"),
-    poster("BEYOND\nTHE\nSCREEN.", "purple"),
-    { kind: "website", text: "A different perspective." },
-    image("a4"),
+    { image: "/media/website/hero1.png" },
+    { image: "/media/website/hero2.png" },
+    { image: "/media/website/hero3.png" },
+    clip("/media/website/hero4-poster.webp", "/media/website/hero4.mp4"),
   ],
   [
     "KYOTO/1",
@@ -40,11 +36,11 @@ export const serviceVisuals: Visual[][] = [
     "NAM%20D%C6%AF%C6%A0NG%20LAND/1",
   ].map((path) => ({ image: `/media/showcase/${path}.png` })),
   [
-    { image: "/media/portrait.jpg" },
-    poster("PEOPLE.\nDETAILS.\nMOMENTS.", "cream"),
-    { image: "/media/night.jpg" },
-    { image: "/media/architecture.jpg" },
-    poster("IN THE\nMOMENT.", "coral"),
-    { image: "/media/landscape.jpg" },
-  ],
+    "Screenshot 2026-11-07 at 11.23.18 AM.png",
+    "Screenshot 2026-11-07 at 11.25.48 AM.png",
+    "Screenshot 2026-11-07 at 11.26.02 AM.png",
+    "Screenshot 2026-11-07 at 11.27.29 AM.png",
+    "Screenshot 2026-11-07 at 11.28.57 AM.png",
+    "abc5f3_1a3525af76b748799727106d7271552d~mv2.jpg.avif",
+  ].map((name) => ({ image: `/media/event/${encodeURIComponent(name)}` })),
 ];

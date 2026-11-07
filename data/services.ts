@@ -16,6 +16,7 @@ export type Service = {
   workHref?: string;
   media: {
     image?: string;
+    preview?: string;
     kind?: "poster" | "calendar" | "chart" | "website" | "phone";
     text?: string;
     theme?: string;

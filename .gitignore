@@ -48,3 +48,12 @@ Thumbs.db
 
 # Original commercial source files are retained locally; optimized assets live in public/media/commercial.
 /public/media/showcase/video-comercial/
+
+# Local source videos; the site uses compressed web versions instead.
+/public/media/commercial/mascot-bvbank.mp4
+/public/media/commercial/xe-tot.mp4
+/public/media/commercial/mascot-bvbank-preview.mp4
+/public/media/commercial/xe-tot-preview.mp4
+/public/media/pack/loops-16x9-hq.mp4
+/public/media/pack/loops-9x16-hq.mp4
+/public/media/poster/3.png

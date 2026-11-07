@@ -35,7 +35,7 @@ export default function Home() {
       </a>
       <Navbar onContact={() => openContact()} />
       <main id="main">
-        <Hero onContact={() => openContact()} />
+        <Hero />
         <RotundaPortfolio
           onOpen={openProject}
           paused={!!selected || !!contact}

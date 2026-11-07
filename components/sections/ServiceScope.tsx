@@ -4,6 +4,9 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionLabel from "@/components/ui/SectionLabel";
+import ServiceMediaViewer, {
+  type MediaSelection,
+} from "@/components/ui/ServiceMediaViewer";
 import FloatingMediaCard from "@/components/ui/FloatingMediaCard";
 import { Arrow } from "@/components/ui/Icons";
 import { services } from "@/data/services";
@@ -34,6 +37,7 @@ export default function ServiceScope({
 }) {
   const root = useRef<HTMLElement>(null);
   const timeline = useRef<gsap.core.Timeline | null>(null);
+  const [selection, setSelection] = useState<MediaSelection | null>(null);
   const [active, setActive] = useState(0);
   const [animated, setAnimated] = useState(false);
   useEffect(() => {
@@ -83,7 +87,7 @@ export default function ServiceScope({
               tl.fromTo(
                 cluster,
                 { filter: "blur(14px)" },
-                { filter: "blur(0px)", duration: 0.34, ease: "power2.out" },
+                { filter: "blur(0px)", duration: 0.34, ease: "none" },
                 i,
               );
               tl.fromTo(
@@ -103,7 +107,7 @@ export default function ServiceScope({
                   opacity: 1,
                   duration: 0.26,
                   stagger: 0.018,
-                  ease: "power3.out",
+                  ease: "none",
                 },
                 i,
               );
@@ -115,15 +119,24 @@ export default function ServiceScope({
                   opacity: 1,
                   filter: "blur(0px)",
                   duration: 0.24,
-                  ease: "power2.out",
+                  ease: "none",
                 },
                 i + 0.06,
               );
             }
+            // Keep the composition moving gently throughout the reading interval,
+            // including the first and final chapters.
             tl.to(
               cards,
-              { y: (j) => (j % 2 ? -10 : 10), duration: 0.26, ease: "none" },
-              i + 0.36,
+              {
+                x: (j) => (j % 2 ? 1 : -1) * 10,
+                y: (j) => (j % 2 ? -1 : 1) * 18,
+                rotation: (j) => (j % 2 ? 1 : -1) * 2,
+                duration:
+                  i === 0 ? 0.62 : i === services.length - 1 ? 0.66 : 0.3,
+                ease: "none",
+              },
+              i + (i === 0 ? 0 : 0.34),
             );
             if (i < services.length - 1) {
               tl.to(
@@ -132,15 +145,15 @@ export default function ServiceScope({
                   y: -28,
                   opacity: 0,
                   filter: "blur(8px)",
-                  duration: 0.14,
-                  ease: "power2.in",
+                  duration: 0.22,
+                  ease: "none",
                 },
-                i + 0.66,
+                i + 0.64,
               );
               tl.to(
                 cluster,
-                { filter: "blur(14px)", duration: 0.24, ease: "power2.in" },
-                i + 0.68,
+                { filter: "blur(14px)", duration: 0.3, ease: "none" },
+                i + 0.64,
               );
               tl.to(
                 cards,
@@ -150,11 +163,11 @@ export default function ServiceScope({
                   rotation: (j) => (j % 2 ? 18 : -18),
                   scale: 0.82,
                   opacity: 0,
-                  duration: 0.2,
+                  duration: 0.26,
                   stagger: 0.012,
-                  ease: "power2.in",
+                  ease: "none",
                 },
-                i + 0.68,
+                i + 0.64,
               );
               tl.set(scene, { autoAlpha: 0 }, i + 0.98);
             }
@@ -224,10 +237,24 @@ export default function ServiceScope({
           >
             <div
               className={`media-cluster${i === 3 ? " client-media-cluster" : ""}`}
-              aria-hidden="true"
             >
               {serviceVisuals[i].map((media, j) => (
-                <FloatingMediaCard key={j} media={media} index={j} />
+                <FloatingMediaCard
+                  key={j}
+                  media={media}
+                  index={j}
+                  active={!selection && (!animated || active === i)}
+                  label={`${service.shortTitle} — ${j + 1}`}
+                  onOpen={(origin, ratio, thumbnail) =>
+                    setSelection({
+                      media,
+                      origin,
+                      ratio,
+                      thumbnail,
+                      label: `${service.shortTitle} — ${j + 1}`,
+                    })
+                  }
+                />
               ))}
             </div>
             <div className="service-copy">
@@ -295,6 +322,12 @@ export default function ServiceScope({
           </div>
         </div>
       </div>
+      {selection && (
+        <ServiceMediaViewer
+          selection={selection}
+          onClose={() => setSelection(null)}
+        />
+      )}
     </section>
   );
 }

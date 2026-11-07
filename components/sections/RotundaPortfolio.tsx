@@ -11,6 +11,7 @@ import {
 import { Arrow } from "@/components/ui/Icons";
 import SectionLabel from "@/components/ui/SectionLabel";
 import VideoPreview from "@/components/ui/VideoPreview";
+import GlassButton from "@/components/ui/GlassButton";
 export type OpenProject = (project: Project, rect?: DOMRect) => void;
 const wrap = (n: number) =>
   ((n % projects.length) + projects.length) % projects.length;
@@ -25,7 +26,8 @@ export default function RotundaPortfolio({
   const stage = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLElement>(null);
   const rotor = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
+  const [activeIndex, setActive] = useState(0);
+  const active = wrap(activeIndex);
   const [dragging, setDragging] = useState(false);
   const [autoPaused, setAutoPaused] = useState(false);
   const state = useRef({
@@ -262,9 +264,14 @@ export default function RotundaPortfolio({
         );
         openCard(projects[s.card], card?.getBoundingClientRect());
       } else {
-        const difference =
-          wrap(s.card - s.active + projects.length / 2) - projects.length / 2;
-        s.target = Math.round(s.current) + difference;
+        const current = Math.round(s.current);
+        const forward = wrap(s.card - current);
+        const bounds = stage.current?.getBoundingClientRect();
+        const clickedRight = bounds
+          ? e.clientX >= bounds.left + bounds.width / 2
+          : forward <= projects.length / 2;
+        const difference = clickedRight ? forward : forward - projects.length;
+        s.target = current + difference;
       }
     } else {
       s.target = Math.round(
@@ -290,13 +297,10 @@ export default function RotundaPortfolio({
               <span className="heading-period">.</span>
             </h2>
           </div>
-          <p>
-            Client collaborations &amp; creative studies.
-            <br />
-            <Link href="/work" className="text-link">
-              Explore all work <Arrow />
-            </Link>
-          </p>
+          <div className="rotunda-heading-action">
+            <p>Client collaborations &amp; creative studies.</p>
+            <GlassButton href="/work" primary>Explore all work</GlassButton>
+          </div>
         </div>
         <div
           className={`orbit-stage ${dragging ? "is-dragging" : ""}`}

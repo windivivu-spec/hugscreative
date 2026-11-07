@@ -33,7 +33,10 @@ export const getVideoPreview = (video: ProjectVideo): string | undefined =>
     : (video.previewSrc ?? video.src.replace(/\.mp4$/, "-preview.mp4"));
 const asset = (name: string) => `/media/pack/${name}`;
 const clip = (name: string, title: string): ProjectVideo => ({
-  src: asset(`${name}-hq.mp4`),
+  src: asset(`${name}-hq.${name.startsWith("loops-") ? "webm" : "mp4"}`),
+  previewSrc: name.startsWith("loops-")
+    ? asset(`${name}-hq-preview.webm`)
+    : undefined,
   poster: asset(`${name}-poster.webp`),
   title,
   orientation: ["loops-9x16", "v6", "v8"].includes(name)
@@ -48,18 +51,18 @@ const items: Array<
 > = [
   {
     id: "off-script",
-    name: "Berry Pop",
+    name: "LOOPS",
     category: "Video Editing & Motion Graphics",
     image: "loops-16x9-poster.webp",
-    alt: "Pink berry soda motion graphic",
+    alt: "LOOPS sparkling fruit drink motion graphic",
     color: "#eb2266",
     description:
-      "A playful berry soda motion piece with bright color and energetic typography.",
+      "A colorful motion piece for LOOPS sparkling fruit drinks.",
     direction: "Product video / Motion graphics",
     gallery: ["a1.webp", "a7.webp"],
     videos: [
-      clip("loops-16x9", "Berry Pop — landscape"),
-      clip("loops-9x16", "Berry Pop — portrait"),
+      clip("loops-16x9", "LOOPS — landscape"),
+      clip("loops-9x16", "LOOPS — portrait"),
     ],
   },
   {
@@ -365,20 +368,24 @@ export const commercialProjects: Project[] = [
   ],
 }));
 
+const posterProjects: Project[] = [
+  { ...mediaProjects[6], id: "green-farm-poster", name: "Green Farm", image: "/media/poster/2.png", alt: "Green Farm milk poster", description: "A milk product poster.", direction: "Product visual / Graphic design", gallery: ["/media/poster/2.png"], fit: "contain" },
+  { ...mediaProjects[6], id: "ice-cream-poster", name: "Ice Cream", image: "/media/poster/1.png", alt: "Ice cream product poster", description: "An ice cream product poster.", direction: "Product visual / Graphic design", gallery: ["/media/poster/1.png"], fit: "contain" },
+];
 export const selectedProjects: Project[] = [
   socialProjects[0],
-  commercialProjects[0],
-  socialProjects[5],
-  commercialProjects[1],
-  socialProjects[1],
+  mediaProjects[0],
+  mediaProjects[1],
   socialProjects[2],
-  commercialProjects[2],
-  socialProjects[4],
+  mediaProjects[4],
+  mediaProjects[6],
+  mediaProjects[7],
   mediaProjects[8],
-  socialProjects[3],
+  mediaProjects[9],
 ];
 export const projects: Project[] = [
   ...socialProjects,
   ...commercialProjects,
   ...mediaProjects,
+  ...posterProjects,
 ];

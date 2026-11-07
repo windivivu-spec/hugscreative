@@ -65,7 +65,7 @@ export default function WorkArchive({
             : " / Client work & visual studies"}
       </p>
       <div className="project-grid">
-        {visible.map((p) => (
+        {visible.map((p, index) => (
           <Link
             key={p.id}
             className={`archive-card glow-card${!p.demo ? " client-card" : ""}`}
@@ -78,6 +78,7 @@ export default function WorkArchive({
                 src={p.image}
                 alt={p.alt}
                 fill
+                loading={index === 0 ? "eager" : "lazy"}
                 sizes="(max-width: 700px) 90vw, (max-width: 1000px) 45vw, 30vw"
                 style={{ objectFit: p.fit ?? "cover" }}
               />

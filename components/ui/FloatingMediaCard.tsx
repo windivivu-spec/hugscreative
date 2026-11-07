@@ -1,14 +1,43 @@
+"use client";
+import { useState } from "react";
+import VideoPreview from "./VideoPreview";
 import Image from "next/image";
 import type { Service } from "@/data/services";
 export default function FloatingMediaCard({
   media,
   index,
+  active = true,
+  label,
+  onOpen,
 }: {
   media: Service["media"][number];
   index: number;
+  active?: boolean;
+  label: string;
+  onOpen: (origin: DOMRect, ratio: number, thumbnail?: string) => void;
 }) {
+  const [hovered, setHovered] = useState(false);
+  const [ratio, setRatio] = useState<string>();
   return (
-    <div
+    <button
+      type="button"
+      aria-label={`View ${label}`}
+      onClick={(event) => {
+        setHovered(false);
+        const image = event.currentTarget.querySelector("img");
+        onOpen(
+          event.currentTarget.getBoundingClientRect(),
+          image?.naturalWidth && image.naturalHeight
+            ? image.naturalWidth / image.naturalHeight
+            : 1.5,
+          image?.currentSrc,
+        );
+      }}
+      style={media.image ? { aspectRatio: ratio ?? "3 / 2" } : undefined}
+      onPointerEnter={(event) => {
+        if (event.pointerType !== "touch") setHovered(true);
+      }}
+      onPointerLeave={() => setHovered(false)}
       className={`floating-card float-${index} ${media.kind ? `graphic-card graphic-${media.kind}` : ""} ${media.theme || ""}`}
     >
       {media.image ? (
@@ -17,6 +46,11 @@ export default function FloatingMediaCard({
           alt={media.alt || ""}
           fill
           sizes="(max-width: 700px) 40vw, 23vw"
+          onLoad={(event) => {
+            const { naturalWidth, naturalHeight } = event.currentTarget;
+            if (naturalWidth && naturalHeight)
+              setRatio(`${naturalWidth} / ${naturalHeight}`);
+          }}
         />
       ) : media.kind === "calendar" ? (
         <>
@@ -95,6 +129,9 @@ export default function FloatingMediaCard({
           <small>INDEPENDENT IN SPIRIT. CREATIVE BY NATURE.</small>
         </>
       )}
-    </div>
+      {media.preview && (
+        <VideoPreview src={media.preview} enabled={hovered && active} playOnHover />
+      )}
+    </button>
   );
 }

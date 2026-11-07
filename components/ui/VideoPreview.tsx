@@ -7,11 +7,13 @@ export default function VideoPreview({
   enabled = true,
   onProgress,
   renderAsCanvas = false,
+  playOnHover = false,
 }: {
   src: string;
   enabled?: boolean;
   onProgress?: (current: number, duration: number) => void;
   renderAsCanvas?: boolean;
+  playOnHover?: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -99,7 +101,7 @@ export default function VideoPreview({
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let visible = false;
     const sync = () => {
-      if (enabled && visible && !document.hidden && !motion.matches) {
+      if (enabled && (playOnHover || visible) && !document.hidden && (playOnHover || !motion.matches)) {
         void video.play().catch(() => setReady(false));
       } else {
         video.pause();
@@ -113,6 +115,7 @@ export default function VideoPreview({
       { threshold: 0.15 },
     );
     observer.observe(video);
+    sync();
     document.addEventListener("visibilitychange", sync);
     motion.addEventListener("change", sync);
     return () => {
@@ -123,7 +126,7 @@ export default function VideoPreview({
       painted.current = false;
       video.pause();
     };
-  }, [src, enabled]);
+  }, [src, enabled, playOnHover]);
 
   return (
     <>

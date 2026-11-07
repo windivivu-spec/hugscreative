@@ -3,11 +3,10 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import GlassButton from "@/components/ui/GlassButton";
 import RevealText from "@/components/ui/RevealText";
 import { Arrow, Asterisk } from "@/components/ui/Icons";
 import VideoPreview from "@/components/ui/VideoPreview";
-export default function Hero({ onContact }: { onContact: () => void }) {
+export default function Hero() {
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -75,16 +74,9 @@ export default function Hero({ onContact }: { onContact: () => void }) {
               Event photography · Da Nang–based. Other locations by arrangement.
             </a>
           </div>
-          <div className="hero-actions">
-            <GlassButton onClick={onContact} primary>
-              Start a project
-            </GlassButton>
-            <a href="#work" className="text-link">
-              View our work <Arrow direction="down" />
-            </a>
-          </div>
         </div>
       </div>
+      <div className="hero-frame" aria-hidden="true" />
       <div className="hero-side-note">
         <Asterisk />
         <span>
@@ -94,19 +86,15 @@ export default function Hero({ onContact }: { onContact: () => void }) {
         </span>
       </div>
       <div className="hero-bottom">
-        <a href="#services" className="scroll-cue">
-          <span className="scroll-line" /> SCROLL TO EXPLORE{" "}
-          <Arrow direction="down" />
-        </a>
         <div className="hero-caption">
           <span className="status-dot" /> DA NANG, VIETNAM / REMOTE &amp; ON
           LOCATION
         </div>
+        <a href="#services" className="scroll-cue">
+          <span className="scroll-line" /> SCROLL TO EXPLORE{" "}
+          <Arrow direction="down" />
+        </a>
         <span className="hero-coordinate">CREATIVE WITHOUT LIMITS. ©26</span>
-      </div>
-      <div className="hero-frame" aria-hidden="true">
-        <span>FRAME 001 — THE OPENING</span>
-        <span>16:9 / IN FULL COLOR</span>
       </div>
     </section>
   );
