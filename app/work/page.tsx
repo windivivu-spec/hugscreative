@@ -1,59 +1,104 @@
-import Link from "next/link";
 import type { Metadata } from "next";
-import WorkArchive from "@/components/sections/WorkArchive";
-import CaseStudyContact from "@/components/ui/CaseStudyContact";
+import WorkShell from "@/components/layout/WorkShell";
+import ProjectCard from "@/components/ui/ProjectCard";
+import ProjectReveal from "@/components/ui/ProjectReveal";
+import ProjectNavigation from "@/components/ui/ProjectNavigation";
+import GlassButton from "@/components/ui/GlassButton";
 import { Arrow } from "@/components/ui/Icons";
+import {
+  featuredProjects,
+  projectServices,
+  archiveHref,
+} from "@/data/portfolio";
+import { projects } from "@/data/projects";
 
 export const metadata: Metadata = {
-  title: "Work — Client projects & creative studies | HUGs Creative",
+  title: "Projects | HUGs Creative",
   description:
-    "Explore HUGs Creative’s client collaborations in social media and marketing, alongside design, video, and digital visual studies.",
+    "Explore HUGs Creative projects across graphic design, illustration, video and motion, website design, social media, and event photography. Browse selected work or the complete archive by year.",
+  alternates: { canonical: "/work" },
 };
+
 export default function WorkPage() {
   return (
-    <main className="portfolio-page">
-      <header className="detail-toolbar">
-        <Link href="/" className="wordmark" aria-label="HUGs Creative home">
-          <img
-            src="/hugs%20creative%20logo.png?v=2"
-            alt="HUGs Creative"
-            width="1322"
-            height="490"
-          />
-        </Link>
-        <Link href="/#work" className="text-link">
-          <Arrow direction="left" /> Back to home
-        </Link>
+    <WorkShell>
+      <header className="projects-intro" id="project-content">
+        <span className="eyebrow">THE WORK / HUGs CREATIVE</span>
+        <div className="projects-intro-main">
+          <h1>
+            Good ideas.
+            <br />
+            <em>Out in the world.</em>
+          </h1>
+          <div className="projects-intro-copy">
+            <p>
+              Different disciplines. One creative spirit. Explore the brands,
+              stories, and experiences we help bring to life.
+            </p>
+            <GlassButton href="/work/archive" primary>
+              View all projects{" "}
+              <span className="button-count">{projects.length}</span>
+            </GlassButton>
+          </div>
+        </div>
+        <div className="projects-intro-bottom">
+          <span>SIX DISCIPLINES. MANY POSSIBILITIES.</span>
+          <a href="#graphic-design">
+            Discover the work <Arrow direction="down" />
+          </a>
+        </div>
       </header>
-      <div className="portfolio-intro">
-        <span className="eyebrow">THE PORTFOLIO / HUGs CREATIVE</span>
-        <h1>
-          Work with
-          <br />
-          <em>something to say.</em>
-        </h1>
-        <p>
-          Client collaborations and creative studies. A closer look at the
-          brands, ideas, and channels we help bring to life.
-        </p>
-      </div>
-      <WorkArchive />
-      <div className="case-cta">
-        <h2>
-          Your next
-          <br />
-          <em>chapter?</em>
-        </h2>
-        <CaseStudyContact label="Start a project" />
-      </div>
-      <footer className="detail-navigation">
-        <Link className="text-link" href="/">
-          HUGs Creative <Arrow />
-        </Link>
-        <Link className="text-link" href="/work/social-media">
-          Social media projects <Arrow />
-        </Link>
-      </footer>
-    </main>
+      <ProjectNavigation />
+      <ProjectReveal>
+        {projectServices.map((service) => (
+          <section
+            className={`project-chapter chapter-${service.slug}`}
+            id={service.slug}
+            key={service.slug}
+            aria-labelledby={`${service.slug}-title`}
+          >
+            <header className="project-chapter-header" data-reveal>
+              <div>
+                <span className="eyebrow">
+                  {service.projects.length} PROJECTS / SELECTED WORK
+                </span>
+                <h2 id={`${service.slug}-title`}>
+                  {service.shortTitle}
+                  <span className="heading-period">.</span>
+                </h2>
+              </div>
+              <p>{service.description}</p>
+            </header>
+            <div className="project-featured-grid">
+              {featuredProjects(service.title).map((project, index) => (
+                <ProjectCard key={project.id} project={project} index={index} />
+              ))}
+            </div>
+            <div className="project-chapter-footer" data-reveal>
+              <span>
+                A selection of recent {service.shortTitle.toLowerCase()} work.
+              </span>
+              <GlassButton
+                className="project-view-all"
+                href={archiveHref(service.slug)}
+                primary
+              >
+                View all {service.shortTitle.toLowerCase()}{" "}
+                <span className="button-count">{String(service.projects.length).padStart(2, "0")}</span>
+              </GlassButton>
+            </div>
+          </section>
+        ))}
+        <div className="projects-archive-callout" data-reveal>
+          <div>
+            <span className="eyebrow">THERE’S MORE TO EXPLORE</span>
+            <h2>The full picture.</h2>
+          </div>
+          <GlassButton href="/work/archive" primary>
+            View all projects by year
+          </GlassButton>
+        </div>
+      </ProjectReveal>
+    </WorkShell>
   );
 }

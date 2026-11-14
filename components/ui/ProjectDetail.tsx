@@ -174,7 +174,7 @@ export default function ProjectDetail({
       <div className="detail-toolbar">
         <span className="wordmark">
           <img
-            src="/hugs%20creative%20logo.png?v=2"
+            src="/hugs%20creative%20logo.png?v=3"
             alt="HUGs Creative"
             width="1322"
             height="490"

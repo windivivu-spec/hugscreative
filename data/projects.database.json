@@ -1,0 +1,1485 @@
+{
+  "schemaVersion": 1,
+  "notes": "Editable local project database. year empty = unconfirmed. contentStatus draft = copy awaiting owner review. Paths are URL-encoded relative to public.",
+  "projects": [
+    {
+      "year": "2025",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Website Design",
+      "brief": "A website for the Buki booking platform.",
+      "role": "Website showcase supplied in the media collection.",
+      "deliverables": [
+        "Website showcase"
+      ],
+      "gallery": [],
+      "fit": "contain",
+      "id": "buki-website",
+      "name": "Buki",
+      "category": "Website Design",
+      "projectType": "website",
+      "image": "/media/Video/websites/buki.one.png",
+      "alt": "Buki website showcase",
+      "description": "A website for the Buki booking platform.",
+      "direction": "Website design",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Year assigned for portfolio grouping; project details await confirmation.",
+      "references": [
+        {
+          "title": "Visit website",
+          "url": "https://buki.one"
+        }
+      ],
+      "videos": [
+        {
+          "src": "/media/previews/websites/buki.one.webm",
+          "poster": "/media/Video/websites/buki.one.png",
+          "title": "Buki website walkthrough",
+          "orientation": "landscape",
+          "previewSrc": "/media/previews/websites/buki.one.webm"
+        }
+      ]
+    },
+    {
+      "year": "2026",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Website Design",
+      "brief": "A barbershop website with a bold visual identity.",
+      "role": "Website showcase supplied in the media collection.",
+      "deliverables": [
+        "Website showcase"
+      ],
+      "gallery": [],
+      "fit": "contain",
+      "id": "windread-website",
+      "name": "WinDread",
+      "category": "Website Design",
+      "projectType": "website",
+      "image": "/media/previews/websites/windread.vn.jpg",
+      "alt": "WinDread website showcase",
+      "description": "A barbershop website with a bold visual identity.",
+      "direction": "Website design",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Year assigned for portfolio grouping; project details await confirmation.",
+      "references": [
+        {
+          "title": "Visit website",
+          "url": "https://windread.vn"
+        }
+      ],
+      "videos": [
+        {
+          "src": "/media/previews/websites/windread.vn.webm",
+          "poster": "/media/previews/websites/windread.vn.jpg",
+          "title": "WinDread website walkthrough",
+          "orientation": "landscape",
+          "previewSrc": "/media/previews/websites/windread.vn.webm"
+        }
+      ]
+    },
+    {
+      "year": "2026",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Website Design",
+      "brief": "A fitness interface showcase built around expressive mobile screens, dark surfaces, and a focused product presentation.",
+      "role": "Website visual direction, shown through the supplied design showcase.",
+      "deliverables": [
+        "Website visual direction",
+        "Interface design showcase"
+      ],
+      "gallery": [],
+      "fit": "contain",
+      "id": "comeback-digital",
+      "name": "Every Comeback",
+      "category": "Website Design",
+      "projectType": "website",
+      "image": "/media/website/hero1.png",
+      "imageAspectRatio": 1.5433526011560694,
+      "alt": "Every Comeback website design showcase",
+      "description": "A fitness interface showcase built around expressive mobile screens, dark surfaces, and a focused product presentation.",
+      "direction": "Website concept / Digital design",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Existing showcase retained. Confirm execution year."
+    },
+    {
+      "year": "2026",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Website Design",
+      "brief": "An energetic motorsport website direction with an oversized editorial layout and a striking red visual identity.",
+      "role": "Website visual direction, shown through the supplied design showcase.",
+      "deliverables": [
+        "Website visual direction",
+        "Interface design showcase"
+      ],
+      "gallery": [],
+      "fit": "contain",
+      "id": "marea-website",
+      "name": "Marea",
+      "category": "Website Design",
+      "projectType": "website",
+      "image": "/media/website/hero4-poster.webp",
+      "imageAspectRatio": 1.7066666666666668,
+      "alt": "Marea website design showcase",
+      "description": "An energetic motorsport website direction with an oversized editorial layout and a striking red visual identity.",
+      "direction": "Website concept / Digital design",
+      "videos": [
+        {
+          "src": "/media/website/marea.mp4",
+          "poster": "/media/website/hero4-poster.webp",
+          "title": "Marea website walkthrough",
+          "orientation": "landscape",
+          "previewSrc": "/media/website/marea.mp4"
+        }
+      ],
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Existing showcase retained. Confirm execution year."
+    },
+    {
+      "year": "2026",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Event Photography",
+      "brief": "A selection of photographs capturing moments and atmosphere from an event.",
+      "role": "A photography selection from the supplied event portfolio.",
+      "deliverables": [
+        "Event photography selection"
+      ],
+      "gallery": [
+        "/media/event/p1/63-P1090285.webp",
+        "/media/event/p1/64-P1090322.webp",
+        "/media/event/p1/65-P1090340.webp",
+        "/media/event/p1/66-P1090347.webp",
+        "/media/event/p1/67-P1090353.webp"
+      ],
+      "fit": "contain",
+      "id": "festive-gatherings",
+      "name": "Event Photography 01",
+      "category": "Event Photography",
+      "projectType": "photography",
+      "image": "/media/event/p1/62-P1090281.webp",
+      "imageAspectRatio": 1.500144216902221,
+      "alt": "Event Photography 01 event photo",
+      "description": "A selection of photographs capturing moments and atmosphere from an event.",
+      "direction": "Event photography",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Temporary title and year; event details and credits need confirmation."
+    },
+    {
+      "year": "2025",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Event Photography",
+      "brief": "A selection of photographs capturing moments and atmosphere from an event.",
+      "role": "A photography selection from the supplied event portfolio.",
+      "deliverables": [
+        "Event photography selection"
+      ],
+      "gallery": [
+        "/media/event/p2/49-P1089613.webp",
+        "/media/event/p2/50-P1089734.webp",
+        "/media/event/p2/51-P1089953.webp",
+        "/media/event/p2/52-P1090023.webp",
+        "/media/event/p2/53-P1090045.webp",
+        "/media/event/p2/54-P1090102.webp",
+        "/media/event/p2/55-P1090111.webp",
+        "/media/event/p2/56-P1090113.webp",
+        "/media/event/p2/57-P1090119.webp",
+        "/media/event/p2/58-P1090160.webp",
+        "/media/event/p2/59-P1090187.webp",
+        "/media/event/p2/60-P1090192.webp",
+        "/media/event/p2/61-P1090222.webp"
+      ],
+      "fit": "contain",
+      "id": "after-dark",
+      "name": "Event Photography 02",
+      "category": "Event Photography",
+      "projectType": "photography",
+      "image": "/media/event/p2/48-P1089584.webp",
+      "imageAspectRatio": 0.679694439509682,
+      "alt": "Event Photography 02 event photo",
+      "description": "A selection of photographs capturing moments and atmosphere from an event.",
+      "direction": "Event photography",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Temporary title and year; event details and credits need confirmation."
+    },
+    {
+      "year": "2026",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Event Photography",
+      "brief": "A selection of photographs capturing moments and atmosphere from an event.",
+      "role": "A photography selection from the supplied event portfolio.",
+      "deliverables": [
+        "Event photography selection"
+      ],
+      "gallery": [
+        "/media/event/p3/42-P1067487.webp",
+        "/media/event/p3/43-P1067500.webp",
+        "/media/event/p3/44-P1067605.webp",
+        "/media/event/p3/45-P1067612.webp",
+        "/media/event/p3/46-P1067741.webp",
+        "/media/event/p3/47-P1067768.webp"
+      ],
+      "fit": "contain",
+      "id": "moments-to-celebrate",
+      "name": "Event Photography 03",
+      "category": "Event Photography",
+      "projectType": "photography",
+      "image": "/media/event/p3/41-P1067475.webp",
+      "imageAspectRatio": 0.6666666666666666,
+      "alt": "Event Photography 03 event photo",
+      "description": "A selection of photographs capturing moments and atmosphere from an event.",
+      "direction": "Event photography",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Temporary title and year; event details and credits need confirmation."
+    },
+    {
+      "year": "2025",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Event Photography",
+      "brief": "A selection of photographs capturing moments and atmosphere from an event.",
+      "role": "A photography selection from the supplied event portfolio.",
+      "deliverables": [
+        "Event photography selection"
+      ],
+      "gallery": [
+        "/media/event/p4/35-P1205937.webp",
+        "/media/event/p4/36-P1205938.webp",
+        "/media/event/p4/37-P1205989.webp",
+        "/media/event/p4/38-P1206001.webp",
+        "/media/event/p4/39-P1206032.webp",
+        "/media/event/p4/40-P1206094.webp"
+      ],
+      "fit": "contain",
+      "id": "around-the-table",
+      "name": "Event Photography 04",
+      "category": "Event Photography",
+      "projectType": "photography",
+      "image": "/media/event/p4/34-P1205890.webp",
+      "imageAspectRatio": 1.5,
+      "alt": "Event Photography 04 event photo",
+      "description": "A selection of photographs capturing moments and atmosphere from an event.",
+      "direction": "Event photography",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Temporary title and year; event details and credits need confirmation."
+    },
+    {
+      "id": "kyoto-sushi",
+      "name": "Kyoto Sushi",
+      "industry": "F&B Marketing",
+      "direction": "Social Media Strategy & Execution for a Premium Japanese Restaurant",
+      "description": "KYOTO Sushi & Teppanyaki is a premium Japanese restaurant, offering authentic sushi, fresh seafood, and live Teppanyaki experiences. Located near My Khe Beach, KYOTO brings refined Japanese dining to local and international guests.",
+      "deliverables": [
+        "Developing and executing social media strategies to strengthen brand presence",
+        "Facebook Fanpage Management"
+      ],
+      "color": "#b42a2e",
+      "category": "Social Media Management",
+      "year": "2026",
+      "demo": false,
+      "image": "/media/showcase/KYOTO/1.png",
+      "alt": "Kyoto Sushi — social media and marketing showcase",
+      "gallery": [
+        "/media/showcase/KYOTO/2.png",
+        "/media/showcase/KYOTO/3.png",
+        "/media/showcase/KYOTO/4.png"
+      ],
+      "fit": "contain",
+      "brief": "KYOTO Sushi & Teppanyaki is a premium Japanese restaurant, offering authentic sushi, fresh seafood, and live Teppanyaki experiences. Located near My Khe Beach, KYOTO brings refined Japanese dining to local and international guests.",
+      "role": "Social Media Strategy & Execution for a Premium Japanese Restaurant",
+      "contentStatus": "supplied",
+      "yearStatus": "provisional",
+      "editorNotes": "Existing showcase retained. Confirm execution year."
+    },
+    {
+      "id": "verita",
+      "name": "Verita",
+      "industry": "Healthcare & Wellness",
+      "direction": "Brand Marketing & Social Media Strategy for a Premium Wellness Brand",
+      "description": "Verita Health Hoi An is a premium healthcare and wellness destination combining modern medical expertise with refined wellness experiences for local and international clients.",
+      "deliverables": [
+        "Building a strategic marketing foundation and developing social media platforms",
+        "Facebook Fanpage Management",
+        "TikTok Channel Development & Management"
+      ],
+      "color": "#50a7bb",
+      "category": "Social Media Management",
+      "year": "2026",
+      "demo": false,
+      "image": "/media/showcase/VERITA/1.png",
+      "alt": "Verita — social media and marketing showcase",
+      "gallery": [
+        "/media/showcase/VERITA/2.png",
+        "/media/showcase/VERITA/3.png"
+      ],
+      "fit": "contain",
+      "brief": "Verita Health Hoi An is a premium healthcare and wellness destination combining modern medical expertise with refined wellness experiences for local and international clients.",
+      "role": "Brand Marketing & Social Media Strategy for a Premium Wellness Brand",
+      "contentStatus": "supplied",
+      "yearStatus": "provisional",
+      "editorNotes": "Existing showcase retained. Confirm execution year."
+    },
+    {
+      "id": "chinhuei",
+      "name": "ChinHuei",
+      "industry": "Manufacturing & Interior Materials",
+      "direction": "Integrated Marketing Solutions & Digital Channel Development",
+      "description": "ChinHuei Plastic Industrial JSC is a Taiwan-invested manufacturer with 28 years of experience in Vietnam, specializing in premium plastic interior materials and solutions.",
+      "deliverables": [
+        "Facebook Fanpage Development & Management",
+        "TikTok Strategy & Channel Development",
+        "SEO Strategy & Implementation"
+      ],
+      "color": "#bd3146",
+      "category": "Social Media Management",
+      "year": "2026",
+      "demo": false,
+      "image": "/media/showcase/CHINHUEI/1.png",
+      "alt": "ChinHuei — social media and marketing showcase",
+      "gallery": [
+        "/media/showcase/CHINHUEI/2.png",
+        "/media/showcase/CHINHUEI/3.png"
+      ],
+      "fit": "contain",
+      "brief": "ChinHuei Plastic Industrial JSC is a Taiwan-invested manufacturer with 28 years of experience in Vietnam, specializing in premium plastic interior materials and solutions.",
+      "role": "Integrated Marketing Solutions & Digital Channel Development",
+      "contentStatus": "supplied",
+      "yearStatus": "provisional",
+      "editorNotes": "Existing showcase retained. Confirm execution year."
+    },
+    {
+      "id": "nam-duong-land",
+      "name": "Nam Duong Land",
+      "industry": "Real Estate Marketing",
+      "direction": "A Strategic Partnership Between HUGs and Nam Duong Land at Casamia Balanca",
+      "description": "A strategic marketing collaboration between HUGs and Nam Duong Land at Casamia Balanca, strengthening project positioning, enhancing brand visibility, and communicating the project’s unique value.",
+      "deliverables": [
+        "Strategic marketing collaboration for Casamia Balanca",
+        "Project positioning and brand visibility",
+        "Communication of the project’s unique value"
+      ],
+      "color": "#538d81",
+      "category": "Social Media Management",
+      "year": "2026",
+      "demo": false,
+      "image": "/media/showcase/NAM%20D%C6%AF%C6%A0NG%20LAND/1.png",
+      "alt": "Nam Duong Land — social media and marketing showcase",
+      "gallery": [
+        "/media/showcase/NAM%20D%C6%AF%C6%A0NG%20LAND/2.png",
+        "/media/showcase/NAM%20D%C6%AF%C6%A0NG%20LAND/3.png"
+      ],
+      "fit": "contain",
+      "brief": "A strategic marketing collaboration between HUGs and Nam Duong Land at Casamia Balanca, strengthening project positioning, enhancing brand visibility, and communicating the project’s unique value.",
+      "role": "A Strategic Partnership Between HUGs and Nam Duong Land at Casamia Balanca",
+      "contentStatus": "supplied",
+      "yearStatus": "provisional",
+      "editorNotes": "Existing showcase retained. Confirm execution year."
+    },
+    {
+      "id": "lifehouse",
+      "name": "Lifehouse",
+      "industry": "Interior Design & Build",
+      "direction": "Marketing Foundation & Digital Channel Development",
+      "description": "Lifehouse is a professional Design & Build company specializing in interior design and construction, delivering refined, sustainable, and functional spatial solutions through creative thinking and precise execution.",
+      "deliverables": [
+        "Established a strategic marketing foundation to position and grow the business",
+        "Facebook Fanpage Management",
+        "TikTok Channel Development & Management"
+      ],
+      "color": "#79975d",
+      "category": "Social Media Management",
+      "year": "2026",
+      "demo": false,
+      "image": "/media/showcase/LIFEHOUSE/1.png",
+      "alt": "Lifehouse — social media and marketing showcase",
+      "gallery": [
+        "/media/showcase/LIFEHOUSE/2.png",
+        "/media/showcase/LIFEHOUSE/3.png"
+      ],
+      "fit": "contain",
+      "brief": "Lifehouse is a professional Design & Build company specializing in interior design and construction, delivering refined, sustainable, and functional spatial solutions through creative thinking and precise execution.",
+      "role": "Marketing Foundation & Digital Channel Development",
+      "contentStatus": "supplied",
+      "yearStatus": "provisional",
+      "editorNotes": "Existing showcase retained. Confirm execution year."
+    },
+    {
+      "id": "wafaifo-hoi-an",
+      "name": "Wafaifo Hoi An",
+      "industry": "Hospitality Marketing",
+      "direction": "Social Media Strategy & Brand Positioning for a Premium Boutique Resort",
+      "description": "Wafaifo Resort Hoi An is a 4-star boutique resort located in the heart of Hoi An, offering premium accommodation and a diverse range of dining, wellness, and event experiences.",
+      "deliverables": [
+        "Developed social media strategies to strengthen brand identity and enhance market positioning",
+        "Facebook Fanpage Management",
+        "TikTok Channel Development & Management"
+      ],
+      "color": "#74b5d3",
+      "category": "Social Media Management",
+      "year": "2026",
+      "demo": false,
+      "image": "/media/showcase/WAFAIFO/01.png",
+      "alt": "Wafaifo Hoi An — social media and marketing showcase",
+      "gallery": [
+        "/media/showcase/WAFAIFO/02.png",
+        "/media/showcase/WAFAIFO/03.png"
+      ],
+      "fit": "contain",
+      "brief": "Wafaifo Resort Hoi An is a 4-star boutique resort located in the heart of Hoi An, offering premium accommodation and a diverse range of dining, wellness, and event experiences.",
+      "role": "Social Media Strategy & Brand Positioning for a Premium Boutique Resort",
+      "contentStatus": "supplied",
+      "yearStatus": "provisional",
+      "editorNotes": "Existing showcase retained. Confirm execution year."
+    },
+    {
+      "id": "kem-trang-tien",
+      "name": "Kem Trang Tien",
+      "category": "Graphic Design",
+      "year": "2026",
+      "image": "/media/Picture%20/Kem%20Trang%20Tien/1.png",
+      "gallery": [
+        "/media/Picture%20/Kem%20Trang%20Tien/2.png",
+        "/media/Picture%20/Kem%20Trang%20Tien/3.png",
+        "/media/Picture%20/kem%20trang%20tien.png"
+      ],
+      "alt": "Kem Trang Tien project showcase",
+      "color": "#eb2266",
+      "description": "Founded in 1958, Kem Trang Tien is an iconic Vietnamese culinary symbol famous for its traditional artisanal recipes and local ingredients. In 2023, Taste Atlas named it one of the top 100 legendary ice cream shops worldwide.",
+      "overview": "The graphic design project focuses on developing a high-impact key visual and digital campaign assets, blending the brand’s rich heritage and nostalgic identity with a fresh, dynamic, and contemporary visual language to strengthen its appeal across digital platforms.",
+      "brief": "The graphic design project focuses on developing a high-impact key visual and digital campaign assets, blending the brand’s rich heritage and nostalgic identity with a fresh, dynamic, and contemporary visual language to strengthen its appeal across digital platforms.",
+      "role": "A draft showcase of product imagery, composition, and brand communication for Kem Trang Tien. Add the project brief, scope of work, and final deliverables here.",
+      "direction": "Brand Key Visual & Graphics Design",
+      "industry": "Brand Design",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "supplied",
+      "yearStatus": "confirmed",
+      "editorNotes": "Owner-supplied copy and year.",
+      "references": [
+        {
+          "title": "Kem Trang Tien — legendary ice cream shops",
+          "url": "https://kemtrangtien.vn/tin-tuc/kem-trang-tien-vao-danh-sach-quan-kem-huyen-thoai"
+        }
+      ]
+    },
+    {
+      "id": "vinamilk",
+      "name": "Vinamilk",
+      "category": "Graphic Design",
+      "year": "2026",
+      "image": "/media/Picture%20/Vinamilk/1.png",
+      "gallery": [
+        "/media/Picture%20/Vinamilk/2.png",
+        "/media/Picture%20/Vinamilk/3.png"
+      ],
+      "alt": "Vinamilk project showcase",
+      "color": "#eb2266",
+      "description": "Founded in 1976, Vinamilk is a household name intimately familiar across generations of Vietnamese families. Backed by international-standard farms and modern factories, the company distributes its products nationwide and exports to over 60 countries.",
+      "overview": "This project focuses on developing a compelling visual direction that celebrates the taste, freshness, and quality of Vinamilk’s products.",
+      "brief": "This project focuses on developing a compelling visual direction that celebrates the taste, freshness, and quality of Vinamilk’s products.",
+      "role": "A draft showcase of product imagery, composition, and brand communication for Vinamilk. Add the project brief, scope of work, and final deliverables here.",
+      "direction": "Graphics Design",
+      "industry": "Brand Design",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "supplied",
+      "yearStatus": "confirmed",
+      "editorNotes": "Owner-supplied copy and year."
+    },
+    {
+      "id": "yen-thien-viet",
+      "name": "Yen Thien Viet",
+      "category": "Graphic Design",
+      "year": "2024",
+      "image": "/media/Picture%20/Yen%20Thien%20Viet/493881134_709306518506233_3832966233852920221_n.jpg",
+      "gallery": [
+        "/media/Picture%20/Yen%20Thien%20Viet/535777906_803453599091524_6147044331069394254_n.jpg",
+        "/media/Picture%20/Yen%20Thien%20Viet/622880545_936226292480920_2356397438797131614_n.jpg"
+      ],
+      "alt": "Yen Thien Viet project showcase",
+      "color": "#eb2266",
+      "description": "Yen Sao Thien Viet brings the timeless elegance and nourishing goodness of Vietnamese bird’s nest to contemporary lifestyles. Rooted in a treasured culinary tradition, the brand celebrates the natural value of bird’s nest through a refined approach to everyday wellness, nourishment, and thoughtful gifting.",
+      "overview": "This graphic design project focuses on translating Yen Sao Thien Viet’s heritage of natural nourishment into a refined and contemporary visual identity. The designs highlight the purity, quality, and nourishing value of bird’s nest while elevating its appeal for modern wellness and gifting occasions.",
+      "brief": "This graphic design project focuses on translating Yen Sao Thien Viet’s heritage of natural nourishment into a refined and contemporary visual identity. The designs highlight the purity, quality, and nourishing value of bird’s nest while elevating its appeal for modern wellness and gifting occasions.",
+      "role": "A draft showcase of product imagery, composition, and brand communication for Yen Thien Viet. Add the project brief, scope of work, and final deliverables here.",
+      "direction": "Graphics Design",
+      "industry": "Brand Design",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "supplied",
+      "yearStatus": "confirmed",
+      "editorNotes": "Owner-supplied copy and year. Brand name displayed without diacritics."
+    },
+    {
+      "id": "ananas",
+      "name": "Ananas",
+      "category": "Graphic Design",
+      "year": "2026",
+      "image": "/media/Picture%20/ananas/ananas1.png",
+      "gallery": [
+        "/media/Picture%20/ananas/ananas2.jpeg",
+        "/media/Picture%20/ananas/ananas3.png",
+        "/media/Picture%20/ananas/ananas4.png",
+        "/media/Picture%20/ananas/ananas5.png",
+        "/media/Picture%20/ananas/ananas6.png"
+      ],
+      "alt": "Ananas project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Ananas, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Ananas.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Ananas.",
+      "role": "A draft showcase of product imagery, composition, and brand communication for Ananas. Add the project brief, scope of work, and final deliverables here.",
+      "direction": "Graphic Design",
+      "industry": "Brand Design",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner."
+    },
+    {
+      "id": "fairy-farm",
+      "name": "Fairy Farm",
+      "category": "Graphic Design",
+      "year": "2025",
+      "image": "/media/Picture%20/the%20fair/fairy%20farm1.jpeg",
+      "gallery": [
+        "/media/Picture%20/the%20fair/fairy%20farm2.png"
+      ],
+      "alt": "Fairy Farm project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Fairy Farm, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Fairy Farm.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Fairy Farm.",
+      "role": "A draft showcase of product imagery, composition, and brand communication for Fairy Farm. Add the project brief, scope of work, and final deliverables here.",
+      "direction": "Graphic Design",
+      "industry": "Brand Design",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner."
+    },
+    {
+      "id": "raw-nest",
+      "name": "Raw Nest",
+      "category": "Graphic Design",
+      "year": "2026",
+      "image": "/media/Picture%20/raw%20nest.png",
+      "gallery": [],
+      "alt": "Raw Nest project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Raw Nest, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Raw Nest.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Raw Nest.",
+      "role": "A draft exploration of product presentation and graphic composition. Add the confirmed brief, scope, and deliverables.",
+      "direction": "Graphic Design",
+      "industry": "Brand Design",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner."
+    },
+    {
+      "id": "shokz-opendots-2",
+      "name": "Shokz OpenDots 2",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2025",
+      "image": "/media/previews/shokz-opendots-2.jpg",
+      "gallery": [],
+      "alt": "Shokz OpenDots 2 project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Shokz OpenDots 2, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Shokz OpenDots 2.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Shokz OpenDots 2.",
+      "role": "Draft project overview for the supplied Shokz OpenDots 2 film. Add the production brief, creative direction, editing scope, team, and deliverables.",
+      "direction": "Video & Motion",
+      "industry": "Video Production",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/shokz%20opendots%202.mp4",
+          "previewSrc": "/media/previews/shokz-opendots-2-preview.mp4",
+          "poster": "/media/previews/shokz-opendots-2.jpg",
+          "title": "Shokz OpenDots 2 film",
+          "orientation": "landscape"
+        }
+      ]
+    },
+    {
+      "id": "camera-in-focus",
+      "name": "Fujifilm",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2026",
+      "image": "/media/previews/camera-in-focus.jpg",
+      "gallery": [],
+      "alt": "Fujifilm project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Fujifilm, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Fujifilm.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Fujifilm.",
+      "role": "Selected work from the supplied portfolio assets.",
+      "direction": "Product film / Motion study",
+      "industry": "Creative selection",
+      "deliverables": [
+        "Product motion study"
+      ],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/Fuji.mp4",
+          "previewSrc": "/media/previews/camera-in-focus-preview.mp4",
+          "poster": "/media/previews/camera-in-focus.jpg",
+          "title": "Fujifilm film",
+          "orientation": "landscape"
+        }
+      ]
+    },
+    {
+      "id": "body-polish-motion",
+      "name": "Dove",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2025",
+      "image": "/media/previews/body-polish-motion.jpg",
+      "gallery": [],
+      "alt": "Dove project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Dove, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Dove.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Dove.",
+      "role": "Selected work from the supplied portfolio assets.",
+      "direction": "Product film / Motion study",
+      "industry": "Creative selection",
+      "deliverables": [
+        "Product motion study"
+      ],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/dove.mp4",
+          "previewSrc": "/media/previews/body-polish-motion-preview.mp4",
+          "poster": "/media/previews/body-polish-motion.jpg",
+          "title": "Dove film",
+          "orientation": "portrait"
+        }
+      ]
+    },
+    {
+      "id": "dove-body",
+      "name": "Dove Body",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2026",
+      "image": "/media/previews/dove-body.jpg",
+      "gallery": [],
+      "alt": "Dove Body project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Dove Body, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Dove Body.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Dove Body.",
+      "role": "Draft project overview for the supplied Dove Body film. Add the production brief, creative direction, editing scope, team, and deliverables.",
+      "direction": "Video & Motion",
+      "industry": "Video Production",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/dove%20body.mp4",
+          "previewSrc": "/media/previews/dove-body-preview.mp4",
+          "poster": "/media/previews/dove-body.jpg",
+          "title": "Dove Body film",
+          "orientation": "landscape"
+        }
+      ]
+    },
+    {
+      "id": "xiaomi-cleaner-g20-lite",
+      "name": "Xiaomi Cleaner G20 Lite",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2025",
+      "image": "/media/previews/xiaomi-cleaner-g20-lite.jpg",
+      "gallery": [],
+      "alt": "Xiaomi Cleaner G20 Lite project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Xiaomi Cleaner G20 Lite, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Xiaomi Cleaner G20 Lite.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Xiaomi Cleaner G20 Lite.",
+      "role": "Draft project overview for the supplied Xiaomi Cleaner G20 Lite film. Add the production brief, creative direction, editing scope, team, and deliverables.",
+      "direction": "Video & Motion",
+      "industry": "Video Production",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/Xiaomi%20Cleaner%20G20%20Lite.mp4",
+          "previewSrc": "/media/previews/xiaomi-cleaner-g20-lite-preview.mp4",
+          "poster": "/media/previews/xiaomi-cleaner-g20-lite.jpg",
+          "title": "Xiaomi Cleaner G20 Lite film",
+          "orientation": "portrait"
+        }
+      ]
+    },
+    {
+      "id": "acb-commercial",
+      "name": "ACB",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2026",
+      "image": "/media/Video/video-comercial/acb%20thumb.png",
+      "gallery": [],
+      "alt": "ACB project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring ACB, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for ACB.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for ACB.",
+      "role": "Commercial video",
+      "direction": "ACB Corporate 2026",
+      "industry": "Commercial Video",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "confirmed",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/video-comercial/acb_corporate_2026%20.mp4",
+          "previewSrc": "/media/previews/acb-commercial-preview.mp4",
+          "poster": "/media/Video/video-comercial/acb%20thumb.png",
+          "title": "ACB film",
+          "orientation": "landscape"
+        }
+      ]
+    },
+    {
+      "id": "bvbank-commercial",
+      "name": "BVBank",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2026",
+      "image": "/media/Video/video-comercial/bvbank%20thumb.png",
+      "gallery": [],
+      "alt": "BVBank project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring BVBank, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for BVBank.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for BVBank.",
+      "role": "Commercial video",
+      "direction": "BVBank Commercial",
+      "industry": "Commercial Video",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/video-comercial/bvbank.mp4",
+          "previewSrc": "/media/previews/bvbank-commercial-preview.mp4",
+          "poster": "/media/Video/video-comercial/bvbank%20thumb.png",
+          "title": "BVBank film",
+          "orientation": "landscape"
+        }
+      ]
+    },
+    {
+      "id": "bvbank-mascot",
+      "name": "BVBank Mascot",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2026",
+      "image": "/media/previews/bvbank-mascot.jpg",
+      "gallery": [],
+      "alt": "BVBank Mascot project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring BVBank Mascot, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for BVBank Mascot.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for BVBank Mascot.",
+      "role": "Selected work from the supplied portfolio assets.",
+      "direction": "Video / Motion graphics",
+      "industry": "Video & Motion",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/commercial/mascot-bvbank-web.mp4",
+          "previewSrc": "/media/previews/bvbank-mascot-preview.mp4",
+          "poster": "/media/previews/bvbank-mascot.jpg",
+          "title": "BVBank Mascot film",
+          "orientation": "landscape"
+        }
+      ]
+    },
+    {
+      "id": "xe-tot",
+      "name": "Xe Tot",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2026",
+      "image": "/media/previews/xe-tot.jpg",
+      "gallery": [],
+      "alt": "Xe Tot project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Xe Tot, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Xe Tot.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Xe Tot.",
+      "role": "Selected work from the supplied portfolio assets.",
+      "direction": "Video / Motion graphics",
+      "industry": "Video & Motion",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/commercial/xe-tot-web.mp4",
+          "previewSrc": "/media/previews/xe-tot-preview.mp4",
+          "poster": "/media/previews/xe-tot.jpg",
+          "title": "Xe Tot film",
+          "orientation": "landscape"
+        }
+      ]
+    },
+    {
+      "id": "acb-calendar-2026",
+      "name": "ACB Calendar 2026",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2026",
+      "image": "/media/previews/acb-calendar-2026.jpg",
+      "gallery": [],
+      "alt": "ACB Calendar 2026 project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring ACB Calendar 2026, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for ACB Calendar 2026.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for ACB Calendar 2026.",
+      "role": "Draft project overview for the supplied ACB Calendar 2026 film. Add the production brief, creative direction, editing scope, team, and deliverables.",
+      "direction": "Video & Motion",
+      "industry": "Video Production",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "confirmed",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/commercial/lich%202026%20acb.mp4",
+          "previewSrc": "/media/previews/acb-calendar-2026-preview.mp4",
+          "poster": "/media/previews/acb-calendar-2026.jpg",
+          "title": "ACB Calendar 2026 film",
+          "orientation": "landscape"
+        }
+      ]
+    },
+    {
+      "id": "dong-tam",
+      "name": "Dong Tam",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2026",
+      "image": "/media/previews/dong-tam.jpg",
+      "gallery": [],
+      "alt": "Dong Tam project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Dong Tam, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Dong Tam.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Dong Tam.",
+      "role": "Draft project overview for the supplied Dong Tam film. Add the production brief, creative direction, editing scope, team, and deliverables.",
+      "direction": "Video & Motion",
+      "industry": "Video Production",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/commercial/ga%CC%A3ch%20va%CC%82n%20go%CC%82%CC%83%20Dong%20Tam.mp4",
+          "previewSrc": "/media/previews/dong-tam-preview.mp4",
+          "poster": "/media/previews/dong-tam.jpg",
+          "title": "Dong Tam film",
+          "orientation": "landscape"
+        }
+      ]
+    },
+    {
+      "id": "golden-angel-illustration",
+      "name": "Golden Angel",
+      "category": "Illustration Design",
+      "year": "2025",
+      "yearStatus": "provisional",
+      "image": "/media/Picture%20/illustration%20design/pack8.jpg.webp",
+      "imageAspectRatio": 0.8421052631578947,
+      "alt": "Golden Angel illustration artwork",
+      "color": "#eb2266",
+      "description": "An illustration showcase featuring artwork from the supplied Golden Angel collection.",
+      "direction": "Illustration / Artwork",
+      "gallery": [],
+      "demo": true,
+      "industry": "Illustration Design",
+      "brief": "An illustration showcase featuring artwork from the supplied Golden Angel collection.",
+      "role": "Illustration artwork shown in the supplied portfolio.",
+      "deliverables": [
+        "Illustration artwork"
+      ],
+      "fit": "contain",
+      "contentStatus": "draft",
+      "editorNotes": "Artwork supplied; project scope, credits and year require confirmation. Year assigned provisionally for display; confirm with owner."
+    },
+    {
+      "id": "el-paraiso-illustration",
+      "name": "El Paraiso",
+      "category": "Illustration Design",
+      "year": "2026",
+      "yearStatus": "provisional",
+      "image": "/media/Picture%20/illustration%20design/pack5.jpg.webp",
+      "imageAspectRatio": 1.9447439353099731,
+      "alt": "El Paraiso illustration artwork",
+      "color": "#eb2266",
+      "description": "An illustration showcase featuring artwork from the supplied El Paraiso collection.",
+      "direction": "Illustration / Artwork",
+      "gallery": [],
+      "demo": true,
+      "industry": "Illustration Design",
+      "brief": "An illustration showcase featuring artwork from the supplied El Paraiso collection.",
+      "role": "Illustration artwork shown in the supplied portfolio.",
+      "deliverables": [
+        "Illustration artwork"
+      ],
+      "fit": "contain",
+      "contentStatus": "draft",
+      "editorNotes": "Artwork supplied; project scope, credits and year require confirmation. Year assigned provisionally for display; confirm with owner."
+    },
+    {
+      "id": "white-angel-illustration",
+      "name": "White Angel",
+      "category": "Illustration Design",
+      "year": "2025",
+      "yearStatus": "provisional",
+      "image": "/media/Picture%20/illustration%20design/pack4.jpg.webp",
+      "imageAspectRatio": 0.7821625887924231,
+      "alt": "White Angel illustration artwork",
+      "color": "#eb2266",
+      "description": "An illustration showcase featuring artwork from the supplied White Angel collection.",
+      "direction": "Illustration / Artwork",
+      "gallery": [],
+      "demo": true,
+      "industry": "Illustration Design",
+      "brief": "An illustration showcase featuring artwork from the supplied White Angel collection.",
+      "role": "Illustration artwork shown in the supplied portfolio.",
+      "deliverables": [
+        "Illustration artwork"
+      ],
+      "fit": "contain",
+      "contentStatus": "draft",
+      "editorNotes": "Artwork supplied; project scope, credits and year require confirmation. Year assigned provisionally for display; confirm with owner."
+    },
+    {
+      "id": "black-angel-illustration",
+      "name": "Black Angel",
+      "category": "Illustration Design",
+      "year": "2026",
+      "yearStatus": "provisional",
+      "image": "/media/Picture%20/illustration%20design/pack6.jpg.webp",
+      "imageAspectRatio": 0.8155339805825242,
+      "alt": "Black Angel illustration artwork",
+      "color": "#eb2266",
+      "description": "An illustration showcase featuring artwork from the supplied Black Angel collection.",
+      "direction": "Illustration / Artwork",
+      "gallery": [],
+      "demo": true,
+      "industry": "Illustration Design",
+      "brief": "An illustration showcase featuring artwork from the supplied Black Angel collection.",
+      "role": "Illustration artwork shown in the supplied portfolio.",
+      "deliverables": [
+        "Illustration artwork"
+      ],
+      "fit": "contain",
+      "contentStatus": "draft",
+      "editorNotes": "Artwork supplied; project scope, credits and year require confirmation. Year assigned provisionally for display; confirm with owner."
+    },
+    {
+      "id": "medora-illustration",
+      "name": "Medora",
+      "category": "Illustration Design",
+      "year": "2025",
+      "yearStatus": "provisional",
+      "image": "/media/Picture%20/illustration%20design/pack7.jpg.webp",
+      "imageAspectRatio": 0.8314087759815243,
+      "alt": "Medora illustration artwork",
+      "color": "#eb2266",
+      "description": "An illustration showcase featuring artwork from the supplied Medora collection.",
+      "direction": "Illustration / Artwork",
+      "gallery": [],
+      "demo": true,
+      "industry": "Illustration Design",
+      "brief": "An illustration showcase featuring artwork from the supplied Medora collection.",
+      "role": "Illustration artwork shown in the supplied portfolio.",
+      "deliverables": [
+        "Illustration artwork"
+      ],
+      "fit": "contain",
+      "contentStatus": "draft",
+      "editorNotes": "Artwork supplied; project scope, credits and year require confirmation. Year assigned provisionally for display; confirm with owner."
+    },
+    {
+      "id": "red-angel-illustration",
+      "name": "Red Angel",
+      "category": "Illustration Design",
+      "year": "2026",
+      "yearStatus": "provisional",
+      "image": "/media/Picture%20/illustration%20design/pack2/redangel-2.jpg.webp",
+      "imageAspectRatio": 1.8,
+      "alt": "Red Angel illustration artwork",
+      "color": "#eb2266",
+      "description": "An illustration showcase featuring artwork from the supplied Red Angel collection.",
+      "direction": "Illustration / Artwork",
+      "gallery": [
+        "/media/Picture%20/illustration%20design/pack2/Wicked-Weed-Red-Angel-2.jpg.webp"
+      ],
+      "demo": true,
+      "industry": "Illustration Design",
+      "brief": "An illustration showcase featuring artwork from the supplied Red Angel collection.",
+      "role": "Illustration artwork shown in the supplied portfolio.",
+      "deliverables": [
+        "Illustration artwork"
+      ],
+      "fit": "contain",
+      "contentStatus": "draft",
+      "editorNotes": "Artwork supplied; project scope, credits and year require confirmation. Year assigned provisionally for display; confirm with owner."
+    },
+    {
+      "id": "hemperor-illustration",
+      "name": "Hemperor",
+      "category": "Illustration Design",
+      "year": "2025",
+      "yearStatus": "provisional",
+      "image": "/media/Picture%20/illustration%20design/pack3/hemp.jpg.webp",
+      "imageAspectRatio": 0.8605577689243028,
+      "alt": "Hemperor illustration artwork",
+      "color": "#eb2266",
+      "description": "An illustration showcase featuring artwork from the supplied Hemperor collection.",
+      "direction": "Illustration / Artwork",
+      "gallery": [
+        "/media/Picture%20/illustration%20design/pack3/hemperor-Recovered.jpg.webp"
+      ],
+      "demo": true,
+      "industry": "Illustration Design",
+      "brief": "An illustration showcase featuring artwork from the supplied Hemperor collection.",
+      "role": "Illustration artwork shown in the supplied portfolio.",
+      "deliverables": [
+        "Illustration artwork"
+      ],
+      "fit": "contain",
+      "contentStatus": "draft",
+      "editorNotes": "Artwork supplied; project scope, credits and year require confirmation. Year assigned provisionally for display; confirm with owner."
+    },
+    {
+      "id": "adult-swim-illustration",
+      "name": "Adult Swim",
+      "category": "Illustration Design",
+      "year": "2026",
+      "yearStatus": "provisional",
+      "image": "/media/Picture%20/illustration%20design/pack1/01.jpg.webp",
+      "imageAspectRatio": 1.7007874015748032,
+      "alt": "Adult Swim illustration artwork",
+      "color": "#eb2266",
+      "description": "An illustration showcase featuring artwork from the supplied Adult Swim collection.",
+      "direction": "Illustration / Artwork",
+      "gallery": [
+        "/media/Picture%20/illustration%20design/pack1/02.jpg.webp",
+        "/media/Picture%20/illustration%20design/pack1/03.jpg.webp"
+      ],
+      "demo": true,
+      "industry": "Illustration Design",
+      "brief": "An illustration showcase featuring artwork from the supplied Adult Swim collection.",
+      "role": "Illustration artwork shown in the supplied portfolio.",
+      "deliverables": [
+        "Illustration artwork"
+      ],
+      "fit": "contain",
+      "contentStatus": "draft",
+      "editorNotes": "Artwork supplied; project scope, credits and year require confirmation. Year assigned provisionally for display; confirm with owner."
+    },
+    {
+      "id": "inter-office-website",
+      "name": "Inter Office",
+      "category": "Website Design",
+      "year": "2026",
+      "yearStatus": "provisional",
+      "image": "/media/previews/websites/inter.office.jpg",
+      "alt": "Inter Office website showcase",
+      "color": "#eb2266",
+      "description": "Inter Office website showcase.",
+      "brief": "Inter Office website showcase.",
+      "direction": "Website design",
+      "industry": "Website Design",
+      "role": "Website showcase supplied in the media collection.",
+      "deliverables": [
+        "Website showcase"
+      ],
+      "gallery": [],
+      "demo": true,
+      "projectType": "website",
+      "fit": "contain",
+      "contentStatus": "draft",
+      "editorNotes": "Year assigned for portfolio grouping; project details await confirmation.",
+      "references": [
+        {
+          "title": "Visit website",
+          "url": "https://inter.office"
+        }
+      ],
+      "videos": [
+        {
+          "src": "/media/previews/websites/inter.office.webm",
+          "poster": "/media/previews/websites/inter.office.jpg",
+          "title": "Inter Office website walkthrough",
+          "orientation": "landscape",
+          "previewSrc": "/media/previews/websites/inter.office.webm"
+        }
+      ]
+    },
+    {
+      "id": "monopo-website",
+      "name": "Monopo",
+      "category": "Website Design",
+      "year": "2026",
+      "yearStatus": "provisional",
+      "image": "/media/previews/websites/monopo.vn.jpg",
+      "alt": "Monopo website showcase",
+      "color": "#eb2266",
+      "description": "Monopo website showcase.",
+      "brief": "Monopo website showcase.",
+      "direction": "Website design",
+      "industry": "Website Design",
+      "role": "Website showcase supplied in the media collection.",
+      "deliverables": [
+        "Website showcase"
+      ],
+      "gallery": [],
+      "demo": true,
+      "projectType": "website",
+      "fit": "contain",
+      "contentStatus": "draft",
+      "editorNotes": "Year assigned for portfolio grouping; project details await confirmation.",
+      "references": [
+        {
+          "title": "Visit website",
+          "url": "https://monopo.vn"
+        }
+      ],
+      "videos": [
+        {
+          "src": "/media/previews/websites/monopo.vn.webm",
+          "poster": "/media/previews/websites/monopo.vn.jpg",
+          "title": "Monopo website walkthrough",
+          "orientation": "landscape",
+          "previewSrc": "/media/previews/websites/monopo.vn.webm"
+        }
+      ]
+    },
+    {
+      "id": "cafeholic-website",
+      "name": "Cafeholic",
+      "category": "Website Design",
+      "year": "2025",
+      "yearStatus": "provisional",
+      "image": "/media/previews/websites/cafeholic.vn.jpg",
+      "alt": "Cafeholic website showcase",
+      "color": "#eb2266",
+      "description": "Cafeholic website showcase.",
+      "brief": "Cafeholic website showcase.",
+      "direction": "Website design",
+      "industry": "Website Design",
+      "role": "Website showcase supplied in the media collection.",
+      "deliverables": [
+        "Website showcase"
+      ],
+      "gallery": [],
+      "demo": true,
+      "projectType": "website",
+      "fit": "contain",
+      "contentStatus": "draft",
+      "editorNotes": "Year assigned for portfolio grouping; project details await confirmation.",
+      "references": [
+        {
+          "title": "Visit website",
+          "url": "https://cafeholic.vn"
+        }
+      ],
+      "videos": [
+        {
+          "src": "/media/previews/websites/cafeholic.vn.webm",
+          "poster": "/media/previews/websites/cafeholic.vn.jpg",
+          "title": "Cafeholic website walkthrough",
+          "orientation": "landscape",
+          "previewSrc": "/media/previews/websites/cafeholic.vn.webm"
+        }
+      ]
+    },
+    {
+      "id": "event-collection-05",
+      "name": "Event Photography 05",
+      "category": "Event Photography",
+      "year": "2026",
+      "yearStatus": "provisional",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Event Photography",
+      "brief": "A selection of photographs capturing moments and atmosphere from an event.",
+      "description": "A selection of photographs capturing moments and atmosphere from an event.",
+      "role": "A photography selection from the supplied event portfolio.",
+      "deliverables": [
+        "Event photography selection"
+      ],
+      "gallery": [
+        "/media/event/p5/27-86-P1139828.webp",
+        "/media/event/p5/28-119-P1139909.webp",
+        "/media/event/p5/29-188-P1140213.webp",
+        "/media/event/p5/30-221-P1140327.webp",
+        "/media/event/p5/31-233-P1140362.webp",
+        "/media/event/p5/32-243-P1140392.webp",
+        "/media/event/p5/33-260-P1140493.webp"
+      ],
+      "fit": "contain",
+      "projectType": "photography",
+      "image": "/media/event/p5/26-40-P1139694.webp",
+      "alt": "Event Photography 05 event photo",
+      "direction": "Event photography",
+      "contentStatus": "draft",
+      "editorNotes": "Temporary title and year; event details and credits need confirmation.",
+      "imageAspectRatio": 1.5
+    },
+    {
+      "id": "event-collection-06",
+      "name": "Event Photography 06",
+      "category": "Event Photography",
+      "year": "2025",
+      "yearStatus": "provisional",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Event Photography",
+      "brief": "A selection of photographs capturing moments and atmosphere from an event.",
+      "description": "A selection of photographs capturing moments and atmosphere from an event.",
+      "role": "A photography selection from the supplied event portfolio.",
+      "deliverables": [
+        "Event photography selection"
+      ],
+      "gallery": [
+        "/media/event/p6/16-58-P1082285.webp",
+        "/media/event/p6/17-66-P1082347.webp",
+        "/media/event/p6/18-100-P1082507.webp",
+        "/media/event/p6/19-117-P1082616.webp",
+        "/media/event/p6/20-P1115924.webp",
+        "/media/event/p6/21-P1115974.webp",
+        "/media/event/p6/22-P1116071.webp",
+        "/media/event/p6/23-P1116418.webp",
+        "/media/event/p6/24-P1116475.webp"
+      ],
+      "fit": "contain",
+      "projectType": "photography",
+      "image": "/media/event/p6/15-44-P1082182.webp",
+      "alt": "Event Photography 06 event photo",
+      "direction": "Event photography",
+      "contentStatus": "draft",
+      "editorNotes": "Temporary title and year; event details and credits need confirmation.",
+      "imageAspectRatio": 0.7855731225296443
+    },
+    {
+      "id": "event-collection-07",
+      "name": "Event Photography 07",
+      "category": "Event Photography",
+      "year": "2026",
+      "yearStatus": "provisional",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Event Photography",
+      "brief": "A selection of photographs capturing moments and atmosphere from an event.",
+      "description": "A selection of photographs capturing moments and atmosphere from an event.",
+      "role": "A photography selection from the supplied event portfolio.",
+      "deliverables": [
+        "Event photography selection"
+      ],
+      "gallery": [
+        "/media/event/p7/8-20-P1024498.webp",
+        "/media/event/p7/9-26-P1024546.webp",
+        "/media/event/p7/10-37-P1024619.webp",
+        "/media/event/p7/11-64-P1024702.webp"
+      ],
+      "fit": "contain",
+      "projectType": "photography",
+      "image": "/media/event/p7/7-18-P1024490.webp",
+      "alt": "Event Photography 07 event photo",
+      "direction": "Event photography",
+      "contentStatus": "draft",
+      "editorNotes": "Temporary title and year; event details and credits need confirmation.",
+      "imageAspectRatio": 1.499874403416227
+    },
+    {
+      "id": "event-collection-08",
+      "name": "Event Photography 08",
+      "category": "Event Photography",
+      "year": "2025",
+      "yearStatus": "provisional",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Event Photography",
+      "brief": "A selection of photographs capturing moments and atmosphere from an event.",
+      "description": "A selection of photographs capturing moments and atmosphere from an event.",
+      "role": "A photography selection from the supplied event portfolio.",
+      "deliverables": [
+        "Event photography selection"
+      ],
+      "gallery": [
+        "/media/event/p8/3-16-P1001258.webp",
+        "/media/event/p8/4-26-P1001327.webp",
+        "/media/event/p8/5-28-P1001348.webp",
+        "/media/event/p8/6-39-P1001447.webp"
+      ],
+      "fit": "contain",
+      "projectType": "photography",
+      "image": "/media/event/p8/2-9-P1001229.webp",
+      "alt": "Event Photography 08 event photo",
+      "direction": "Event photography",
+      "contentStatus": "draft",
+      "editorNotes": "Temporary title and year; event details and credits need confirmation.",
+      "imageAspectRatio": 1.4320337197049526
+    }
+  ],
+  "retiredProjects": [
+    {
+      "id": "flower-wine",
+      "name": "Flower Wine",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "step-boldly",
+      "name": "Step Boldly",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "green-tea-ice-cream",
+      "name": "Green Tea Ice Cream",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "cityland-commercial",
+      "name": "CityLand",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "off-script",
+      "name": "LOOPS",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "form-function",
+      "name": "All Over Spray",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "daily-ritual",
+      "name": "Peach Milk Cooler",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "aura",
+      "name": "Raw Nest",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "after-hours",
+      "name": "Sound in Focus",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "human-nature",
+      "name": "Fairy Farm",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "common-ground",
+      "name": "Beyond Smart",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "new-current",
+      "name": "Ozaura Collection",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "soft-signal",
+      "name": "Form in Motion",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "open-season",
+      "name": "Color & Texture",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "green-farm-poster",
+      "name": "Green Farm",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "ice-cream-poster",
+      "name": "Ice Cream",
+      "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    }
+  ]
+}

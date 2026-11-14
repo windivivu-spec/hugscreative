@@ -4,17 +4,24 @@ import { useEffect, useRef, useState } from "react";
 
 export default function VideoPreview({
   src,
+  mobileSrc,
   enabled = true,
   onProgress,
   renderAsCanvas = false,
   playOnHover = false,
+  preload,
+  playbackRate = 1,
 }: {
   src: string;
+  mobileSrc?: string;
   enabled?: boolean;
   onProgress?: (current: number, duration: number) => void;
   renderAsCanvas?: boolean;
   playOnHover?: boolean;
+  preload?: "none" | "metadata" | "auto";
+  playbackRate?: number;
 }) {
+  const resolvedPreload = preload ?? (playOnHover ? "none" : "metadata");
   const ref = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef<{ id: number; kind: "video" | "animation" } | null>(
@@ -52,11 +59,14 @@ export default function VideoPreview({
         now - last >= 32
       ) {
         if (
-          canvas.width !== video.videoWidth ||
-          canvas.height !== video.videoHeight
+          canvas.width !== Math.min(video.videoWidth, 960) ||
+          canvas.height !==
+            Math.round(video.videoHeight * Math.min(1, 960 / video.videoWidth))
         ) {
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
+          canvas.width = Math.min(video.videoWidth, 960);
+          canvas.height = Math.round(
+            video.videoHeight * Math.min(1, 960 / video.videoWidth),
+          );
         }
         try {
           ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -99,13 +109,28 @@ export default function VideoPreview({
     const video = ref.current;
     if (!video) return;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compact = window.matchMedia("(max-width: 1000px)");
     let visible = false;
     const sync = () => {
-      if (enabled && (playOnHover || visible) && !document.hidden && (playOnHover || !motion.matches)) {
+      video.playbackRate = playbackRate;
+      if (
+        enabled &&
+        (playOnHover || visible) &&
+        !document.hidden &&
+        (playOnHover || !motion.matches)
+      ) {
         void video.play().catch(() => setReady(false));
       } else {
         video.pause();
       }
+    };
+    const selectSource = () => {
+      const selected = mobileSrc && compact.matches ? mobileSrc : src;
+      if (video.getAttribute("src") !== selected) {
+        video.src = selected;
+        video.load();
+      }
+      sync();
     };
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -115,18 +140,20 @@ export default function VideoPreview({
       { threshold: 0.15 },
     );
     observer.observe(video);
-    sync();
+    selectSource();
+    compact.addEventListener("change", selectSource);
     document.addEventListener("visibilitychange", sync);
     motion.addEventListener("change", sync);
     return () => {
       observer.disconnect();
+      compact.removeEventListener("change", selectSource);
       document.removeEventListener("visibilitychange", sync);
       motion.removeEventListener("change", sync);
       stopFrames(video);
       painted.current = false;
       video.pause();
     };
-  }, [src, enabled, playOnHover]);
+  }, [src, mobileSrc, enabled, playOnHover, playbackRate]);
 
   return (
     <>
@@ -137,11 +164,11 @@ export default function VideoPreview({
             ? "video-preview-source"
             : `video-preview${ready && enabled ? " is-ready" : ""}`
         }
-        src={src}
+        src={mobileSrc ? undefined : src}
         muted
         loop
         playsInline
-        preload="none"
+        preload={resolvedPreload}
         aria-hidden="true"
         tabIndex={-1}
         onPlaying={(event) => {

@@ -62,7 +62,7 @@ export default function ReelSection() {
             sizes="(max-width:767px) 90vw, 55vw"
           />
           <VideoPreview
-            src="/media/pack/v5-hq-preview.mp4"
+            src="/media/previews/camera-in-focus-preview.mp4"
             enabled={!active}
             onProgress={(time, total) => {
               if (!active && total > 0) setPreviewProgress(time / total);

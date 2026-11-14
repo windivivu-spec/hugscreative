@@ -1,46 +1,80 @@
-import type { Service } from "./services";
-type Visual = Service["media"][number];
-const image = (name: string): Visual => ({ image: `/media/pack/${name}.webp` });
-const clip = (image: string, preview: string): Visual => ({ image, preview });
-export const serviceVisuals: Visual[][] = [
+import type { Service } from "./services.ts";
+import { projects, getVideoPreview } from "./projects.ts";
+
+export type ServiceVisual = Service["media"][number] & {
+  projectId: string;
+  projectName: string;
+  videoSrc?: string;
+};
+
+// Explicit ownership also covers gallery images and secondary project videos.
+const visual = (
+  projectId: string,
+  image?: string,
+  preview?: string,
+): ServiceVisual => {
+  const project = projects.find((item) => item.id === projectId);
+  if (!project) throw new Error(`Unknown service project: ${projectId}`);
+  return {
+    projectId,
+    projectName: project.name,
+    videoSrc:
+      project.videos?.find((v) => getVideoPreview(v) === preview)?.src ??
+      project.videos?.[0]?.src,
+    image: image ?? project.image,
+    preview:
+      preview ??
+      (project.videos?.[0] ? getVideoPreview(project.videos[0]) : undefined),
+  };
+};
+
+export const serviceVisuals: ServiceVisual[][] = [
   [
-    image("spray-collection"),
-    image("a6"),
-    image("a3"),
-    image("a7"),
-    { image: "/media/poster/2.png" },
-    image("flower-wine"),
-    { image: "/media/poster/1.png" },
+    visual("kem-trang-tien"),
+    visual("vinamilk"),
+    visual("yen-thien-viet"),
+    visual("ananas"),
+    visual("fairy-farm"),
+    visual("raw-nest"),
   ],
   [
-    clip("/media/commercial/acb.webp", "/media/commercial/acb-preview.webm"),
-    clip("/media/commercial/bvbank.webp", "/media/commercial/bvbank-preview.webm"),
-    clip("/media/pack/v5-poster.webp", "/media/pack/v5-hq-preview.mp4"),
-    clip("/media/pack/v6-poster.webp", "/media/pack/v6-hq-preview.mp4"),
-    clip("/media/pack/v8-poster.webp", "/media/pack/v8-hq-preview.mp4"),
-    clip("/media/commercial/mascot-bvbank.png", "/media/commercial/mascot-bvbank-web-preview.mp4"),
-    clip("/media/commercial/xe-tot.png", "/media/commercial/xe-tot-web-preview.mp4"),
+    visual("golden-angel-illustration"),
+    visual("el-paraiso-illustration"),
+    visual("white-angel-illustration"),
+    visual("adult-swim-illustration"),
+    visual("medora-illustration"),
+    visual("red-angel-illustration"),
   ],
   [
-    { image: "/media/website/hero1.png" },
-    { image: "/media/website/hero2.png" },
-    { image: "/media/website/hero3.png" },
-    clip("/media/website/hero4-poster.webp", "/media/website/hero4.mp4"),
+    visual("acb-commercial"),
+    visual("bvbank-commercial"),
+    visual("camera-in-focus"),
+    visual("body-polish-motion"),
+    visual("xiaomi-cleaner-g20-lite"),
+    visual("bvbank-mascot"),
+    visual("xe-tot"),
   ],
   [
-    "KYOTO/1",
-    "VERITA/1",
-    "CHINHUEI/1",
-    "LIFEHOUSE/1",
-    "WAFAIFO/01",
-    "NAM%20D%C6%AF%C6%A0NG%20LAND/1",
-  ].map((path) => ({ image: `/media/showcase/${path}.png` })),
+    visual("inter-office-website"),
+    visual("windread-website"),
+    visual("monopo-website"),
+    visual("buki-website"),
+    visual("cafeholic-website"),
+  ],
   [
-    "Screenshot 2026-11-07 at 11.23.18 AM.png",
-    "Screenshot 2026-11-07 at 11.25.48 AM.png",
-    "Screenshot 2026-11-07 at 11.26.02 AM.png",
-    "Screenshot 2026-11-07 at 11.27.29 AM.png",
-    "Screenshot 2026-11-07 at 11.28.57 AM.png",
-    "abc5f3_1a3525af76b748799727106d7271552d~mv2.jpg.avif",
-  ].map((name) => ({ image: `/media/event/${encodeURIComponent(name)}` })),
+    visual("kyoto-sushi"),
+    visual("verita"),
+    visual("chinhuei"),
+    visual("lifehouse"),
+    visual("wafaifo-hoi-an"),
+    visual("nam-duong-land"),
+  ],
+  [
+    visual("festive-gatherings"),
+    visual("after-dark"),
+    visual("moments-to-celebrate"),
+    visual("around-the-table"),
+    visual("event-collection-05"),
+    visual("event-collection-06"),
+  ],
 ];

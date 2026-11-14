@@ -38,14 +38,19 @@ export default function Hero() {
     >
       <div className="hero-image">
         <Image
-          src="/media/pack/v1-poster.webp"
-          alt="Headphones in a cinematic studio spotlight"
+          src="/media/previews/shokz-opendots-2.jpg"
+          alt="Shokz OpenDots 2 in a cinematic product film"
           fill
           priority
           sizes="100vw"
           quality={90}
         />
-        <VideoPreview src="/media/pack/v1-hq.mp4" />
+        <VideoPreview
+          src="/media/Video/hero.mp4"
+          mobileSrc="/media/Video/hero.mp4"
+          preload="auto"
+          playbackRate={1.15}
+        />
       </div>
       <div className="hero-shade" />
       <div className="hero-main">
@@ -90,7 +95,7 @@ export default function Hero() {
           <span className="status-dot" /> DA NANG, VIETNAM / REMOTE &amp; ON
           LOCATION
         </div>
-        <a href="#services" className="scroll-cue">
+        <a href="#work" className="scroll-cue">
           <span className="scroll-line" /> SCROLL TO EXPLORE{" "}
           <Arrow direction="down" />
         </a>

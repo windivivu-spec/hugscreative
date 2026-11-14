@@ -7,7 +7,7 @@ export default function Privacy() {
   return (
     <main className="legal-page">
       <Link className="wordmark" href="/">
-        <img src="/hugs%20creative%20logo.png?v=2" alt="HUGs Creative" width="1322" height="490" />
+        <img src="/hugs%20creative%20logo.png?v=3" alt="HUGs Creative" width="1322" height="490" />
       </Link>
       <span className="eyebrow">WEBSITE PREVIEW / PRIVACY NOTICE</span>
       <h1>

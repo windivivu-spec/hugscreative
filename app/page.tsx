@@ -9,6 +9,7 @@ import FAQ from "@/components/sections/FAQ";
 import ContactFooter from "@/components/sections/ContactFooter";
 import ProjectDetail from "@/components/ui/ProjectDetail";
 import ContactDialog from "@/components/ui/ContactDialog";
+import PagePreloader from "@/components/ui/PagePreloader";
 import DebugPanel from "@/components/DebugPanel";
 import { selectedProjects, type Project } from "@/data/projects";
 export default function Home() {
@@ -30,6 +31,7 @@ export default function Home() {
   );
   return (
     <>
+      <PagePreloader />
       <a href="#main" className="skip-link">
         Skip to content
       </a>

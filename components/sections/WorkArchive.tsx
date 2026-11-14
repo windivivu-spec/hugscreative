@@ -1,112 +1,120 @@
-"use client";
-import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { projects, socialProjects } from "@/data/projects";
 import {
-  projects,
-  socialProjects,
-  categories,
-  getVideoPreview,
-} from "@/data/projects";
-import { services } from "@/data/services";
-import { Arrow } from "@/components/ui/Icons";
-import VideoPreview from "@/components/ui/VideoPreview";
+  archiveHref,
+  groupProjectsByYear,
+  projectServices,
+  projectYear,
+} from "@/data/portfolio";
+import ProjectCard from "@/components/ui/ProjectCard";
+import ProjectReveal from "@/components/ui/ProjectReveal";
 
 export default function WorkArchive({
   socialOnly = false,
+  service = "all",
+  year = "all",
 }: {
   socialOnly?: boolean;
+  service?: string;
+  year?: string;
 }) {
-  const [filter, setFilter] = useState<(typeof categories)[number]>("All");
-  const collection = socialOnly ? socialProjects : projects;
+  const selected = projectServices.find((item) => item.slug === service);
+  const collection = socialOnly
+    ? socialProjects
+    : (selected?.projects ?? projects);
+  const years = groupProjectsByYear(collection);
   const visible =
-    filter === "All"
+    year === "all"
       ? collection
-      : collection.filter((p) => p.category === filter);
+      : collection.filter((p) => projectYear(p) === year);
+  const groups = groupProjectsByYear(visible);
   return (
-    <div className={`work-collection${socialOnly ? " social-collection" : ""}`}>
+    <div className="project-archive" id="archive-results">
       {!socialOnly && (
-        <div className="archive-bar">
-          <div
-            className="archive-filters"
-            role="group"
-            aria-label="Filter projects by service"
-          >
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setFilter(category)}
-                aria-pressed={filter === category}
-              >
-                {services.find((s) => s.title === category)?.shortTitle ??
-                  category}
-                <span>
-                  {String(
-                    category === "All"
-                      ? collection.length
-                      : collection.filter((p) => p.category === category)
-                          .length,
-                  ).padStart(2, "0")}
-                </span>
-              </button>
-            ))}
-          </div>
-          <Link className="text-link" href="/work/social-media">
-            Social media case studies <Arrow />
-          </Link>
-        </div>
-      )}
-      <p className="collection-count" role="status">
-        {visible.length} {visible.length === 1 ? "project" : "projects"}
-        {filter !== "All"
-          ? ` / ${filter}`
-          : socialOnly
-            ? " / Social Media Management & Channel Operations"
-            : " / Client work & visual studies"}
-      </p>
-      <div className="project-grid">
-        {visible.map((p, index) => (
+        <nav
+          className="project-archive-services"
+          aria-label="Filter projects by service"
+        >
           <Link
-            key={p.id}
-            className={`archive-card glow-card${!p.demo ? " client-card" : ""}`}
-            href={`/work/${p.id}`}
+            href={archiveHref()}
+            aria-current={!selected ? "page" : undefined}
           >
-            <div
-              className={`archive-image${p.videos?.length ? " has-video" : ""}`}
-            >
-              <Image
-                src={p.image}
-                alt={p.alt}
-                fill
-                loading={index === 0 ? "eager" : "lazy"}
-                sizes="(max-width: 700px) 90vw, (max-width: 1000px) 45vw, 30vw"
-                style={{ objectFit: p.fit ?? "cover" }}
-              />
-              {p.videos?.[0] && getVideoPreview(p.videos[0]) && (
-                <VideoPreview src={getVideoPreview(p.videos[0])!} />
-              )}
-              {p.demo && <span className="project-demo-tag">VISUAL STUDY</span>}
-              <span className="project-open">
-                <Arrow />
-              </span>
-            </div>
-            <div className="archive-meta">
-              <h2>{p.name}</h2>
-              <span aria-hidden="true">↗</span>
-              <p>{p.demo ? p.category : `${p.industry} | ${p.direction}`}</p>
-            </div>
+            All projects <span>{projects.length}</span>
           </Link>
-        ))}
+          {projectServices.map((item) => (
+            <Link
+              key={item.slug}
+              href={archiveHref(item.slug)}
+              aria-current={service === item.slug ? "page" : undefined}
+            >
+              {item.shortTitle} <span>{item.projects.length}</span>
+            </Link>
+          ))}
+        </nav>
+      )}
+      <div className="project-archive-tools">
+        <nav aria-label="Filter projects by year">
+          {socialOnly ? (
+            <span className="eyebrow">BY YEAR</span>
+          ) : (
+            <>
+              <Link
+                href={archiveHref(service)}
+                aria-current={year === "all" ? "page" : undefined}
+              >
+                All years
+              </Link>
+              {years.map((group) => (
+                <Link
+                  key={group.year}
+                  href={archiveHref(service, group.year)}
+                  aria-current={year === group.year ? "page" : undefined}
+                >
+                  {group.year}
+                </Link>
+              ))}
+            </>
+          )}
+        </nav>
+        <p role="status">
+          {visible.length} {visible.length === 1 ? "project" : "projects"}{" "}
+          <span>
+            /{" "}
+            {selected?.shortTitle ??
+              (socialOnly ? "Social Media" : "All disciplines")}
+          </span>
+        </p>
       </div>
+      <ProjectReveal resetKey={`${service}-${year}`}>
+        {groups.map((group) => (
+          <section
+            className="project-year-group"
+            key={`${service}-${group.year}`}
+            aria-labelledby={`year-${group.year}`}
+          >
+            <header className="project-year-heading" data-reveal>
+              <h2 id={`year-${group.year}`}>
+                {group.year}
+                <span className="heading-period">.</span>
+              </h2>
+              <span>
+                {String(group.projects.length).padStart(2, "0")} PROJECTS
+              </span>
+            </header>
+            <div className="project-archive-grid">
+              {group.projects.map((project, index) => (
+                <ProjectCard key={project.id} project={project} index={index} />
+              ))}
+            </div>
+          </section>
+        ))}
+      </ProjectReveal>
       {!visible.length && (
         <div className="work-empty">
-          <h2>Let’s capture your next event.</h2>
-          <p>
-            Event photography is coordinated from Da Nang. Share your city,
-            date, and brief to confirm coverage and discuss the right scope.
-          </p>
-          <Link className="glass-button" href="/#services">
-            Explore event photography <Arrow />
+          <h2>No projects in this selection.</h2>
+          <p>Try another year or explore the full archive.</p>
+          <Link href={archiveHref(service)} className="text-link">
+            View all years
           </Link>
         </div>
       )}

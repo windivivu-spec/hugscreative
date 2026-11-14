@@ -1,10 +1,12 @@
 "use client";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
-import type { Service } from "@/data/services";
+import type { ServiceVisual } from "@/data/service-visuals";
+import { Arrow } from "./Icons";
 export type MediaSelection = {
-  media: Service["media"][number];
+  media: ServiceVisual;
   origin: DOMRect;
   ratio: number;
   label: string;
@@ -24,7 +26,7 @@ export default function ServiceMediaViewer({
   const closing = useRef(false);
   const opening = useRef<gsap.core.Tween | null>(null);
   const exit = useRef<gsap.core.Timeline | null>(null);
-  const video = selection.media.preview?.replace("-preview", "");
+  const video = selection.media.videoSrc;
   useLayoutEffect(() => {
     const d = dialog.current!,
       f = frame.current!;
@@ -147,62 +149,84 @@ export default function ServiceMediaViewer({
         Close <span aria-hidden="true">×</span>
       </button>
       <div
-        ref={frame}
-        className="viewer-frame"
-        style={{
-          width: `min(88vw, 1100px, calc(78vh * ${mediaRatio}))`,
-          aspectRatio: mediaRatio,
-        }}
+        className="viewer-content"
+        style={{ "--viewer-ratio": mediaRatio } as CSSProperties}
       >
-        <img
-          className={
-            video && videoReady
-              ? "viewer-placeholder is-hidden"
-              : "viewer-placeholder"
-          }
-          src={selection.thumbnail || selection.media.image}
-          alt=""
-          aria-hidden="true"
-        />
-        {video ? (
-          <video
-            className={videoReady ? "viewer-video is-visible" : "viewer-video"}
-            controls
-            playsInline
-            autoPlay
-            preload="auto"
-            poster={selection.media.image}
-            aria-label={selection.label}
-            onLoadedMetadata={(event) => {
-              const v = event.currentTarget;
-              if (v.videoWidth && v.videoHeight)
-                setMediaRatio(v.videoWidth / v.videoHeight);
-            }}
-            onLoadedData={() => setVideoReady(true)}
-            onError={() => setVideoReady(true)}
-            onPlaying={(event) => {
-              const v = event.currentTarget;
-              if ("requestVideoFrameCallback" in v)
-                v.requestVideoFrameCallback(() => {
-                  if (v.isConnected) setVideoReady(true);
-                });
-              else setVideoReady(true);
-            }}
-          >
-            <source
-              src={video}
-              type={video.endsWith(".webm") ? "video/webm" : "video/mp4"}
-            />
-          </video>
-        ) : (
-          <Image
-            src={selection.media.image!}
-            alt={selection.label}
-            fill
-            sizes="88vw"
-            style={{ objectFit: "contain" }}
+        <div
+          ref={frame}
+          className="viewer-frame"
+          style={{ aspectRatio: mediaRatio }}
+        >
+          <div className="viewer-project">
+            <div>
+              <p>PROJECT</p>
+              <h2>{selection.media.projectName}</h2>
+            </div>
+            {selection.media.projectId && <Link
+              href={`/work/${selection.media.projectId}`}
+              className="glass-button viewer-project-link"
+              aria-label={`View project details — ${selection.media.projectName}`}
+              onNavigate={() => {
+                dialog.current?.querySelector("video")?.pause();
+                onClose();
+              }}
+            >
+              <span>View project details</span>
+              <Arrow />
+            </Link>}
+          </div>
+          <img
+            className={
+              video && videoReady
+                ? "viewer-placeholder is-hidden"
+                : "viewer-placeholder"
+            }
+            src={selection.thumbnail || selection.media.image}
+            alt=""
+            aria-hidden="true"
           />
-        )}
+          {video ? (
+            <video
+              className={
+                videoReady ? "viewer-video is-visible" : "viewer-video"
+              }
+              controls
+              playsInline
+              autoPlay
+              preload="auto"
+              poster={selection.media.image}
+              aria-label={selection.label}
+              onLoadedMetadata={(event) => {
+                const v = event.currentTarget;
+                if (v.videoWidth && v.videoHeight)
+                  setMediaRatio(v.videoWidth / v.videoHeight);
+              }}
+              onLoadedData={() => setVideoReady(true)}
+              onError={() => setVideoReady(true)}
+              onPlaying={(event) => {
+                const v = event.currentTarget;
+                if ("requestVideoFrameCallback" in v)
+                  v.requestVideoFrameCallback(() => {
+                    if (v.isConnected) setVideoReady(true);
+                  });
+                else setVideoReady(true);
+              }}
+            >
+              <source
+                src={video}
+                type={video.endsWith(".webm") ? "video/webm" : "video/mp4"}
+              />
+            </video>
+          ) : (
+            <Image
+              src={selection.media.image!}
+              alt={selection.label}
+              fill
+              sizes="88vw"
+              style={{ objectFit: "contain" }}
+            />
+          )}
+        </div>
       </div>
     </dialog>
   );

@@ -45,7 +45,7 @@ export default function FloatingMediaCard({
           src={media.image}
           alt={media.alt || ""}
           fill
-          sizes="(max-width: 700px) 40vw, 23vw"
+          sizes="(max-width: 500px) 68vw, (max-width: 1000px) 340px, 23vw"
           onLoad={(event) => {
             const { naturalWidth, naturalHeight } = event.currentTarget;
             if (naturalWidth && naturalHeight)
@@ -103,8 +103,8 @@ export default function FloatingMediaCard({
               <Image
                 src={
                   media.kind === "phone"
-                    ? "/media/pack/a1.webp"
-                    : "/media/pack/a2.webp"
+                    ? "/media/Picture%20/raw%20nest.png"
+                    : "/media/Picture%20/Vinamilk/1.png"
                 }
                 alt=""
                 fill
@@ -130,7 +130,11 @@ export default function FloatingMediaCard({
         </>
       )}
       {media.preview && (
-        <VideoPreview src={media.preview} enabled={hovered && active} playOnHover />
+        <VideoPreview
+          src={media.preview}
+          enabled={hovered && active}
+          playOnHover
+        />
       )}
     </button>
   );

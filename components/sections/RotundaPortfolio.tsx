@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import {
-  selectedProjects as projects,
+  selectedProjects,
   getVideoPreview,
   type Project,
 } from "@/data/projects";
@@ -12,10 +12,8 @@ import { Arrow } from "@/components/ui/Icons";
 import SectionLabel from "@/components/ui/SectionLabel";
 import VideoPreview from "@/components/ui/VideoPreview";
 import GlassButton from "@/components/ui/GlassButton";
+import { services } from "@/data/services";
 export type OpenProject = (project: Project, rect?: DOMRect) => void;
-const wrap = (n: number) =>
-  ((n % projects.length) + projects.length) % projects.length;
-const angle = 360 / projects.length;
 export default function RotundaPortfolio({
   onOpen,
   paused,
@@ -23,6 +21,18 @@ export default function RotundaPortfolio({
   onOpen: OpenProject;
   paused: boolean;
 }) {
+  const [mobile, setMobile] = useState(false);
+  const projects = mobile ? selectedProjects.slice(0, 7) : selectedProjects;
+  const count = projects.length;
+  const wrap = (n: number) => ((n % count) + count) % count;
+  const angle = 360 / count;
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 767px)");
+    const update = () => setMobile(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
   const stage = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLElement>(null);
   const rotor = useRef<HTMLDivElement>(null);
@@ -43,6 +53,8 @@ export default function RotundaPortfolio({
     card: -1,
     visible: false,
     reduced: false,
+    compact: false,
+    scrollOrbit: false,
     paused: false,
     active: 0,
     autoPaused: false,
@@ -56,7 +68,17 @@ export default function RotundaPortfolio({
     const s = state.current;
     const trackNode = track.current;
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compact = window.matchMedia("(max-width: 1000px)");
+    const scrollOrbit = window.matchMedia(
+      "(min-width: 1001px) and (min-height: 700px)",
+    );
     s.reduced = media.matches;
+    s.compact = compact.matches;
+    s.scrollOrbit = scrollOrbit.matches;
+    if (s.compact) {
+      s.target = Math.round(s.current);
+      s.velocity = 0;
+    }
     function paint() {
       if (rotor.current)
         rotor.current.style.transform = `rotateY(${-s.current * angle}deg)`;
@@ -74,7 +96,8 @@ export default function RotundaPortfolio({
           const relative = ((i - s.current) * Math.PI * 2) / projects.length;
           const depth = (Math.cos(relative) + 1) / 2;
           card.style.setProperty("--depth", String(depth));
-          card.style.filter = `brightness(${0.36 + depth * 0.64})`;
+          card.style.filter = `brightness(${0.22 + depth * 0.78})`;
+          card.style.opacity = String(0.3 + depth * 0.7);
         });
     }
     let last = 0;
@@ -83,7 +106,7 @@ export default function RotundaPortfolio({
       if (!s.visible || s.paused || document.hidden) return;
       const dt = Math.min(2, (now - last) / 16.667 || 1);
       last = now;
-      const auto = !s.reduced && !s.autoPaused && !s.down;
+      const auto = !s.reduced && !s.compact && !s.autoPaused && !s.down;
       if (auto) s.target += 0.0018 * dt;
       if (!s.down) {
         if (s.reduced) {
@@ -116,11 +139,22 @@ export default function RotundaPortfolio({
     };
     const change = () => {
       s.reduced = media.matches;
-      trackNode?.classList.toggle("is-scroll-orbit", !s.reduced);
+      s.compact = compact.matches;
+      s.scrollOrbit = scrollOrbit.matches;
+      if (s.compact) {
+        s.target = Math.round(s.current);
+        s.velocity = 0;
+      }
+      trackNode?.classList.toggle(
+        "is-scroll-orbit",
+        !s.reduced && s.scrollOrbit,
+      );
       syncScroll();
       wake.current();
     };
     media.addEventListener("change", change);
+    compact.addEventListener("change", change);
+    scrollOrbit.addEventListener("change", change);
     const observer = new IntersectionObserver(
       ([e]) => {
         s.visible = e.isIntersecting;
@@ -135,7 +169,7 @@ export default function RotundaPortfolio({
     if (stage.current) observer.observe(stage.current);
     function syncScroll() {
       const node = track.current;
-      if (!node || s.reduced) return;
+      if (!node || s.reduced || !s.scrollOrbit) return;
       const travel = Math.max(1, node.offsetHeight - window.innerHeight);
       const progress = Math.max(
         0,
@@ -149,7 +183,7 @@ export default function RotundaPortfolio({
         wake.current();
       }
     }
-    trackNode?.classList.toggle("is-scroll-orbit", !s.reduced);
+    trackNode?.classList.toggle("is-scroll-orbit", !s.reduced && s.scrollOrbit);
     syncScroll();
     window.addEventListener("scroll", syncScroll, { passive: true });
     window.addEventListener("resize", syncScroll);
@@ -179,13 +213,15 @@ export default function RotundaPortfolio({
       cancelAnimationFrame(s.frame);
       clearTimeout(wheelSnapTimer.current);
       media.removeEventListener("change", change);
+      compact.removeEventListener("change", change);
+      scrollOrbit.removeEventListener("change", change);
       window.removeEventListener("scroll", syncScroll);
       window.removeEventListener("resize", syncScroll);
       document.removeEventListener("visibilitychange", resume);
       trackNode?.classList.remove("is-scroll-orbit");
       node?.removeEventListener("wheel", wheel);
     };
-  }, []);
+  }, [count, angle]);
   useEffect(() => {
     const s = state.current;
     if (s.paused !== paused) {
@@ -214,18 +250,24 @@ export default function RotundaPortfolio({
     s.paused = true;
     onOpen(project, rect);
   }
+  function pauseAuto() {
+    state.current.autoPaused = true;
+    setAutoPaused(true);
+  }
   function move(delta: number) {
     const s = state.current;
     if (s.paused) return;
+    pauseAuto();
     s.target = Math.round(s.target) + delta;
     wake.current();
   }
   function down(e: ReactPointerEvent<HTMLDivElement>) {
     if (e.button !== 0 || paused) return;
     const s = state.current;
+    pauseAuto();
     s.down = true;
     s.start = s.last = e.clientX;
-    s.time = performance.now();
+    s.time = e.timeStamp;
     s.distance = 0;
     s.velocity = 0;
     s.target = s.current;
@@ -241,13 +283,13 @@ export default function RotundaPortfolio({
     const s = state.current;
     if (!s.down) return;
     const dx = e.clientX - s.last;
-    const dt = Math.max(8, performance.now() - s.time);
+    const dt = Math.max(8, e.timeStamp - s.time);
     s.current -= dx / (window.innerWidth < 700 ? 150 : 240);
     s.target = s.current;
     s.velocity = (-dx / dt) * 0.09;
     s.distance += Math.abs(dx);
     s.last = e.clientX;
-    s.time = performance.now();
+    s.time = e.timeStamp;
     wake.current();
   }
   function up(e: ReactPointerEvent<HTMLDivElement>) {
@@ -299,7 +341,9 @@ export default function RotundaPortfolio({
           </div>
           <div className="rotunda-heading-action">
             <p>Client collaborations &amp; creative studies.</p>
-            <GlassButton href="/work" primary>Explore all work</GlassButton>
+            <GlassButton href="/work" primary>
+              Explore all work
+            </GlassButton>
           </div>
         </div>
         <div
@@ -309,6 +353,7 @@ export default function RotundaPortfolio({
           role="region"
           aria-roledescription="carousel"
           aria-label="Selected projects. Drag horizontally, or use left and right arrow keys."
+          onFocusCapture={pauseAuto}
           onKeyDown={(e) => {
             if (e.target !== e.currentTarget) return;
             if (e.key === "ArrowRight") {
@@ -371,7 +416,7 @@ export default function RotundaPortfolio({
                       src={project.image}
                       alt={project.alt}
                       fill
-                      sizes="(max-width: 700px) 65vw, 430px"
+                      sizes="(max-width: 767px) 52vw, 430px"
                       draggable={false}
                       style={{
                         objectFit: project.fit ?? "cover",
@@ -382,19 +427,19 @@ export default function RotundaPortfolio({
                       getVideoPreview(project.videos[0]) && (
                         <VideoPreview
                           src={getVideoPreview(project.videos[0])!}
-                          enabled={
-                            !paused &&
-                            Math.abs(
-                              wrap(
-                                i - active + Math.floor(projects.length / 2),
-                              ) - Math.floor(projects.length / 2),
-                            ) <= 1
-                          }
+                          enabled={!paused && i === active}
                           renderAsCanvas
                         />
                       )}
                     <div className="ring-card-overlay">
-                      <span>{project.name}</span>
+                      <span className="ring-card-caption">
+                        <strong>{project.name}</strong>
+                        <span>
+                          {services.find(
+                            (service) => service.title === project.category,
+                          )?.shortTitle ?? project.category}
+                        </span>
+                      </span>
                       <Arrow />
                     </div>
                     <span className="ring-card-number">
@@ -409,9 +454,7 @@ export default function RotundaPortfolio({
         </div>
         <div className="orbit-info">
           <div className="orbit-project" key={p.id}>
-            <span className="eyebrow muted">
-              {p.demo ? p.category : p.industry}
-            </span>
+            <span className="eyebrow muted">{p.category}</span>
             <button
               onClick={() =>
                 openCard(
@@ -429,9 +472,12 @@ export default function RotundaPortfolio({
           <div className="orbit-instructions">
             <span className="drag-symbol">↔</span>
             <span>
-              SCROLL TO ROTATE 180°
+              <span className="orbit-desktop-hint">
+                DRAG OR SCROLL TO EXPLORE
+              </span>
+              <span className="orbit-mobile-hint">SWIPE OR USE THE ARROWS</span>
               <br />
-              <span className="muted">CLICK TO DISCOVER</span>
+              <span className="muted">SELECT A PROJECT TO DISCOVER</span>
             </span>
           </div>
           <div className="orbit-controls">

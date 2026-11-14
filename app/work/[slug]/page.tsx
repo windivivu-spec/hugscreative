@@ -2,12 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import {
-  projects,
-  socialProjects,
-  mediaProjects,
-  commercialProjects,
-} from "@/data/projects";
+import { projects } from "@/data/projects";
+import { projectLabel, projectYear } from "@/data/portfolio";
+import { services } from "@/data/services";
 import CaseStudyContact from "@/components/ui/CaseStudyContact";
 import ProjectVideos from "@/components/ui/ProjectVideos";
 import {
@@ -29,7 +26,7 @@ export async function generateMetadata({
   const p = projects.find((p) => p.id === slug);
   if (!p) return { title: "Project not found | HUGs Creative" };
   return {
-    title: `${p.name} — ${p.demo ? "Visual study" : p.industry} | HUGs Creative`,
+    title: `${p.name} — ${p.demo ? projectLabel(p) : p.industry} | HUGs Creative`,
     description: p.description,
     openGraph: {
       title: `${p.name} | HUGs Creative`,
@@ -46,44 +43,42 @@ export default async function CaseStudy({
   const { slug } = await params;
   const p = projects.find((p) => p.id === slug);
   if (!p) notFound();
-  const collection = p.demo
-    ? mediaProjects
-    : p.projectType === "commercial"
-      ? commercialProjects
-      : socialProjects;
+  const collection = projects.filter(
+    (project) => project.category === p.category,
+  );
   const next = collection[(collection.indexOf(p) + 1) % collection.length];
-  const back =
-    p.demo || p.projectType === "commercial" ? "/work" : "/work/social-media";
+  const service = services.find((service) => service.title === p.category)!;
+  const back = `/work#${service.slug}`;
   return (
     <main className={`case-page${p.demo ? "" : " client-case"}`}>
       <header className="detail-toolbar">
         <Link href="/" className="wordmark" aria-label="HUGs Creative home">
           <img
-            src="/hugs%20creative%20logo.png?v=2"
+            src="/hugs%20creative%20logo.png?v=3"
             alt="HUGs Creative"
             width="1322"
             height="490"
           />
         </Link>
         <Link className="text-link" href={back}>
-          <Arrow direction="left" />{" "}
-          {p.demo || p.projectType === "commercial"
-            ? "All work"
-            : "Social media projects"}
+          <Arrow direction="left" /> All projects
         </Link>
       </header>
       <div className="case-page-title">
         <Link className="eyebrow case-category" href={back}>
-          {p.demo
-            ? "VISUAL STUDY / MEDIA PACK"
-            : p.projectType === "commercial"
-              ? "COMMERCIAL VIDEO"
-              : "SOCIAL MEDIA MANAGEMENT & CHANNEL OPERATIONS"}
+          {service.title.toUpperCase()} / {projectYear(p)}
         </Link>
         <h1>{p.name}</h1>
-        <p className="project-summary">
-          {p.industry} <span aria-hidden="true">|</span> {p.direction}
-        </p>
+        <div className="case-title-meta">
+          <p className="project-summary">
+            {p.industry} <span aria-hidden="true">|</span> {p.direction}
+          </p>
+          {p.projectType === "website" && p.references?.map((source) => (
+            <a key={source.url} href={source.url} target="_blank" rel="noreferrer" className="glass-button case-website-link">
+              {source.title} <Arrow />
+            </a>
+          ))}
+        </div>
       </div>
       {!p.demo && <ProjectStory project={p} />}
       {p.projectType === "commercial" ? (
@@ -91,7 +86,18 @@ export default async function CaseStudy({
           <ProjectVideos videos={p.videos} />
         </div>
       ) : p.demo ? (
-        <div className={`detail-feature${p.demo ? "" : " showcase-feature"}`}>
+        <div
+          className={`detail-feature${p.demo ? "" : " showcase-feature"}`}
+          style={
+            p.imageAspectRatio
+              ? {
+                  aspectRatio: p.imageAspectRatio,
+                  height: "auto",
+                  minHeight: 0,
+                }
+              : undefined
+          }
+        >
           <Image
             src={p.image}
             alt={p.alt}
@@ -121,8 +127,11 @@ export default async function CaseStudy({
       <ProjectGallery project={p} />
       {p.demo && (
         <p className="case-disclosure">
-          Visuals supplied in the media pack. Project details and credits are
-          pending confirmation.
+          {p.projectType === "photography"
+            ? "A selection from the supplied event photography portfolio. Event details and credits are pending confirmation."
+            : p.projectType === "website"
+              ? "A website concept from the supplied portfolio. Project scope and credits are pending confirmation."
+              : "Visuals supplied in the media pack. Project details and credits are pending confirmation."}
         </p>
       )}
       <div className="case-cta">
@@ -135,10 +144,8 @@ export default async function CaseStudy({
       </div>
       <footer className="detail-navigation">
         <Link className="text-link" href={back}>
-          <Arrow direction="left" />{" "}
-          {p.demo || p.projectType === "commercial"
-            ? "All work"
-            : "All social projects"}
+          <Arrow direction="left" /> All {service.shortTitle.toLowerCase()}{" "}
+          projects
         </Link>
         <Link className="text-link" href={`/work/${next.id}`}>
           Next project — {next.name} <Arrow />

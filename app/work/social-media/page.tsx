@@ -16,7 +16,7 @@ export default function SocialMediaPage() {
       <header className="detail-toolbar">
         <Link href="/" className="wordmark" aria-label="HUGs Creative home">
           <img
-            src="/hugs%20creative%20logo.png?v=2"
+            src="/hugs%20creative%20logo.png?v=3"
             alt="HUGs Creative"
             width="1322"
             height="490"
