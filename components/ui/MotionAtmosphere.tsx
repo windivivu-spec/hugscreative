@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { markSubpageVisit } from "@/lib/preloaderSession";
 
 // Animate only free-flow content. Pinned scenes own their own timelines.
 const revealTargets = [
@@ -40,6 +41,7 @@ const lightTargets =
 export default function MotionAtmosphere() {
   const pathname = usePathname();
   useEffect(() => {
+    if (pathname && pathname !== "/") markSubpageVisit();
     gsap.registerPlugin(ScrollTrigger);
     const mm = gsap.matchMedia();
     mm.add(

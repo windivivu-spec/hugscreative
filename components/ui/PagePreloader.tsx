@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import gsap from "gsap";
 import { WelcomeCube, CUBE_SERVICES } from "@/components/welcome-cube/WelcomeCube";
 import {
@@ -8,6 +8,7 @@ import {
   CUBE_BLOOM_START,
   CUBE_SPIN_END,
 } from "@/components/welcome-cube/cubeMotion";
+import { shouldSkipPreloader } from "@/lib/preloaderSession";
 
 const CUBE_IMAGES = CUBE_SERVICES.map((service) => service.id);
 const HERO_POSTER = "/media/previews/hero-poster.jpg";
@@ -17,14 +18,26 @@ const LOADING_FAILSAFE_MS = 8000;
 // covered without a viewport-dependent React render or moving the cube.
 const GRID_CELLS = 240;
 
+const emptySubscribe = () => () => {};
+
 export default function PagePreloader({ onStart }: { onStart?: () => void }) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const skipOnMount = useSyncExternalStore(
+    emptySubscribe,
+    shouldSkipPreloader,
+    () => false,
+  );
   const [done, setDone] = useState(false);
 
   useLayoutEffect(() => {
+    const html = document.documentElement;
+    if (skipOnMount) {
+      html.dataset.preloader = "done";
+      onStart?.();
+      return;
+    }
     const root = rootRef.current;
     if (!root) return;
-    const html = document.documentElement;
     const previousOverflow = document.body.style.overflow;
     html.dataset.preloader = "loading";
     document.body.style.overflow = "hidden";
@@ -248,9 +261,9 @@ export default function PagePreloader({ onStart }: { onStart?: () => void }) {
       document.body.style.overflow = previousOverflow;
       if (html.dataset.preloader !== "done") delete html.dataset.preloader;
     };
-  }, [onStart]);
+  }, [onStart, skipOnMount]);
 
-  if (done) return null;
+  if (done || skipOnMount) return null;
 
   return (
     <div
