@@ -1,16 +1,15 @@
 import { createHash } from "node:crypto";
 import { validateBrief, formatBrief } from "@/lib/brief";
 export const runtime = "nodejs";
-function configured() {
-  return !!(
-    process.env.RESEND_API_KEY &&
-    process.env.CONTACT_TO &&
-    process.env.CONTACT_FROM
-  );
+function resendConfigured() {
+  return !!(process.env.RESEND_API_KEY && process.env.CONTACT_TO && process.env.CONTACT_FROM);
+}
+function googleConfigured() {
+  return process.env.GOOGLE_FORM_ENABLED === "true" && !!process.env.BREVO_API_KEY;
 }
 export async function GET() {
   return Response.json(
-    { available: configured() },
+    { available: googleConfigured() || resendConfigured() },
     { headers: { "Cache-Control": "no-store" } },
   );
 }
@@ -78,12 +77,9 @@ export async function POST(request: Request) {
       { error: "Please check the highlighted fields.", errors },
       { status: 422 },
     );
-  if (!configured())
+  if (!googleConfigured() && !resendConfigured())
     return Response.json(
-      {
-        error:
-          "Online sending is not available yet. Download your brief to keep a copy.",
-      },
+      { error: "Online sending is unavailable. Please contact us by email." },
       { status: 503 },
     );
   const now = Date.now();
@@ -100,43 +96,97 @@ export async function POST(request: Request) {
     );
   entry.count++;
   attempts.set(key, entry);
-  const idempotency = createHash("sha256")
-    .update(JSON.stringify(value))
-    .digest("hex");
+  if (!googleConfigured()) {
+    try {
+      const idempotency = createHash("sha256").update(JSON.stringify(value)).digest("hex");
+      const response = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+          "Content-Type": "application/json",
+          "Idempotency-Key": `hugs-${idempotency}`,
+        },
+        body: JSON.stringify({
+          from: process.env.CONTACT_FROM,
+          to: [process.env.CONTACT_TO],
+          reply_to: value.email,
+          subject: `HUGs Creative — Project inquiry from ${value.name.replace(/[\r\n]/g, " ")}`,
+          text: formatBrief(value),
+        }),
+        signal: AbortSignal.timeout(15000),
+      });
+      if (!response.ok || typeof (await response.json()).id !== "string")
+        throw new Error("Unconfirmed provider response");
+      return Response.json({ sent: true });
+    } catch {
+      return Response.json(
+        { error: "We couldn’t confirm sending. Please try again or contact us by email." },
+        { status: 502 },
+      );
+    }
+  }
+  const fields = new URLSearchParams({
+    "entry.1586598306": value.name,
+    "entry.761418165": value.email,
+    "entry.1254574661": value.jobTitle,
+    "entry.259864300": value.market,
+    "entry.998473899": value.company,
+    "entry.1901273191": value.keywords,
+    "entry.884494476": value.message,
+    "entry.477626052": value.budget,
+  });
+  const serviceLabels: Record<string, string> = {
+    "Graphic Design": "Graphic Design",
+    "Illustration Design": "Illustration Design",
+    "Website Design": "Web Design",
+    "Video Editing & Motion Graphics": "Video Motion",
+    "Event Photography": "Event Photographic",
+    "Social Media Management": "Social Media Management",
+    "Not sure yet": "Khác",
+  };
+  for (const service of value.services)
+    fields.append("entry.563305243", serviceLabels[service]);
   try {
-    const response = await fetch("https://api.resend.com/emails", {
+    const response = await fetch("https://docs.google.com/forms/d/e/1FAIpQLSeqba_P8qYsmaWY0p9XIluwdzGWbXWXbvtiK5j3f0PRJUdwNA/formResponse?hl=en", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-        "Idempotency-Key": `hugs-${idempotency}`,
-      },
-      body: JSON.stringify({
-        from: process.env.CONTACT_FROM,
-        to: [process.env.CONTACT_TO],
-        reply_to: value.email,
-        subject: `HUGs Creative — Project inquiry from ${value.name.replace(/[\r\n]/g, " ")}`,
-        text: formatBrief(value),
-      }),
+      body: fields,
       signal: AbortSignal.timeout(15000),
     });
-    if (!response.ok)
+    const confirmation = await response.text();
+    if (!response.ok || !response.url.includes("/formResponse") ||
+      !confirmation.includes("Your response has been recorded"))
       return Response.json(
         {
           error:
-            "We couldn’t send your brief. Please try again or download a copy.",
+            "We couldn’t send your brief. Please try again or contact us by email.",
         },
         { status: 502 },
       );
-    const result = await response.json();
-    if (typeof result.id !== "string")
-      throw new Error("Invalid provider response");
+    const brevoKey = process.env.BREVO_API_KEY;
+    if (brevoKey) {
+      try {
+        const sent = await fetch("https://api.brevo.com/v3/smtp/email", {
+          method: "POST",
+          headers: { "api-key": brevoKey, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sender: { name: "HUGs Creative", email: "contact@hugscreative.com" },
+            to: [{ email: value.email, name: value.name }],
+            subject: "Thanks for reaching out to HUGs Creative",
+            textContent: `Hi ${value.name},\n\nThanks for sharing your project with us. We've received your brief and will review the details. A member of our team will be in touch at this email address.\n\nBest,\nHUGs Creative\ncontact@hugscreative.com`,
+          }),
+          signal: AbortSignal.timeout(15000),
+        });
+        if (!sent.ok) throw new Error(`Brevo rejected email: ${sent.status}`);
+      } catch (error) {
+        console.error("Contact email delivery failed", error);
+      }
+    }
     return Response.json({ sent: true });
   } catch {
     return Response.json(
       {
         error:
-          "We couldn’t confirm sending. Please try again; duplicate protection is enabled.",
+          "We couldn’t confirm sending. Please try again or contact us by email.",
       },
       { status: 502 },
     );

@@ -38,8 +38,8 @@ export default function Hero() {
     >
       <div className="hero-image">
         <Image
-          src="/media/previews/shokz-opendots-2.jpg"
-          alt="Shokz OpenDots 2 in a cinematic product film"
+          src="/media/previews/hero-poster.jpg"
+          alt="HUGs Creative showreel"
           fill
           priority
           sizes="100vw"

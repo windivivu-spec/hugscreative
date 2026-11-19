@@ -9,38 +9,34 @@ export default function Privacy() {
       <Link className="wordmark" href="/">
         <img src="/hugs%20creative%20logo.png?v=3" alt="HUGs Creative" width="1322" height="490" />
       </Link>
-      <span className="eyebrow">WEBSITE PREVIEW / PRIVACY NOTICE</span>
+      <span className="eyebrow">PRIVACY NOTICE</span>
       <h1>
         Your ideas.
         <br />
         Your <em>information.</em>
       </h1>
       <p>
-        This notice explains the current website preview. Business contact
-        details and the final publication policy will be added before launch.
+        This notice explains how this website handles project inquiries.
       </p>
-      <h2>Saving a brief</h2>
+      <h2>Sending by email</h2>
       <p>
-        The form keeps your entries in the open page. “Save a copy” creates a
-        text file on your device. It does not send the brief, save it to a
-        database, or subscribe you to marketing.
+        “Open email draft” passes your brief to your email app. You can review
+        the draft before sending it to HUGs Creative.
       </p>
       <h2>Sending a brief</h2>
       <p>
         When online sending is configured and you choose “Send project brief”,
-        your name, email, company, selected services, message, budget and
-        deadline are sent to HUGs Creative through its email delivery provider,
-        Resend. These details are used to review and respond to the inquiry. The
+        your contact information, selected services and any optional answers you
+        provide, such as your job title or target market, are stored in Google
+        Forms. Brevo sends an acknowledgement by email. When the alternative email delivery configuration is in use,
+        Resend delivers the inquiry. These details are used to review and respond to the inquiry. The
         website does not add you to a mailing list.
       </p>
       <h2>Data handling</h2>
       <p>
-        This preview has no contact database, advertising trackers or marketing
-        cookies. A temporary, hashed network identifier may be used to limit
+        A temporary, hashed network identifier may be used to limit
         repeated form requests. Hosting and email providers may maintain their
-        own operational logs. Email retention, the business contact responsible
-        for requests, and any applicable international data processing terms
-        must be confirmed for the published service.
+        own operational logs.
       </p>
       <h2>What to share</h2>
       <p>

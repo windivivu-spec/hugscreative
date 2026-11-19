@@ -7,14 +7,14 @@ Each object in `projects` is one project:
 - `id`: permanent URL slug, e.g. `kem-trang-tien`. Keep it stable when changing the title.
 - `name`: public title, using English / unaccented brand names.
 - `category`: one of the six exact names in `data/services.ts`.
-- `year`: four digits. Use an empty string for unconfirmed years; the archive displays “Undated”. `yearStatus` records confirmed, provisional or unconfirmed status.
+- `year`: four digits. Use an empty string for unconfirmed years; the archive displays “Undated”. Provisional years are displayed and remain marked in the database for owner confirmation.
 - `description`: brand / client introduction.
 - `overview`: the project brief and creative direction.
 - `direction`: short service subtitle.
 - `image`: cover URL. `gallery`: additional images, in display order. Do not repeat the cover here.
 - `videos`: full source, lightweight `previewSrc`, poster and landscape/portrait orientation.
 - `contentStatus`: `supplied` for approved/supplied copy, `draft` for copy to revise. `editorNotes` are internal and are not shown on the website.
-- `references`: optional source links displayed below the introduction.
+- `references`: optional source links displayed below the introduction. Website links are shown only when `contentStatus` is `supplied`; confirm the links and content before setting that status.
 
 Use `/media/...` paths, without `public`. Spaces and Vietnamese characters must be URL-encoded. The current `Picture ` folder has a trailing space, so its URL starts `/media/Picture%20/`. Original source folders are preserved.
 

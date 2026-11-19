@@ -27,10 +27,10 @@ export async function generateMetadata({
   if (!p) return { title: "Project not found | HUGs Creative" };
   return {
     title: `${p.name} — ${p.demo ? projectLabel(p) : p.industry} | HUGs Creative`,
-    description: p.description,
+    description: p.contentStatus === "draft" ? `${p.name} — ${p.category} | HUGs Creative` : p.description,
     openGraph: {
       title: `${p.name} | HUGs Creative`,
-      description: `${p.industry} | ${p.direction}`,
+      description: p.contentStatus === "draft" ? p.category : `${p.industry} | ${p.direction}`,
       images: [{ url: p.image, alt: p.alt }],
     },
   };
@@ -66,13 +66,13 @@ export default async function CaseStudy({
       </header>
       <div className="case-page-title">
         <Link className="eyebrow case-category" href={back}>
-          {service.title.toUpperCase()} / {projectYear(p)}
+          {service.title.toUpperCase()}{p.year && ` / ${projectYear(p)}`}
         </Link>
         <h1>{p.name}</h1>
         <div className="case-title-meta">
-          <p className="project-summary">
+          {p.contentStatus !== "draft" && <p className="project-summary">
             {p.industry} <span aria-hidden="true">|</span> {p.direction}
-          </p>
+          </p>}
           {p.projectType === "website" && p.references?.map((source) => (
             <a key={source.url} href={source.url} target="_blank" rel="noreferrer" className="glass-button case-website-link">
               {source.title} <Arrow />
@@ -92,6 +92,7 @@ export default async function CaseStudy({
             p.imageAspectRatio
               ? {
                   aspectRatio: p.imageAspectRatio,
+                  width: `min(100%, 960px, calc(65svh * ${p.imageAspectRatio}))`,
                   height: "auto",
                   minHeight: 0,
                 }
@@ -125,15 +126,6 @@ export default async function CaseStudy({
       {p.demo && <ProjectStory project={p} />}
       {p.projectType !== "commercial" && <ProjectVideos videos={p.videos} />}
       <ProjectGallery project={p} />
-      {p.demo && (
-        <p className="case-disclosure">
-          {p.projectType === "photography"
-            ? "A selection from the supplied event photography portfolio. Event details and credits are pending confirmation."
-            : p.projectType === "website"
-              ? "A website concept from the supplied portfolio. Project scope and credits are pending confirmation."
-              : "Visuals supplied in the media pack. Project details and credits are pending confirmation."}
-        </p>
-      )}
       <div className="case-cta">
         <h2>
           A similar idea

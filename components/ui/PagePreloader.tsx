@@ -2,27 +2,17 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { WelcomeCube } from "@/components/welcome-cube/WelcomeCube";
+import { WelcomeCube, CUBE_SERVICES } from "@/components/welcome-cube/WelcomeCube";
 import {
   addCubeSpin,
   CUBE_BLOOM_START,
   CUBE_SPIN_END,
 } from "@/components/welcome-cube/cubeMotion";
 
-// Curated independently of the homepage portfolio; change these files to update the cube.
-const CUBE_IMAGES = [
-  "acb",
-  "bv-bank",
-  "dove",
-  "kem-trang-tien",
-  "kyoto",
-  "vinamilk",
-  "wafaifo",
-  "xe-tot",
-  "yen-thien-viet",
-].map((name) => `/media/previews/loading/${name}.webp`);
-const HERO_POSTER = "/media/previews/shokz-opendots-2.jpg";
+const CUBE_IMAGES = CUBE_SERVICES.map((service) => service.id);
+const HERO_POSTER = "/media/previews/hero-poster.jpg";
 const ASSET_WAIT_MS = 900;
+const LOADING_FAILSAFE_MS = 8000;
 // CSS chooses the column count. Overscan keeps the first frame and resizes
 // covered without a viewport-dependent React render or moving the cube.
 const GRID_CELLS = 240;
@@ -44,10 +34,6 @@ export default function PagePreloader() {
     let frame = 0;
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const textures = [...CUBE_IMAGES];
-    for (let i = textures.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [textures[i], textures[j]] = [textures[j], textures[i]];
-    }
 
     const complete = () => {
       if (cancelled) return;
@@ -55,6 +41,8 @@ export default function PagePreloader() {
       document.body.style.overflow = previousOverflow;
       setDone(true);
     };
+    // Never leave the site blocked if a mobile browser stalls the timeline.
+    const failsafe = window.setTimeout(complete, LOADING_FAILSAFE_MS);
 
     let timeline: gsap.core.Timeline;
     const ctx = gsap.context(() => {
@@ -103,7 +91,7 @@ export default function PagePreloader() {
 
       const revealStart = CUBE_BLOOM_START + 0.24;
       // The halo carries the landing into a bright inward dissolve. The grid
-      // opens during that dissolve, keeping the final 540° frame connected.
+      // opens during that dissolve, keeping the final cube frame connected.
       timeline
         .fromTo(
           frames,
@@ -210,13 +198,17 @@ export default function PagePreloader() {
     // preload; starting a second video and full-size image decodes caused work
     // to compete with the first animation frames.
     const images: HTMLImageElement[] = [];
-    const assets = ["/hug.png", HERO_POSTER, ...textures.slice(0, 6)].map(
+    const assets = ["/hug.png", HERO_POSTER].map(
       (src) =>
         new Promise<void>((resolve) => {
           const image = new window.Image();
           images.push(image);
           image.decoding = "async";
           image.onload = () => {
+            if (typeof image.decode !== "function") {
+              resolve();
+              return;
+            }
             void image.decode().then(
               () => resolve(),
               () => resolve(),
@@ -227,7 +219,11 @@ export default function PagePreloader() {
         }),
     );
     const timeout = window.setTimeout(start, ASSET_WAIT_MS);
-    void Promise.all(assets).then(start);
+    const fonts = document.fonts;
+    const fontLoads = fonts?.load
+      ? [fonts.load('italic 24px Retroscope'), fonts.load('24px OVSoge')]
+      : [];
+    void Promise.allSettled([...assets, ...fontLoads]).then(start);
 
     // If the preference changes during the intro, finish without more motion.
     const onMotionChange = () => {
@@ -240,6 +236,7 @@ export default function PagePreloader() {
     return () => {
       cancelled = true;
       window.clearTimeout(timeout);
+      window.clearTimeout(failsafe);
       cancelAnimationFrame(frame);
       media.removeEventListener("change", onMotionChange);
       ctx.revert();

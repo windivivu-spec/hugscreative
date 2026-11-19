@@ -40,17 +40,21 @@ export const getVideoPreview = (video: ProjectVideo): string | undefined =>
     ? undefined
     : (video.previewSrc ?? video.src.replace(/\.mp4$/, "-preview.mp4"));
 
-export const projects = database.projects as Project[];
+// Provisional years remain flagged in the database for owner review.
+export const projects = (database.projects as Project[]).map((project) => ({
+  ...project,
+  year: project.year,
+}));
 export const categories = ["All", ...serviceNames] as const;
 export const socialProjects = projects.filter(
   (p) => p.category === "Social Media Management",
 );
 const selectedIds = [
   "kyoto-sushi",
-  "shokz-opendots-2",
+  "acb-commercial",
   "kem-trang-tien",
   "chinhuei",
-  "camera-in-focus",
+  "acbs-commercial",
   "vinamilk",
   "ananas",
   "xe-tot",

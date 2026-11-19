@@ -40,12 +40,10 @@ export default function ContactFooter({
         </div>
         <div className="contact-channels">
           <span>BASED IN DA NANG, VIETNAM</span>
-          {site.contactEmail ? (
+          {site.contactEmail && (
             <a className="contact-address" href={`mailto:${site.contactEmail}`}>
               {site.contactEmail}
             </a>
-          ) : (
-            <p>Contact details coming soon. Start with a project brief.</p>
           )}
           <a href="#faq" className="text-link">
             Before we start: your questions, answered <Arrow />
@@ -68,22 +66,18 @@ export default function ContactFooter({
             </a>
           ))}
         </div>
-        <div className="footer-social">
-          {site.instagram ? (
+        {(site.instagram || site.vimeo) && <div className="footer-social">
+          {site.instagram && (
             <a href={site.instagram} target="_blank" rel="noreferrer">
               INSTAGRAM ↗
             </a>
-          ) : (
-            <span>INSTAGRAM / LINK TO BE ADDED</span>
           )}
-          {site.vimeo ? (
+          {site.vimeo && (
             <a href={site.vimeo} target="_blank" rel="noreferrer">
               VIMEO ↗
             </a>
-          ) : (
-            <span>VIMEO / LINK TO BE ADDED</span>
           )}
-        </div>
+        </div>}
         <div className="footer-baseline">
           <span>© 2026 HUGs Creative. BORN IN DA NANG.</span>
           <a href="/privacy">Privacy notice</a>

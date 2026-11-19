@@ -4,12 +4,23 @@ import { existsSync } from "node:fs";
 import { projects, getVideoPreview } from "../data/projects.ts";
 import { services, homepageServices } from "../data/services.ts";
 import { serviceVisuals } from "../data/service-visuals.ts";
+import database from "../data/projects.database.json" with { type: "json" };
 import {
   sortProjects,
   groupProjectsByYear,
   featuredProjects,
   archiveHref,
 } from "../data/portfolio.ts";
+
+test("project years and website links preserve their source data", () => {
+  for (const source of database.projects) {
+    const published = projects.find((p) => p.id === source.id);
+    assert.ok(published, source.id);
+    assert.equal(published.year, source.year, source.id);
+    if (source.projectType === "website")
+      assert.deepEqual(published.references, source.references, source.id);
+  }
+});
 
 test("every portfolio entry has a unique detail slug and available local media", () => {
   assert.equal(new Set(projects.map((p) => p.id)).size, projects.length);

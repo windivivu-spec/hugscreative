@@ -182,7 +182,7 @@ export default function ProjectDetail({
         </span>
         <span className="eyebrow">
           {project.demo
-            ? "VISUAL STUDY / MEDIA PACK"
+            ? "VISUAL STUDY"
             : project.projectType === "commercial"
               ? "COMMERCIAL VIDEO"
               : "CLIENT PROJECT / SOCIAL MEDIA"}
@@ -207,7 +207,7 @@ export default function ProjectDetail({
             />
             <div className="detail-image-caption">
               <span>
-                HUGs Creative / {project.demo ? project.year : "CLIENT WORK"}
+                HUGs Creative{project.demo ? project.year && ` / ${project.year}` : " / CLIENT WORK"}
               </span>
               <span>{project.name.toUpperCase()}</span>
             </div>
@@ -221,13 +221,9 @@ export default function ProjectDetail({
               </p>
             </div>
             <div>
-              {project.demo && (
+              {project.demo && project.contentStatus !== "draft" && (
                 <>
                   <p>{project.description}</p>
-                  <small>
-                    Visuals supplied in the media pack. Project details and
-                    credits are pending confirmation.
-                  </small>
                 </>
               )}
             </div>
@@ -245,13 +241,9 @@ export default function ProjectDetail({
               </p>
             </div>
             <div>
-              {project.demo && (
+              {project.demo && project.contentStatus !== "draft" && (
                 <>
                   <p>{project.description}</p>
-                  <small>
-                    Visuals supplied in the media pack. Project details and
-                    credits are pending confirmation.
-                  </small>
                 </>
               )}
             </div>
@@ -277,8 +269,7 @@ export default function ProjectDetail({
                 />
                 <div className="detail-image-caption">
                   <span>
-                    HUGs Creative /{" "}
-                    {project.demo ? project.year : "CLIENT WORK"}
+                    HUGs Creative{project.demo ? project.year && ` / ${project.year}` : " / CLIENT WORK"}
                   </span>
                   <span>{project.name.toUpperCase()}</span>
                 </div>

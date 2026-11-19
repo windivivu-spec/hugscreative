@@ -59,7 +59,7 @@
   padding: 0.04em 0.07em 0.12em 0;
   margin-bottom: -0.12em;
   font-family: Retroscope, Georgia, serif;
-  font-size: 1.06em;
+  font-size: 1.3em;
   font-weight: 400;
   line-height: 1.15;
   letter-spacing: -0.025em;
@@ -370,7 +370,7 @@
 .projects-contact h2 em {
   display: inline-block;
   font-family: Retroscope, Georgia, serif;
-  font-size: 1.08em;
+  font-size: 1.3em;
   font-weight: 400;
   line-height: 1.2;
   padding-bottom: 0.1em;
@@ -607,7 +607,7 @@
   }
   .projects-intro h1,
   .archive-page-intro h1 {
-    font-size: clamp(38px, 10vw, 56px);
+    font-size: var(--mobile-heading);
   }
   .projects-intro-copy {
     max-width: 430px;
@@ -656,7 +656,7 @@
     margin-bottom: 24px;
   }
   .project-chapter-header h2 {
-    font-size: clamp(32px, 8.2vw, 44px);
+    font-size: var(--mobile-heading);
   }
   .project-chapter-header p {
     max-width: 440px;
@@ -747,7 +747,7 @@
     gap: 20px;
   }
   .projects-archive-callout h2 {
-    font-size: clamp(32px, 8.6vw, 48px);
+    font-size: var(--mobile-heading);
   }
   .projects-contact {
     padding: 56px 0 44px;

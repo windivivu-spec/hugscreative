@@ -5,9 +5,13 @@ export type Brief = {
   name: string;
   email: string;
   company: string;
+  jobTitle: string;
+  market: string;
   services: string[];
+  keywords: string;
   message: string;
   budget: string;
+  timeline: string;
   deadline: string;
   privacy: boolean;
   website: string;
@@ -27,6 +31,8 @@ export function validateBrief(input: unknown): {
     name: str("name"),
     email: str("email"),
     company: str("company"),
+    jobTitle: str("jobTitle"),
+    market: str("market"),
     services: Array.isArray(source.services)
       ? [
           ...new Set(
@@ -34,8 +40,10 @@ export function validateBrief(input: unknown): {
           ),
         ]
       : [],
+    keywords: str("keywords"),
     message: str("message"),
     budget: str("budget"),
+    timeline: str("timeline"),
     deadline: str("deadline"),
     privacy: source.privacy === true,
     website: str("website"),
@@ -50,6 +58,10 @@ export function validateBrief(input: unknown): {
     errors.email = "Enter a valid email address.";
   if (value.company.length > 300)
     errors.company = "Keep the company or website under 300 characters.";
+  if (value.jobTitle.length > 120)
+    errors.jobTitle = "Use 120 characters or fewer for your job title.";
+  if (value.market.length > 160)
+    errors.market = "Use 160 characters or fewer for your target market.";
   if (
     !value.services.length ||
     value.services.some(
@@ -57,10 +69,14 @@ export function validateBrief(input: unknown): {
     )
   )
     errors.services = "Choose a service, or select “Not sure yet”.";
-  if (value.message.length < 20 || value.message.length > 6000)
-    errors.message = "Tell us a little more (20–6,000 characters).";
+  if (value.keywords.length > 240)
+    errors.keywords = "Use 240 characters or fewer for your keywords.";
+  if (value.message.length > 6000)
+    errors.message = "Use 6,000 characters or fewer.";
   if (value.budget.length > 120)
     errors.budget = "Keep your budget note under 120 characters.";
+  if (value.timeline.length > 120)
+    errors.timeline = "Keep your timeline under 120 characters.";
   if (
     value.deadline &&
     (!/^\d{4}-\d{2}-\d{2}$/.test(value.deadline) ||
@@ -73,5 +89,17 @@ export function validateBrief(input: unknown): {
   return { value, errors };
 }
 export function formatBrief(v: Brief) {
-  return `HUGs Creative — Project brief\n\nName: ${v.name}\nEmail: ${v.email}\nCompany / website: ${v.company || "Not provided"}\nServices: ${v.services.join(", ")}\nBudget: ${v.budget || "Not sure yet"}\nTarget deadline: ${v.deadline || "Not provided"}\n\nProject details\n${v.message}\n`;
+  const lines = [
+    `Name: ${v.name}`,
+    `Email: ${v.email}`,
+    v.company && `Company / website: ${v.company}`,
+    v.jobTitle && `Job title: ${v.jobTitle}`,
+    v.market && `Target market: ${v.market}`,
+    `Services: ${v.services.join(", ")}`,
+    v.budget && `Budget (USD): ${v.budget}`,
+    (v.timeline || v.deadline) && `Timeline: ${v.timeline || v.deadline}`,
+    v.keywords && `\nKeywords: ${v.keywords}`,
+    v.message && `\nWhat the client would like us to make\n${v.message}`,
+  ];
+  return `HUGs Creative — Project brief\n\n${lines.filter(Boolean).join("\n")}\n`;
 }

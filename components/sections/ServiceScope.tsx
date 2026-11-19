@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,6 +12,8 @@ import { Arrow } from "@/components/ui/Icons";
 import { homepageServices as services } from "@/data/services";
 import { serviceVisuals } from "@/data/service-visuals";
 import { site } from "@/data/site";
+
+const chapterCenter = 0.49;
 
 const titles = [
   <>
@@ -39,20 +41,64 @@ export default function ServiceScope({
   onContact: (service?: string) => void;
 }) {
   const root = useRef<HTMLElement>(null);
+  const chapterNav = useRef<HTMLElement>(null);
   const timeline = useRef<gsap.core.Timeline | null>(null);
   const compactTransition = useRef<gsap.core.Timeline | null>(null);
+  const compactSettle = useRef<gsap.core.Tween | null>(null);
   const compactDrift = useRef<gsap.core.Tween | null>(null);
   const compactActiveRef = useRef(0);
   const compactStageRef = useRef(false);
+  const swipe = useRef<{
+    pointerId: number;
+    x: number;
+    y: number;
+    horizontal: boolean;
+    target?: number;
+    navStart: number;
+  } | null>(null);
+  const suppressClickUntil = useRef(0);
   const [selection, setSelection] = useState<MediaSelection | null>(null);
   const [active, setActive] = useState(0);
+  const [previewChapter, setPreviewChapter] = useState<number | null>(null);
   const [animated, setAnimated] = useState(false);
   const [compactStage, setCompactStage] = useState(false);
   const [autoPaused, setAutoPaused] = useState(false);
   const [inView, setInView] = useState(true);
   const [docHidden, setDocHidden] = useState(false);
   const [timerNonce, setTimerNonce] = useState(0);
+  const [touching, setTouching] = useState(false);
   const isInteractiveStage = animated || compactStage;
+
+  useEffect(() => {
+    const nav = chapterNav.current;
+    if (!nav || !compactStage) return;
+    const alignChapter = (behavior: ScrollBehavior) => {
+      if (!window.matchMedia("(max-width: 767px)").matches) return;
+      const button = nav.querySelector<HTMLElement>('[aria-current="step"]');
+      if (!button) return;
+      nav.scrollTo({
+        left:
+          nav.scrollLeft +
+          button.getBoundingClientRect().left -
+          nav.getBoundingClientRect().left -
+          (nav.clientWidth - button.offsetWidth) / 2,
+        behavior,
+      });
+    };
+    alignChapter(
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+    );
+    let lastWidth = nav.clientWidth;
+    const observer = new ResizeObserver(() => {
+      if (nav.clientWidth === lastWidth) return;
+      lastWidth = nav.clientWidth;
+      alignChapter("instant");
+    });
+    observer.observe(nav);
+    return () => observer.disconnect();
+  }, [active, compactStage]);
 
   const startCompactDrift = useCallback((scene: HTMLElement | undefined) => {
     if (!scene || !compactStageRef.current) return;
@@ -83,10 +129,14 @@ export default function ServiceScope({
       const from = compactActiveRef.current;
       if (from === next && !compactTransition.current?.isActive()) return;
 
+      compactSettle.current?.kill();
       compactTransition.current?.kill();
       compactDrift.current?.kill();
+      chapterNav.current?.style.removeProperty("scroll-snap-type");
+      gsap.set(scenes, { clearProps: "transform" });
       compactActiveRef.current = next;
       setActive(next);
+      setPreviewChapter(null);
       node.style.setProperty(
         "--services-progress",
         `${((next + 1) / services.length) * 100}%`,
@@ -106,6 +156,7 @@ export default function ServiceScope({
       const tl = gsap.timeline({
         onComplete: () => {
           compactTransition.current = null;
+          setPreviewChapter(next);
           startCompactDrift(nextScene);
         },
       });
@@ -207,23 +258,44 @@ export default function ServiceScope({
         if (!node) return;
         node.classList.add("is-motion");
         setAnimated(true);
+        let currentChapter = -1;
+        let playingChapter: number | null = null;
+        const startPreviews = gsap.delayedCall(0.25, () => {
+          playingChapter = currentChapter;
+          setPreviewChapter(playingChapter);
+        }).pause();
         const ctx = gsap.context(() => {
           const scenes = gsap.utils.toArray<HTMLElement>(".service-scene");
           gsap.set(scenes, { autoAlpha: 0 });
           gsap.set(scenes[0], { autoAlpha: 1 });
           const tl = gsap.timeline({
-            onUpdate: () =>
-              setActive(
-                Math.min(
-                  services.length - 1,
-                  Math.floor(timeline.current?.time() ?? 0),
-                ),
-              ),
+            onUpdate(this: gsap.core.Timeline) {
+              const time = this.time();
+              const index = Math.min(services.length - 1, Math.floor(time));
+              if (index !== currentChapter) {
+                currentChapter = index;
+                setActive(index);
+              }
+              const chapterTime = time - index;
+              const canStartPreview =
+                serviceVisuals[index].some((media) => media.autoplaySrc) &&
+                chapterTime >= 0.34 &&
+                chapterTime <= 0.64;
+              if (canStartPreview && playingChapter !== index) {
+                startPreviews.restart(true);
+              } else if (!canStartPreview) {
+                startPreviews.pause();
+                if (playingChapter !== null) {
+                  playingChapter = null;
+                  setPreviewChapter(null);
+                }
+              }
+            },
             scrollTrigger: {
               trigger: node,
               start: "top top",
               end: "bottom bottom",
-              scrub: 0.45,
+              scrub: 0.22,
               invalidateOnRefresh: true,
               onUpdate: (self) =>
                 node.style.setProperty(
@@ -235,18 +307,11 @@ export default function ServiceScope({
           timeline.current = tl;
           scenes.forEach((scene, i) => {
             const cards = scene.querySelectorAll(".floating-card");
-            const cluster = scene.querySelector(".media-cluster");
             const copy = scene.querySelector(".service-copy");
             // Each chapter owns a separate interval. The previous scene is
             // fully hidden before the next one can enter, in either direction.
             if (i > 0) {
               tl.set(scene, { autoAlpha: 1 }, i);
-              tl.fromTo(
-                cluster,
-                { filter: "blur(14px)" },
-                { filter: "blur(0px)", duration: 0.34, ease: "none" },
-                i,
-              );
               tl.fromTo(
                 cards,
                 {
@@ -270,46 +335,25 @@ export default function ServiceScope({
               );
               tl.fromTo(
                 copy,
-                { y: 32, opacity: 0, filter: "blur(8px)" },
+                { y: 32, opacity: 0 },
                 {
                   y: 0,
                   opacity: 1,
-                  filter: "blur(0px)",
                   duration: 0.24,
                   ease: "none",
                 },
                 i + 0.06,
               );
             }
-            // Keep the composition moving gently throughout the reading interval,
-            // including the first and final chapters.
-            tl.to(
-              cards,
-              {
-                x: (j) => (j % 2 ? 1 : -1) * 10,
-                y: (j) => (j % 2 ? -1 : 1) * 18,
-                rotation: (j) => (j % 2 ? 1 : -1) * 2,
-                duration:
-                  i === 0 ? 0.62 : i === services.length - 1 ? 0.66 : 0.3,
-                ease: "none",
-              },
-              i + (i === 0 ? 0 : 0.34),
-            );
             if (i < services.length - 1) {
               tl.to(
                 copy,
                 {
                   y: -28,
                   opacity: 0,
-                  filter: "blur(8px)",
                   duration: 0.22,
                   ease: "none",
                 },
-                i + 0.64,
-              );
-              tl.to(
-                cluster,
-                { filter: "blur(14px)", duration: 0.3, ease: "none" },
                 i + 0.64,
               );
               tl.to(
@@ -332,8 +376,10 @@ export default function ServiceScope({
           tl.to({}, { duration: 0.38 }, services.length - 0.38);
         }, node);
         return () => {
+          startPreviews.kill();
           ctx.revert();
           timeline.current = null;
+          setPreviewChapter(null);
           node.classList.remove("is-motion");
           node.style.removeProperty("--services-progress");
           setAnimated(false);
@@ -354,6 +400,7 @@ export default function ServiceScope({
         const startIdx = Math.min(services.length - 1, compactActiveRef.current);
         compactActiveRef.current = startIdx;
         setActive(startIdx);
+        setPreviewChapter(startIdx);
         node.style.setProperty(
           "--services-progress",
           `${((startIdx + 1) / services.length) * 100}%`,
@@ -364,7 +411,9 @@ export default function ServiceScope({
             node.querySelectorAll(
               ".media-cluster, .floating-card, .service-copy",
             ),
-            { clearProps: "all" },
+            {
+              clearProps: "transform,translate,rotate,scale,opacity,visibility,filter",
+            },
           );
           gsap.set(scenes, { autoAlpha: 0 });
           if (scenes[startIdx]) {
@@ -375,6 +424,9 @@ export default function ServiceScope({
         return () => {
           compactStageRef.current = false;
           compactTransition.current?.kill();
+          compactSettle.current?.kill();
+          compactSettle.current = null;
+          chapterNav.current?.style.removeProperty("scroll-snap-type");
           compactTransition.current = null;
           compactDrift.current?.kill();
           compactDrift.current = null;
@@ -383,10 +435,13 @@ export default function ServiceScope({
             node.querySelectorAll(
               ".service-scene, .media-cluster, .floating-card, .service-copy",
             ),
-            { clearProps: "all" },
+            {
+              clearProps: "transform,translate,rotate,scale,opacity,visibility,filter",
+            },
           );
           node.classList.remove("is-compact-stage");
           node.style.removeProperty("--services-progress");
+          setPreviewChapter(null);
           setCompactStage(false);
         };
       },
@@ -411,7 +466,9 @@ export default function ServiceScope({
   }, []);
 
   useEffect(() => {
-    if (!compactStage || autoPaused || !inView || docHidden || selection) return;
+    if (!compactStage || autoPaused || touching || !inView || docHidden || selection ||
+      window.matchMedia("(max-width: 767px)").matches)
+      return;
     const id = window.setTimeout(() => {
       transitionCompactScene(compactActiveRef.current + 1);
     }, 2500);
@@ -419,6 +476,7 @@ export default function ServiceScope({
   }, [
     compactStage,
     autoPaused,
+    touching,
     inView,
     docHidden,
     selection,
@@ -432,7 +490,7 @@ export default function ServiceScope({
       const node = root.current;
       const trigger = timeline.current?.scrollTrigger;
       if (node && trigger) {
-        const progress = (index + 0.46) / services.length;
+        const progress = (index + chapterCenter) / services.length;
         window.scrollTo({
           top:
             node.getBoundingClientRect().top +
@@ -444,6 +502,7 @@ export default function ServiceScope({
           behavior: "instant",
         });
       } else if (compactStageRef.current) {
+        setAutoPaused(true);
         transitionCompactScene(index);
         setTimerNonce((n) => n + 1);
       } else {
@@ -454,6 +513,142 @@ export default function ServiceScope({
     },
     [transitionCompactScene],
   );
+
+  const finishSwipe = (commit: boolean) => {
+    const gesture = swipe.current;
+    swipe.current = null;
+    setTouching(false);
+    if (!gesture?.horizontal || gesture.target === undefined || !root.current) return;
+    const node = root.current;
+    const scenes = Array.from(node.querySelectorAll<HTMLElement>(".service-scene"));
+    const from = compactActiveRef.current;
+    const next = gesture.target;
+    const chosen = commit ? next : from;
+    const tl = compactTransition.current;
+    if (!tl) return;
+    compactSettle.current?.kill();
+    compactSettle.current = gsap.to(tl, {
+      progress: commit ? 1 : 0,
+      duration: 0.3,
+      ease: "power2.out",
+      onComplete: () => {
+        if (commit) {
+          compactActiveRef.current = next;
+          setActive(next);
+          node.style.setProperty("--services-progress", `${((next + 1) / services.length) * 100}%`);
+          setAutoPaused(true);
+        }
+        gsap.set(scenes, { autoAlpha: 0 });
+        gsap.set(scenes[chosen], { autoAlpha: 1 });
+        gsap.set(scenes[chosen].querySelectorAll(".media-cluster, .floating-card, .service-copy"), {
+          clearProps: "transform,translate,rotate,scale,opacity,visibility,filter",
+        });
+        tl.kill();
+        chapterNav.current?.style.removeProperty("scroll-snap-type");
+        compactTransition.current = null;
+        compactSettle.current = null;
+        setPreviewChapter(chosen);
+        startCompactDrift(scenes[chosen]);
+      },
+    });
+  };
+
+  const startSwipe = (event: PointerEvent<HTMLDivElement>) => {
+    if (!event.isPrimary) {
+      finishSwipe(false);
+      return;
+    }
+    if (
+      !compactStageRef.current ||
+      selection ||
+      event.pointerType === "mouse" ||
+      (event.target as Element).closest(
+        ".services-bottom, a, button:not(.floating-card)",
+      )
+    )
+      return;
+    swipe.current = {
+      pointerId: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      horizontal: false,
+      navStart: chapterNav.current?.scrollLeft ?? 0,
+    };
+    setTouching(true);
+  };
+
+  const moveSwipe = (event: PointerEvent<HTMLDivElement>) => {
+    const gesture = swipe.current;
+    if (!gesture || gesture.pointerId !== event.pointerId) return;
+    const dx = Math.abs(event.clientX - gesture.x);
+    const dy = Math.abs(event.clientY - gesture.y);
+    if (!gesture.horizontal && dy > 12 && dy >= dx) {
+      finishSwipe(false);
+    } else if (dx > 12 && dx > dy * 1.3) {
+      gesture.horizontal = true;
+    }
+    if (!gesture.horizontal || !root.current) return;
+    const signedDx = event.clientX - gesture.x;
+    const from = compactActiveRef.current;
+    const next = (from + (signedDx < 0 ? 1 : -1) + services.length) % services.length;
+    const scenes = Array.from(root.current.querySelectorAll<HTMLElement>(".service-scene"));
+    if (gesture.target !== next) {
+      setPreviewChapter(null);
+      compactSettle.current?.kill();
+      compactTransition.current?.kill();
+      compactDrift.current?.kill();
+      gsap.set(scenes, { autoAlpha: 0 });
+      [scenes[from], scenes[next]].forEach((scene) => {
+        gsap.set(scene.querySelectorAll('.media-cluster, .floating-card, .service-copy'), {
+          clearProps: "transform,translate,rotate,scale,opacity,visibility,filter",
+        });
+      });
+      gsap.set(scenes[from], { autoAlpha: 1 });
+      const fromCards = scenes[from].querySelectorAll<HTMLElement>(".floating-card");
+      const nextCards = scenes[next].querySelectorAll<HTMLElement>(".floating-card");
+      const fromCopy = scenes[from].querySelector<HTMLElement>(".service-copy");
+      const nextCopy = scenes[next].querySelector<HTMLElement>(".service-copy");
+      const fromCluster = scenes[from].querySelector<HTMLElement>(".media-cluster");
+      const nextCluster = scenes[next].querySelector<HTMLElement>(".media-cluster");
+      const tl = gsap.timeline({ paused: true });
+      tl.to(fromCopy, { y: -28, opacity: 0, filter: "blur(8px)", duration: 0.45, ease: "none" }, 0);
+      tl.to(fromCluster, { filter: "blur(14px)", duration: 0.55, ease: "none" }, 0);
+      tl.to(fromCards, { x: (j) => (j % 2 ? 1 : -1) * 150, y: (j) => (j < 3 ? -1 : 1) * 140, rotation: (j) => (j % 2 ? 18 : -18), scale: 0.82, opacity: 0, duration: 0.45, stagger: 0.012, ease: "none" }, 0);
+      tl.set(scenes[next], { autoAlpha: 1 }, 0.42);
+      tl.set(scenes[from], { autoAlpha: 0 }, 0.56);
+      tl.fromTo(nextCluster, { filter: "blur(14px)" }, { filter: "blur(0px)", duration: 0.44, ease: "none" }, 0.42);
+      tl.fromTo(nextCards, { x: (j) => (j % 2 ? 1 : -1) * 120, y: (j) => (j < 3 ? -1 : 1) * 130, rotation: (j) => (j % 2 ? 18 : -18), scale: 0.72, opacity: 0 }, { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, duration: 0.4, stagger: 0.012, ease: "none" }, 0.42);
+      tl.fromTo(nextCopy, { y: 32, opacity: 0, filter: "blur(8px)" }, { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "none" }, 0.46);
+      const nav = chapterNav.current;
+      const targetButton = nav?.querySelectorAll<HTMLButtonElement>("button")[next];
+      if (nav && targetButton && window.matchMedia("(max-width: 767px)").matches) {
+        nav.style.scrollSnapType = "none";
+        const navRect = nav.getBoundingClientRect();
+        const targetScroll = nav.scrollLeft + targetButton.getBoundingClientRect().left - navRect.left -
+          (nav.clientWidth - targetButton.offsetWidth) / 2;
+        const maxScroll = nav.scrollWidth - nav.clientWidth;
+        const destination = Math.max(0, Math.min(maxScroll, targetScroll));
+        tl.eventCallback("onUpdate", () => {
+          nav.scrollLeft = gesture.navStart + (destination - gesture.navStart) * tl.progress();
+        });
+      }
+      compactTransition.current = tl;
+      gesture.target = next;
+    }
+    const progress = Math.min(1, Math.abs(signedDx) / Math.max(1, root.current.clientWidth));
+    compactTransition.current?.progress(progress);
+  };
+
+  const endSwipe = (event: PointerEvent<HTMLDivElement>) => {
+    const gesture = swipe.current;
+    if (!gesture || gesture.pointerId !== event.pointerId) return;
+    const dx = event.clientX - gesture.x;
+    const dy = event.clientY - gesture.y;
+    if (!gesture.horizontal) { finishSwipe(false); return; }
+    // A drag over an artwork must not also open its media viewer.
+    suppressClickUntil.current = performance.now() + 500;
+    finishSwipe(Math.abs(dx) >= 48 && Math.abs(dx) > Math.abs(dy) * 1.3);
+  };
 
   useEffect(() => {
     const navigate = () => {
@@ -475,7 +670,23 @@ export default function ServiceScope({
       className="services-section services-v2"
       aria-label="What we do — six creative services"
     >
-      <div className="services-stage">
+      <div
+        className="services-stage"
+        onPointerDownCapture={startSwipe}
+        onPointerMoveCapture={moveSwipe}
+        onPointerUpCapture={endSwipe}
+        onPointerCancel={() => finishSwipe(false)}
+        onClickCapture={(event) => {
+          if (
+            event.detail > 0 &&
+            performance.now() < suppressClickUntil.current &&
+            (event.target as Element).closest(".floating-card")
+          ) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }}
+      >
         <div className="services-top">
           <SectionLabel index="02">WHAT WE DO</SectionLabel>
           <span className="eyebrow muted">
@@ -499,7 +710,12 @@ export default function ServiceScope({
                   key={j}
                   media={media}
                   index={j}
-                  active={!selection && (!isInteractiveStage || active === i)}
+                  active={
+                    !selection &&
+                    (!isInteractiveStage || active === i) &&
+                    (!isInteractiveStage || !media.autoplaySrc || previewChapter === i)
+                  }
+                  autoplaySrc={isInteractiveStage ? media.autoplaySrc : undefined}
                   label={`${service.shortTitle} — ${j + 1}`}
                   onOpen={(origin, ratio, thumbnail) =>
                     setSelection({
@@ -548,7 +764,20 @@ export default function ServiceScope({
           </article>
         ))}
         <div className="services-bottom">
-          <nav className="service-chapter-nav" aria-label="Choose a service">
+          {compactStage && (
+            <p className="service-swipe-hint">
+              <span>SWIPE TO EXPLORE <Arrow direction="right" /></span>
+              <span className="service-chapter-position">0{active + 1} <span>/ 06</span></span>
+            </p>
+          )}
+          <nav
+            ref={chapterNav}
+            className="service-chapter-nav"
+            aria-label="Choose a service"
+            onPointerDown={() => {
+              if (compactStageRef.current) setAutoPaused(true);
+            }}
+          >
             {services.map((s, i) => (
               <button
                 key={s.title}

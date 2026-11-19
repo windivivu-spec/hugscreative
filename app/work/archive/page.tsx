@@ -48,7 +48,7 @@ export default async function ArchivePage({
           </h1>
           <div className="projects-intro-copy">
             <p>
-              The complete collection, across five creative disciplines. Find
+              The complete collection, across six creative disciplines. Find
               your inspiration by service or explore the work year by year.
             </p>
           </div>

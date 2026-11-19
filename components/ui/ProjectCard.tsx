@@ -51,7 +51,7 @@ export default function ProjectCard({
       </div>
       <div className="portfolio-card-caption">
         <h3>{project.name}</h3>
-        <span>{projectYear(project)}</span>
+        {project.year && <span>{projectYear(project)}</span>}
         <p>{project.direction}</p>
       </div>
     </Link>

@@ -21,12 +21,16 @@ export default function ContactDialog({
   const dialog = useRef<HTMLDialogElement>(null),
     form = useRef<HTMLFormElement>(null),
     summary = useRef<HTMLDivElement>(null),
+    confirmation = useRef<HTMLHeadingElement>(null),
     busy = useRef(false);
   const [errors, setErrors] = useState<BriefErrors>({}),
     [status, setStatus] = useState(""),
     [sending, setSending] = useState(false),
     [sent, setSent] = useState(false),
-    [available, setAvailable] = useState(false);
+    [available, setAvailable] = useState<boolean | null>(null),
+    [photography, setPhotography] = useState(
+      initialService === "Event Photography",
+    );
   useEffect(() => {
     const focused = document.activeElement as HTMLElement | null;
     const d = dialog.current,
@@ -37,7 +41,9 @@ export default function ContactDialog({
     fetch("/api/contact", { signal: controller.signal })
       .then((r) => r.json())
       .then((v) => setAvailable(v.available === true))
-      .catch(() => {});
+      .catch(() => {
+        if (!controller.signal.aborted) setAvailable(false);
+      });
     return () => {
       controller.abort();
       d?.close();
@@ -48,49 +54,39 @@ export default function ContactDialog({
   useEffect(() => {
     if (Object.keys(errors).length) summary.current?.focus();
   }, [errors]);
+  useEffect(() => {
+    if (sent) confirmation.current?.focus();
+  }, [sent]);
   function read() {
     const d = new FormData(form.current!);
     return validateBrief({
       name: d.get("name"),
       email: d.get("email"),
       company: d.get("company"),
+      jobTitle: d.get("jobTitle"),
+      market: d.get("market"),
       services: d.getAll("service"),
+      keywords: d.get("keywords"),
       message: d.get("message"),
       budget: d.get("budget"),
-      deadline: d.get("deadline"),
       privacy: d.get("privacy") === "on",
       website: d.get("website"),
     });
   }
-  function download() {
-    const { value } = read();
-    const url = URL.createObjectURL(
-      new Blob(
-        [
-          formatBrief(value) +
-            "\nSaved locally. This brief has not been sent.\n",
-        ],
-        { type: "text/plain;charset=utf-8" },
-      ),
-    );
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "hugs-creative-project-brief.txt";
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setStatus("Your brief is ready to save. No message was sent.");
-  }
   async function submit(e: FormEvent) {
     e.preventDefault();
-    if (busy.current) return;
+    if (busy.current || available === null) return;
     const { value, errors: found } = read();
     setErrors(found);
     setStatus("");
     if (Object.keys(found).length) return;
     if (!available) {
-      setStatus(
-        "Your brief is complete. Online sending will be added when contact details are confirmed. Save a copy below.",
+      const subject = encodeURIComponent("Project inquiry for HUGs Creative");
+      const body = encodeURIComponent(
+        formatBrief(value).replace(/\r?\n/g, "\r\n").toWellFormed(),
       );
+      window.location.href = `mailto:${site.contactEmail}?subject=${subject}&body=${body}`;
+      setStatus("Send the draft from your email app to share your brief.");
       return;
     }
     busy.current = true;
@@ -104,6 +100,7 @@ export default function ContactDialog({
       const result = await r.json();
       if (!r.ok) {
         if (result.errors) setErrors(result.errors);
+        if (r.status === 503) setAvailable(false);
         setStatus(
           result.error || "We couldn’t send your brief. Please try again.",
         );
@@ -116,7 +113,7 @@ export default function ContactDialog({
       );
     } catch {
       setStatus(
-        "We couldn’t confirm sending. Please try again or save a copy below.",
+        "We couldn’t confirm sending. Please try again or contact us by email.",
       );
     } finally {
       busy.current = false;
@@ -129,9 +126,11 @@ export default function ContactDialog({
         {errors[key]}
       </span>
     ) : null;
-  const attrs = (key: keyof BriefErrors) => ({
+  const attrs = (key: keyof BriefErrors, hint?: string) => ({
     "aria-invalid": !!errors[key],
-    "aria-describedby": errors[key] ? `error-${key}` : undefined,
+    "aria-describedby":
+      [hint, errors[key] && `error-${key}`].filter(Boolean).join(" ") ||
+      undefined,
   });
   return (
     <dialog
@@ -159,14 +158,12 @@ export default function ContactDialog({
         <br />
         your <em>project.</em>
       </h2>
-      <p className="contact-demo-note">
-        Share your goals, your ideas, and the details that matter.
-        {!available &&
-          " This is a preview: save your brief below while contact details are being finalized."}
-      </p>
+      <p className="contact-intro">A rough idea is a great place to start.</p>
       {sent ? (
         <div className="brief-success" role="status">
-          <h3>A good beginning.</h3>
+          <h3 ref={confirmation} tabIndex={-1}>
+            Brief sent
+          </h3>
           <p>{status}</p>
           <button className="glass-button" onClick={onClose}>
             Back to exploring
@@ -229,17 +226,46 @@ export default function ContactDialog({
                 {error("email")}
               </label>
             </div>
+            <div className="form-pair">
+              <label>
+                Company or website (optional)
+                <input
+                  id="brief-company"
+                  name="company"
+                  autoComplete="organization"
+                  maxLength={300}
+                  {...attrs("company")}
+                  placeholder="Your brand or website"
+                />
+                {error("company")}
+              </label>
+              <label>
+                Job title (optional)
+                <input
+                  id="brief-jobTitle"
+                  name="jobTitle"
+                  autoComplete="organization-title"
+                  maxLength={120}
+                  placeholder="e.g. Brand Manager"
+                  {...attrs("jobTitle")}
+                />
+                {error("jobTitle")}
+              </label>
+            </div>
             <label>
-              Company or website (optional)
+              <span id="brief-market-label">Target market (optional)</span>
+              <span id="brief-market-hint" className="brief-hint">
+                Where do you want to reach people?
+              </span>
               <input
-                id="brief-company"
-                name="company"
-                autoComplete="organization"
-                maxLength={300}
-                {...attrs("company")}
-                placeholder="Your brand or website"
+                id="brief-market"
+                name="market"
+                aria-labelledby="brief-market-label"
+                maxLength={160}
+                placeholder="e.g. UK, US, or worldwide"
+                {...attrs("market", "brief-market-hint")}
               />
-              {error("company")}
+              {error("market")}
             </label>
             <fieldset
               id="brief-services"
@@ -247,7 +273,7 @@ export default function ContactDialog({
               className="service-choices"
               {...attrs("services")}
             >
-              <legend>Services needed — choose all that apply</legend>
+              <legend>What can we help with? Select all that apply.</legend>
               {serviceOptions.map((s) => (
                 <label key={s}>
                   <input
@@ -255,6 +281,11 @@ export default function ContactDialog({
                     name="service"
                     value={s}
                     defaultChecked={s === initialService}
+                    onChange={
+                      s === "Event Photography"
+                        ? (e) => setPhotography(e.target.checked)
+                        : undefined
+                    }
                   />
                   <span>{s}</span>
                 </label>
@@ -262,46 +293,56 @@ export default function ContactDialog({
             </fieldset>
             {error("services")}
             <label>
-              Project details
+              <span id="brief-keywords-label">
+                What’s on your mind? (optional)
+              </span>
+              <span className="brief-hint" id="brief-keywords-hint">
+                Give us up to five words or phrases about the idea, the feel, or
+                what you hope it does.
+              </span>
+              <input
+                id="brief-keywords"
+                name="keywords"
+                aria-labelledby="brief-keywords-label"
+                placeholder="e.g. Coffee, playful, local regulars, launch buzz"
+                maxLength={240}
+                {...attrs("keywords", "brief-keywords-hint")}
+              />
+              {error("keywords")}
+            </label>
+            <label>
+              <span id="brief-message-label">
+                What would you like us to make? (optional)
+              </span>
+              <span className="brief-hint" id="brief-message-hint">
+                Tell us what you’d like help with, what it’s for, and what you
+                already have. Share a link if it helps.
+                {photography &&
+                  " Planning an event? Drop in the city or date if you know it."}
+              </span>
               <textarea
                 id="brief-message"
                 name="message"
-                rows={4}
-                required
+                aria-labelledby="brief-message-label"
+                rows={3}
+                placeholder="e.g. We’re opening a coffee shop and need a menu and Instagram graphics. We already have a logo."
                 maxLength={6000}
-                defaultValue={
-                  project
-                    ? `I’d like to discuss a project similar to ${project}. `
-                    : ""
-                }
-                {...attrs("message")}
-                placeholder="Your goals, deliverables, and available assets. Photography? Include the city, event date, and coverage hours."
+                defaultValue={project ? `Inspired by ${project}. ` : ""}
+                {...attrs("message", "brief-message-hint")}
               />
               {error("message")}
             </label>
-            <div className="form-pair">
-              <label>
-                Budget in USD (optional)
-                <input
-                  id="brief-budget"
-                  name="budget"
-                  maxLength={120}
-                  placeholder="Your estimate, or not sure yet"
-                  {...attrs("budget")}
-                />
-                {error("budget")}
-              </label>
-              <label>
-                Target deadline (optional)
-                <input
-                  id="brief-deadline"
-                  type="date"
-                  name="deadline"
-                  {...attrs("deadline")}
-                />
-                {error("deadline")}
-              </label>
-            </div>
+            <label>
+              Estimated budget in USD (optional)
+              <input
+                id="brief-budget"
+                name="budget"
+                maxLength={120}
+                placeholder="e.g. $3,000 or $3,000–$5,000"
+                {...attrs("budget")}
+              />
+              {error("budget")}
+            </label>
             <label className="honeypot" aria-hidden="true">
               Leave this field empty
               <input name="website" tabIndex={-1} autoComplete="off" />
@@ -323,36 +364,22 @@ export default function ContactDialog({
             </label>
             {error("privacy")}
             <div className="brief-actions">
-              {
-                <button
-                  className="glass-button glass-primary"
-                  type="submit"
-                  disabled={sending}
-                >
-                  {sending
-                    ? "Sending your brief…"
-                    : available
-                      ? "Send project brief"
-                      : "Review project brief"}
-                </button>
-              }
               <button
-                className={`glass-button ${available ? "" : "glass-primary"}`}
-                type="button"
-                onClick={download}
+                className="glass-button glass-primary"
+                type="submit"
+                disabled={sending || available === null}
               >
-                Save a copy of my brief
+                {sending
+                  ? "Sending…"
+                  : available === false
+                    ? "Open email draft"
+                    : "Send project brief"}
               </button>
             </div>
-            {site.contactEmail && (
-              <a className="brief-email" href={`mailto:${site.contactEmail}`}>
-                {site.contactEmail}
-              </a>
-            )}
             <p className="contact-data-note">
-              {available
-                ? "Your details are used only to respond to this inquiry."
-                : "Preview mode: saving creates a file on your device. Nothing is sent or stored on our server."}
+              {available === false
+                ? "Your email app opens with your brief filled in. Send it there to get in touch."
+                : "We’ll use these details to review your project and reply by email."}
             </p>
             <p role="status" className="brief-status">
               {status}

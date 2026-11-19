@@ -84,67 +84,6 @@
       "year": "2026",
       "color": "#eb2266",
       "demo": true,
-      "industry": "Website Design",
-      "brief": "A fitness interface showcase built around expressive mobile screens, dark surfaces, and a focused product presentation.",
-      "role": "Website visual direction, shown through the supplied design showcase.",
-      "deliverables": [
-        "Website visual direction",
-        "Interface design showcase"
-      ],
-      "gallery": [],
-      "fit": "contain",
-      "id": "comeback-digital",
-      "name": "Every Comeback",
-      "category": "Website Design",
-      "projectType": "website",
-      "image": "/media/website/hero1.png",
-      "imageAspectRatio": 1.5433526011560694,
-      "alt": "Every Comeback website design showcase",
-      "description": "A fitness interface showcase built around expressive mobile screens, dark surfaces, and a focused product presentation.",
-      "direction": "Website concept / Digital design",
-      "contentStatus": "draft",
-      "yearStatus": "provisional",
-      "editorNotes": "Existing showcase retained. Confirm execution year."
-    },
-    {
-      "year": "2026",
-      "color": "#eb2266",
-      "demo": true,
-      "industry": "Website Design",
-      "brief": "An energetic motorsport website direction with an oversized editorial layout and a striking red visual identity.",
-      "role": "Website visual direction, shown through the supplied design showcase.",
-      "deliverables": [
-        "Website visual direction",
-        "Interface design showcase"
-      ],
-      "gallery": [],
-      "fit": "contain",
-      "id": "marea-website",
-      "name": "Marea",
-      "category": "Website Design",
-      "projectType": "website",
-      "image": "/media/website/hero4-poster.webp",
-      "imageAspectRatio": 1.7066666666666668,
-      "alt": "Marea website design showcase",
-      "description": "An energetic motorsport website direction with an oversized editorial layout and a striking red visual identity.",
-      "direction": "Website concept / Digital design",
-      "videos": [
-        {
-          "src": "/media/website/marea.mp4",
-          "poster": "/media/website/hero4-poster.webp",
-          "title": "Marea website walkthrough",
-          "orientation": "landscape",
-          "previewSrc": "/media/website/marea.mp4"
-        }
-      ],
-      "contentStatus": "draft",
-      "yearStatus": "provisional",
-      "editorNotes": "Existing showcase retained. Confirm execution year."
-    },
-    {
-      "year": "2026",
-      "color": "#eb2266",
-      "demo": true,
       "industry": "Event Photography",
       "brief": "A selection of photographs capturing moments and atmosphere from an event.",
       "role": "A photography selection from the supplied event portfolio.",
@@ -600,166 +539,31 @@
       "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner."
     },
     {
-      "id": "shokz-opendots-2",
-      "name": "Shokz OpenDots 2",
-      "category": "Video Editing & Motion Graphics",
-      "year": "2025",
-      "image": "/media/previews/shokz-opendots-2.jpg",
-      "gallery": [],
-      "alt": "Shokz OpenDots 2 project showcase",
-      "color": "#eb2266",
-      "description": "A portfolio selection featuring Shokz OpenDots 2, presented through the supplied visual assets.",
-      "overview": "The selection explores product presentation, composition, and visual storytelling for Shokz OpenDots 2.",
-      "brief": "The selection explores product presentation, composition, and visual storytelling for Shokz OpenDots 2.",
-      "role": "Draft project overview for the supplied Shokz OpenDots 2 film. Add the production brief, creative direction, editing scope, team, and deliverables.",
-      "direction": "Video & Motion",
-      "industry": "Video Production",
-      "deliverables": [],
-      "demo": false,
-      "fit": "contain",
-      "contentStatus": "draft",
-      "yearStatus": "provisional",
-      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
-      "projectType": "commercial",
-      "videos": [
-        {
-          "src": "/media/Video/shokz%20opendots%202.mp4",
-          "previewSrc": "/media/previews/shokz-opendots-2-preview.mp4",
-          "poster": "/media/previews/shokz-opendots-2.jpg",
-          "title": "Shokz OpenDots 2 film",
-          "orientation": "landscape"
-        }
-      ]
-    },
-    {
-      "id": "camera-in-focus",
-      "name": "Fujifilm",
+      "id": "acbs-commercial",
+      "name": "ACBS",
       "category": "Video Editing & Motion Graphics",
       "year": "2026",
-      "image": "/media/previews/camera-in-focus.jpg",
+      "yearStatus": "confirmed",
+      "image": "/media/Video/commercial/acbs.jpg",
       "gallery": [],
-      "alt": "Fujifilm project showcase",
+      "alt": "ACBS commercial video",
       "color": "#eb2266",
-      "description": "A portfolio selection featuring Fujifilm, presented through the supplied visual assets.",
-      "overview": "The selection explores product presentation, composition, and visual storytelling for Fujifilm.",
-      "brief": "The selection explores product presentation, composition, and visual storytelling for Fujifilm.",
-      "role": "Selected work from the supplied portfolio assets.",
-      "direction": "Product film / Motion study",
-      "industry": "Creative selection",
-      "deliverables": [
-        "Product motion study"
-      ],
-      "demo": false,
-      "fit": "contain",
-      "contentStatus": "draft",
-      "yearStatus": "provisional",
-      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
-      "projectType": "commercial",
-      "videos": [
-        {
-          "src": "/media/Video/Fuji.mp4",
-          "previewSrc": "/media/previews/camera-in-focus-preview.mp4",
-          "poster": "/media/previews/camera-in-focus.jpg",
-          "title": "Fujifilm film",
-          "orientation": "landscape"
-        }
-      ]
-    },
-    {
-      "id": "body-polish-motion",
-      "name": "Dove",
-      "category": "Video Editing & Motion Graphics",
-      "year": "2025",
-      "image": "/media/previews/body-polish-motion.jpg",
-      "gallery": [],
-      "alt": "Dove project showcase",
-      "color": "#eb2266",
-      "description": "A portfolio selection featuring Dove, presented through the supplied visual assets.",
-      "overview": "The selection explores product presentation, composition, and visual storytelling for Dove.",
-      "brief": "The selection explores product presentation, composition, and visual storytelling for Dove.",
-      "role": "Selected work from the supplied portfolio assets.",
-      "direction": "Product film / Motion study",
-      "industry": "Creative selection",
-      "deliverables": [
-        "Product motion study"
-      ],
-      "demo": false,
-      "fit": "contain",
-      "contentStatus": "draft",
-      "yearStatus": "provisional",
-      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
-      "projectType": "commercial",
-      "videos": [
-        {
-          "src": "/media/Video/dove.mp4",
-          "previewSrc": "/media/previews/body-polish-motion-preview.mp4",
-          "poster": "/media/previews/body-polish-motion.jpg",
-          "title": "Dove film",
-          "orientation": "portrait"
-        }
-      ]
-    },
-    {
-      "id": "dove-body",
-      "name": "Dove Body",
-      "category": "Video Editing & Motion Graphics",
-      "year": "2026",
-      "image": "/media/previews/dove-body.jpg",
-      "gallery": [],
-      "alt": "Dove Body project showcase",
-      "color": "#eb2266",
-      "description": "A portfolio selection featuring Dove Body, presented through the supplied visual assets.",
-      "overview": "The selection explores product presentation, composition, and visual storytelling for Dove Body.",
-      "brief": "The selection explores product presentation, composition, and visual storytelling for Dove Body.",
-      "role": "Draft project overview for the supplied Dove Body film. Add the production brief, creative direction, editing scope, team, and deliverables.",
-      "direction": "Video & Motion",
-      "industry": "Video Production",
+      "description": "ACBS commercial video.",
+      "brief": "ACBS commercial video.",
+      "role": "Commercial video",
+      "direction": "ACBS Commercial",
+      "industry": "Commercial Video",
       "deliverables": [],
       "demo": false,
-      "fit": "contain",
       "contentStatus": "draft",
-      "yearStatus": "provisional",
-      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
       "projectType": "commercial",
       "videos": [
         {
-          "src": "/media/Video/dove%20body.mp4",
-          "previewSrc": "/media/previews/dove-body-preview.mp4",
-          "poster": "/media/previews/dove-body.jpg",
-          "title": "Dove Body film",
+          "src": "/media/Video/commercial/acbs.webm",
+          "previewSrc": "/media/Video/commercial/acbs-preview.webm",
+          "poster": "/media/Video/commercial/acbs.jpg",
+          "title": "ACBS commercial",
           "orientation": "landscape"
-        }
-      ]
-    },
-    {
-      "id": "xiaomi-cleaner-g20-lite",
-      "name": "Xiaomi Cleaner G20 Lite",
-      "category": "Video Editing & Motion Graphics",
-      "year": "2025",
-      "image": "/media/previews/xiaomi-cleaner-g20-lite.jpg",
-      "gallery": [],
-      "alt": "Xiaomi Cleaner G20 Lite project showcase",
-      "color": "#eb2266",
-      "description": "A portfolio selection featuring Xiaomi Cleaner G20 Lite, presented through the supplied visual assets.",
-      "overview": "The selection explores product presentation, composition, and visual storytelling for Xiaomi Cleaner G20 Lite.",
-      "brief": "The selection explores product presentation, composition, and visual storytelling for Xiaomi Cleaner G20 Lite.",
-      "role": "Draft project overview for the supplied Xiaomi Cleaner G20 Lite film. Add the production brief, creative direction, editing scope, team, and deliverables.",
-      "direction": "Video & Motion",
-      "industry": "Video Production",
-      "deliverables": [],
-      "demo": false,
-      "fit": "contain",
-      "contentStatus": "draft",
-      "yearStatus": "provisional",
-      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
-      "projectType": "commercial",
-      "videos": [
-        {
-          "src": "/media/Video/Xiaomi%20Cleaner%20G20%20Lite.mp4",
-          "previewSrc": "/media/previews/xiaomi-cleaner-g20-lite-preview.mp4",
-          "poster": "/media/previews/xiaomi-cleaner-g20-lite.jpg",
-          "title": "Xiaomi Cleaner G20 Lite film",
-          "orientation": "portrait"
         }
       ]
     },
@@ -768,7 +572,7 @@
       "name": "ACB",
       "category": "Video Editing & Motion Graphics",
       "year": "2026",
-      "image": "/media/Video/video-comercial/acb%20thumb.png",
+      "image": "/media/Video/commercial/acb.webp",
       "gallery": [],
       "alt": "ACB project showcase",
       "color": "#eb2266",
@@ -787,9 +591,9 @@
       "projectType": "commercial",
       "videos": [
         {
-          "src": "/media/Video/video-comercial/acb_corporate_2026%20.mp4",
-          "previewSrc": "/media/previews/acb-commercial-preview.mp4",
-          "poster": "/media/Video/video-comercial/acb%20thumb.png",
+          "src": "/media/Video/commercial/acb.webm",
+          "previewSrc": "/media/Video/commercial/acb-preview.webm",
+          "poster": "/media/Video/commercial/acb.webp",
           "title": "ACB film",
           "orientation": "landscape"
         }
@@ -800,7 +604,7 @@
       "name": "BVBank",
       "category": "Video Editing & Motion Graphics",
       "year": "2026",
-      "image": "/media/Video/video-comercial/bvbank%20thumb.png",
+      "image": "/media/Video/commercial/bvbank.webp",
       "gallery": [],
       "alt": "BVBank project showcase",
       "color": "#eb2266",
@@ -819,9 +623,9 @@
       "projectType": "commercial",
       "videos": [
         {
-          "src": "/media/Video/video-comercial/bvbank.mp4",
-          "previewSrc": "/media/previews/bvbank-commercial-preview.mp4",
-          "poster": "/media/Video/video-comercial/bvbank%20thumb.png",
+          "src": "/media/Video/commercial/bvbank.webm",
+          "previewSrc": "/media/Video/commercial/bvbank-preview.webm",
+          "poster": "/media/Video/commercial/bvbank.webp",
           "title": "BVBank film",
           "orientation": "landscape"
         }
@@ -831,7 +635,7 @@
       "id": "bvbank-mascot",
       "name": "BVBank Mascot",
       "category": "Video Editing & Motion Graphics",
-      "year": "2026",
+      "year": "2025",
       "image": "/media/previews/bvbank-mascot.jpg",
       "gallery": [],
       "alt": "BVBank Mascot project showcase",
@@ -846,8 +650,8 @@
       "demo": false,
       "fit": "contain",
       "contentStatus": "draft",
-      "yearStatus": "provisional",
-      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year.",
+      "yearStatus": "confirmed",
+      "editorNotes": "Draft copy: replace the introduction, project scope and credits.",
       "projectType": "commercial",
       "videos": [
         {
@@ -863,7 +667,7 @@
       "id": "xe-tot",
       "name": "Xe Tot",
       "category": "Video Editing & Motion Graphics",
-      "year": "2026",
+      "year": "2024",
       "image": "/media/previews/xe-tot.jpg",
       "gallery": [],
       "alt": "Xe Tot project showcase",
@@ -879,7 +683,7 @@
       "fit": "contain",
       "contentStatus": "draft",
       "yearStatus": "provisional",
-      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year.",
+      "editorNotes": "Year displayed as 2024 for presentation; owner previously supplied 2023. Draft copy needs review.",
       "projectType": "commercial",
       "videos": [
         {
@@ -915,7 +719,7 @@
       "projectType": "commercial",
       "videos": [
         {
-          "src": "/media/Video/commercial/lich%202026%20acb.mp4",
+          "src": "/media/Video/commercial/raw/lich%202026%20acb.mp4",
           "previewSrc": "/media/previews/acb-calendar-2026-preview.mp4",
           "poster": "/media/previews/acb-calendar-2026.jpg",
           "title": "ACB Calendar 2026 film",
@@ -927,7 +731,7 @@
       "id": "dong-tam",
       "name": "Dong Tam",
       "category": "Video Editing & Motion Graphics",
-      "year": "2026",
+      "year": "2024",
       "image": "/media/previews/dong-tam.jpg",
       "gallery": [],
       "alt": "Dong Tam project showcase",
@@ -943,11 +747,11 @@
       "fit": "contain",
       "contentStatus": "draft",
       "yearStatus": "provisional",
-      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
+      "editorNotes": "Year displayed as 2024 for presentation; owner previously supplied 2023. Draft copy needs review.",
       "projectType": "commercial",
       "videos": [
         {
-          "src": "/media/Video/commercial/ga%CC%A3ch%20va%CC%82n%20go%CC%82%CC%83%20Dong%20Tam.mp4",
+          "src": "/media/Video/commercial/raw/ga%CC%A3ch%20va%CC%82n%20go%CC%82%CC%83%20Dong%20Tam.mp4",
           "previewSrc": "/media/previews/dong-tam-preview.mp4",
           "poster": "/media/previews/dong-tam.jpg",
           "title": "Dong Tam film",
@@ -1031,8 +835,8 @@
       "id": "black-angel-illustration",
       "name": "Black Angel",
       "category": "Illustration Design",
-      "year": "2026",
-      "yearStatus": "provisional",
+      "year": "2025",
+      "yearStatus": "confirmed",
       "image": "/media/Picture%20/illustration%20design/pack6.jpg.webp",
       "imageAspectRatio": 0.8155339805825242,
       "alt": "Black Angel illustration artwork",
@@ -1079,8 +883,8 @@
       "id": "red-angel-illustration",
       "name": "Red Angel",
       "category": "Illustration Design",
-      "year": "2026",
-      "yearStatus": "provisional",
+      "year": "2025",
+      "yearStatus": "confirmed",
       "image": "/media/Picture%20/illustration%20design/pack2/redangel-2.jpg.webp",
       "imageAspectRatio": 1.8,
       "alt": "Red Angel illustration artwork",
@@ -1480,6 +1284,238 @@
       "id": "ice-cream-poster",
       "name": "Ice Cream",
       "reason": "Source media removed or replaced by the owner’s reorganized project folders."
+    },
+    {
+      "id": "shokz-opendots-2",
+      "name": "Shokz OpenDots 2",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2025",
+      "image": "/media/previews/shokz-opendots-2.jpg",
+      "gallery": [],
+      "alt": "Shokz OpenDots 2 project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Shokz OpenDots 2, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Shokz OpenDots 2.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Shokz OpenDots 2.",
+      "role": "Draft project overview for the supplied Shokz OpenDots 2 film. Add the production brief, creative direction, editing scope, team, and deliverables.",
+      "direction": "Video & Motion",
+      "industry": "Video Production",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/shokz%20opendots%202.mp4",
+          "previewSrc": "/media/previews/shokz-opendots-2-preview.mp4",
+          "poster": "/media/previews/shokz-opendots-2.jpg",
+          "title": "Shokz OpenDots 2 film",
+          "orientation": "landscape"
+        }
+      ],
+      "reason": "Removed from the portfolio at the owner’s request after source media was removed."
+    },
+    {
+      "id": "camera-in-focus",
+      "name": "Fujifilm",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2026",
+      "image": "/media/previews/camera-in-focus.jpg",
+      "gallery": [],
+      "alt": "Fujifilm project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Fujifilm, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Fujifilm.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Fujifilm.",
+      "role": "Selected work from the supplied portfolio assets.",
+      "direction": "Product film / Motion study",
+      "industry": "Creative selection",
+      "deliverables": [
+        "Product motion study"
+      ],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/Fuji.mp4",
+          "previewSrc": "/media/previews/camera-in-focus-preview.mp4",
+          "poster": "/media/previews/camera-in-focus.jpg",
+          "title": "Fujifilm film",
+          "orientation": "landscape"
+        }
+      ],
+      "reason": "Removed from the portfolio at the owner’s request after source media was removed."
+    },
+    {
+      "id": "body-polish-motion",
+      "name": "Dove",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2025",
+      "image": "/media/previews/body-polish-motion.jpg",
+      "gallery": [],
+      "alt": "Dove project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Dove, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Dove.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Dove.",
+      "role": "Selected work from the supplied portfolio assets.",
+      "direction": "Product film / Motion study",
+      "industry": "Creative selection",
+      "deliverables": [
+        "Product motion study"
+      ],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/dove.mp4",
+          "previewSrc": "/media/previews/body-polish-motion-preview.mp4",
+          "poster": "/media/previews/body-polish-motion.jpg",
+          "title": "Dove film",
+          "orientation": "portrait"
+        }
+      ],
+      "reason": "Removed from the portfolio at the owner’s request after source media was removed."
+    },
+    {
+      "id": "dove-body",
+      "name": "Dove Body",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2026",
+      "image": "/media/previews/dove-body.jpg",
+      "gallery": [],
+      "alt": "Dove Body project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Dove Body, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Dove Body.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Dove Body.",
+      "role": "Draft project overview for the supplied Dove Body film. Add the production brief, creative direction, editing scope, team, and deliverables.",
+      "direction": "Video & Motion",
+      "industry": "Video Production",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/dove%20body.mp4",
+          "previewSrc": "/media/previews/dove-body-preview.mp4",
+          "poster": "/media/previews/dove-body.jpg",
+          "title": "Dove Body film",
+          "orientation": "landscape"
+        }
+      ],
+      "reason": "Removed from the portfolio at the owner’s request after source media was removed."
+    },
+    {
+      "id": "xiaomi-cleaner-g20-lite",
+      "name": "Xiaomi Cleaner G20 Lite",
+      "category": "Video Editing & Motion Graphics",
+      "year": "2025",
+      "image": "/media/previews/xiaomi-cleaner-g20-lite.jpg",
+      "gallery": [],
+      "alt": "Xiaomi Cleaner G20 Lite project showcase",
+      "color": "#eb2266",
+      "description": "A portfolio selection featuring Xiaomi Cleaner G20 Lite, presented through the supplied visual assets.",
+      "overview": "The selection explores product presentation, composition, and visual storytelling for Xiaomi Cleaner G20 Lite.",
+      "brief": "The selection explores product presentation, composition, and visual storytelling for Xiaomi Cleaner G20 Lite.",
+      "role": "Draft project overview for the supplied Xiaomi Cleaner G20 Lite film. Add the production brief, creative direction, editing scope, team, and deliverables.",
+      "direction": "Video & Motion",
+      "industry": "Video Production",
+      "deliverables": [],
+      "demo": false,
+      "fit": "contain",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Draft copy: replace the introduction, project scope, credits and execution year. Year assigned provisionally for display; confirm with owner.",
+      "projectType": "commercial",
+      "videos": [
+        {
+          "src": "/media/Video/Xiaomi%20Cleaner%20G20%20Lite.mp4",
+          "previewSrc": "/media/previews/xiaomi-cleaner-g20-lite-preview.mp4",
+          "poster": "/media/previews/xiaomi-cleaner-g20-lite.jpg",
+          "title": "Xiaomi Cleaner G20 Lite film",
+          "orientation": "portrait"
+        }
+      ],
+      "reason": "Removed from the portfolio at the owner’s request after source media was removed."
+    },
+    {
+      "year": "2026",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Website Design",
+      "brief": "A fitness interface showcase built around expressive mobile screens, dark surfaces, and a focused product presentation.",
+      "role": "Website visual direction, shown through the supplied design showcase.",
+      "deliverables": [
+        "Website visual direction",
+        "Interface design showcase"
+      ],
+      "gallery": [],
+      "fit": "contain",
+      "id": "comeback-digital",
+      "name": "Every Comeback",
+      "category": "Website Design",
+      "projectType": "website",
+      "image": "/media/website/hero1.png",
+      "imageAspectRatio": 1.5433526011560694,
+      "alt": "Every Comeback website design showcase",
+      "description": "A fitness interface showcase built around expressive mobile screens, dark surfaces, and a focused product presentation.",
+      "direction": "Website concept / Digital design",
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Existing showcase retained. Confirm execution year.",
+      "reason": "Removed from the portfolio at the owner’s request."
+    },
+    {
+      "year": "2026",
+      "color": "#eb2266",
+      "demo": true,
+      "industry": "Website Design",
+      "brief": "An energetic motorsport website direction with an oversized editorial layout and a striking red visual identity.",
+      "role": "Website visual direction, shown through the supplied design showcase.",
+      "deliverables": [
+        "Website visual direction",
+        "Interface design showcase"
+      ],
+      "gallery": [],
+      "fit": "contain",
+      "id": "marea-website",
+      "name": "Marea",
+      "category": "Website Design",
+      "projectType": "website",
+      "image": "/media/website/hero4-poster.webp",
+      "imageAspectRatio": 1.7066666666666668,
+      "alt": "Marea website design showcase",
+      "description": "An energetic motorsport website direction with an oversized editorial layout and a striking red visual identity.",
+      "direction": "Website concept / Digital design",
+      "videos": [
+        {
+          "src": "/media/website/marea.mp4",
+          "poster": "/media/website/hero4-poster.webp",
+          "title": "Marea website walkthrough",
+          "orientation": "landscape",
+          "previewSrc": "/media/website/marea.mp4"
+        }
+      ],
+      "contentStatus": "draft",
+      "yearStatus": "provisional",
+      "editorNotes": "Existing showcase retained. Confirm execution year.",
+      "reason": "Removed from the portfolio at the owner’s request."
     }
   ]
 }

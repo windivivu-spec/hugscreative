@@ -7,17 +7,20 @@ export default function FloatingMediaCard({
   media,
   index,
   active = true,
+  autoplaySrc,
   label,
   onOpen,
 }: {
   media: Service["media"][number];
   index: number;
   active?: boolean;
+  autoplaySrc?: string;
   label: string;
   onOpen: (origin: DOMRect, ratio: number, thumbnail?: string) => void;
 }) {
   const [hovered, setHovered] = useState(false);
   const [ratio, setRatio] = useState<string>();
+  const previewSrc = autoplaySrc ?? (hovered ? media.preview : undefined);
   return (
     <button
       type="button"
@@ -129,11 +132,11 @@ export default function FloatingMediaCard({
           <small>INDEPENDENT IN SPIRIT. CREATIVE BY NATURE.</small>
         </>
       )}
-      {media.preview && (
+      {previewSrc && active && (
         <VideoPreview
-          src={media.preview}
-          enabled={hovered && active}
-          playOnHover
+          src={previewSrc}
+          playOnHover={!autoplaySrc}
+          preload="none"
         />
       )}
     </button>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import MotionAtmosphere from "@/components/ui/MotionAtmosphere";
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.SITE_URL || "http://localhost:3107"),
+  metadataBase: new URL(process.env.SITE_URL || "https://hugscreative.com"),
   title: "HUGs Creative — Born in Da Nang. Driven by Creativity.",
   description:
     "Creative production for brands and agencies. Design, video, websites, social media management, and event photography—with one dedicated project lead. Based in Da Nang, Vietnam.",

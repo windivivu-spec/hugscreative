@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Project } from "@/data/projects";
 
 export function ProjectStory({ project }: { project: Project }) {
+  if (project.contentStatus === "draft") return null;
   if (project.projectType === "commercial" && !project.overview) return null;
   const selection =
     project.projectType === "website" || project.projectType === "photography";

@@ -1,7 +1,8 @@
 // Only public information belongs here. Email credentials stay on the server.
 export const site = {
   name: "HUGs Creative",
-  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
+  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@hugscreative.com",
+  website: "https://hugscreative.com",
   instagram: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "",
   vimeo: process.env.NEXT_PUBLIC_VIMEO_URL || "",
   reel: "/media/Video/Fuji.mp4",

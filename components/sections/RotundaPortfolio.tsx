@@ -22,7 +22,7 @@ export default function RotundaPortfolio({
   paused: boolean;
 }) {
   const [mobile, setMobile] = useState(false);
-  const projects = mobile ? selectedProjects.slice(0, 7) : selectedProjects;
+  const projects = mobile ? selectedProjects.slice(0, 6) : selectedProjects;
   const count = projects.length;
   const wrap = (n: number) => ((n % count) + count) % count;
   const angle = 360 / count;
@@ -526,8 +526,8 @@ export default function RotundaPortfolio({
         <div className="demo-caption">
           <span className="tiny-cross">+</span>{" "}
           {p.demo
-            ? "VISUAL STUDY / MEDIA PACK"
-            : `${p.industry} | ${p.direction}`}
+            ? "VISUAL STUDY"
+            : p.contentStatus === "draft" ? p.category : `${p.industry} | ${p.direction}`}
           {!p.demo && p.projectType !== "commercial" && (
             <Link href="/work/social-media" className="text-link">
               Social media projects <Arrow />

@@ -5,6 +5,17 @@ export type ServiceVisual = Service["media"][number] & {
   projectId: string;
   projectName: string;
   videoSrc?: string;
+  autoplaySrc?: string;
+};
+
+const autoplayVisual = (projectId: string, useExistingPreview = false): ServiceVisual => {
+  const media = visual(projectId);
+  return {
+    ...media,
+    autoplaySrc: useExistingPreview
+      ? media.preview
+      : `/media/previews/service-loops/${projectId}.webm`,
+  };
 };
 
 // Explicit ownership also covers gallery images and secondary project videos.
@@ -46,20 +57,18 @@ export const serviceVisuals: ServiceVisual[][] = [
     visual("red-angel-illustration"),
   ],
   [
-    visual("acb-commercial"),
-    visual("bvbank-commercial"),
-    visual("camera-in-focus"),
-    visual("body-polish-motion"),
-    visual("xiaomi-cleaner-g20-lite"),
-    visual("bvbank-mascot"),
-    visual("xe-tot"),
+    autoplayVisual("acb-commercial", true),
+    autoplayVisual("acbs-commercial"),
+    autoplayVisual("bvbank-commercial", true),
+    autoplayVisual("bvbank-mascot"),
+    autoplayVisual("xe-tot"),
   ],
   [
-    visual("inter-office-website"),
-    visual("windread-website"),
-    visual("monopo-website"),
-    visual("buki-website"),
-    visual("cafeholic-website"),
+    autoplayVisual("inter-office-website"),
+    autoplayVisual("windread-website"),
+    autoplayVisual("monopo-website"),
+    autoplayVisual("buki-website"),
+    autoplayVisual("cafeholic-website"),
   ],
   [
     visual("kyoto-sushi"),

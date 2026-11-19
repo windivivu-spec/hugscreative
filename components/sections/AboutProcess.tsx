@@ -2,6 +2,7 @@
 import SectionLabel from "@/components/ui/SectionLabel";
 import ImpactSculpture from "@/components/ui/ImpactSculpture";
 import { Asterisk } from "@/components/ui/Icons";
+import { site } from "@/data/site";
 
 export default function AboutProcess() {
   return (
@@ -43,6 +44,9 @@ export default function AboutProcess() {
           <span className="about-location">
             BASED IN DA NANG / COLLABORATING REMOTELY
           </span>
+          <div className="about-contact">
+            <a href={site.website}>hugscreative.com</a>
+          </div>
         </div>
       </div>
       <div

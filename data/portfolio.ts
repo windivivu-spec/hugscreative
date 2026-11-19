@@ -34,8 +34,6 @@ const featured = [
   "xe-tot",
   "buki-website",
   "windread-website",
-  "marea-website",
-  "comeback-digital",
   "wafaifo-hoi-an",
   "kyoto-sushi",
   "lifehouse",
@@ -62,7 +60,7 @@ export function featuredProjects(category: Project["category"]): Project[] {
 
 export function projectLabel(project: Project): string {
   if (project.projectType === "photography") return "Photography selection";
-  if (project.projectType === "website") return "Website concept";
+  if (project.projectType === "website") return "Website showcase";
   return project.demo ? "Visual study" : "Client project";
 }
 
