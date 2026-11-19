@@ -57,3 +57,11 @@ Thumbs.db
 /public/media/pack/loops-16x9-hq.mp4
 /public/media/pack/loops-9x16-hq.mp4
 /public/media/poster/3.png
+
+# Original video sources kept locally, with web-ready copies used by the site.
+/public/media/Video/video-comercial/
+/public/media/Video/commercial/raw/acb_corporate_2026 .mp4
+/public/media/Video/commercial/raw/acbs.mp4
+/public/media/Video/commercial/raw/bvbank.mp4
+/public/media/Video/commercial/raw/mascot-bvbank.mp4
+/public/media/Video/commercial/raw/xe-tot.mp4

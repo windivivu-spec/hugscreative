@@ -13,6 +13,8 @@ import PagePreloader from "@/components/ui/PagePreloader";
 import DebugPanel from "@/components/DebugPanel";
 import { selectedProjects, type Project } from "@/data/projects";
 export default function Home() {
+  const [warmServicePreviews, setWarmServicePreviews] = useState(false);
+  const onLoadingStart = useCallback(() => setWarmServicePreviews(true), []);
   const [selected, setSelected] = useState<{
     project: Project;
     origin?: DOMRect;
@@ -31,7 +33,7 @@ export default function Home() {
   );
   return (
     <>
-      <PagePreloader />
+      <PagePreloader onStart={onLoadingStart} />
       <a href="#main" className="skip-link">
         Skip to content
       </a>
@@ -42,7 +44,7 @@ export default function Home() {
           onOpen={openProject}
           paused={!!selected || !!contact}
         />
-        <ServiceScope onContact={openContact} />
+        <ServiceScope onContact={openContact} warmPreviews={warmServicePreviews} />
         <AboutProcess />
         <FAQ />
         <ContactFooter onContact={() => openContact()} />

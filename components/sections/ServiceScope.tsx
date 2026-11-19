@@ -14,6 +14,10 @@ import { serviceVisuals } from "@/data/service-visuals";
 import { site } from "@/data/site";
 
 const chapterCenter = 0.49;
+const chapterSnapDistance = 36;
+const autoplayOrder = serviceVisuals.flatMap((media) =>
+  media.flatMap((item) => item.autoplaySrc ? [item.projectId] : []),
+);
 
 const titles = [
   <>
@@ -37,8 +41,10 @@ const titles = [
 ];
 export default function ServiceScope({
   onContact,
+  warmPreviews = false,
 }: {
   onContact: (service?: string) => void;
+  warmPreviews?: boolean;
 }) {
   const root = useRef<HTMLElement>(null);
   const chapterNav = useRef<HTMLElement>(null);
@@ -67,7 +73,16 @@ export default function ServiceScope({
   const [docHidden, setDocHidden] = useState(false);
   const [timerNonce, setTimerNonce] = useState(0);
   const [touching, setTouching] = useState(false);
+  const [warmedCount, setWarmedCount] = useState(0);
   const isInteractiveStage = animated || compactStage;
+
+  useEffect(() => {
+    if (!warmPreviews || !isInteractiveStage || warmedCount >= autoplayOrder.length)
+      return;
+    // Warm the actual preview elements so they can reuse their buffered data.
+    const timer = window.setTimeout(() => setWarmedCount((count) => count + 1), 220);
+    return () => window.clearTimeout(timer);
+  }, [warmPreviews, isInteractiveStage, warmedCount]);
 
   useEffect(() => {
     const nav = chapterNav.current;
@@ -260,10 +275,6 @@ export default function ServiceScope({
         setAnimated(true);
         let currentChapter = -1;
         let playingChapter: number | null = null;
-        const startPreviews = gsap.delayedCall(0.25, () => {
-          playingChapter = currentChapter;
-          setPreviewChapter(playingChapter);
-        }).pause();
         const ctx = gsap.context(() => {
           const scenes = gsap.utils.toArray<HTMLElement>(".service-scene");
           gsap.set(scenes, { autoAlpha: 0 });
@@ -277,18 +288,14 @@ export default function ServiceScope({
                 setActive(index);
               }
               const chapterTime = time - index;
-              const canStartPreview =
-                serviceVisuals[index].some((media) => media.autoplaySrc) &&
-                chapterTime >= 0.34 &&
-                chapterTime <= 0.64;
-              if (canStartPreview && playingChapter !== index) {
-                startPreviews.restart(true);
-              } else if (!canStartPreview) {
-                startPreviews.pause();
-                if (playingChapter !== null) {
-                  playingChapter = null;
-                  setPreviewChapter(null);
-                }
+              const alreadyPlaying = playingChapter === index;
+              const canPlay = serviceVisuals[index].some((media) => media.autoplaySrc) &&
+                chapterTime >= (alreadyPlaying ? 0.30 : 0.34) &&
+                chapterTime <= (alreadyPlaying ? 0.68 : 0.64);
+              const nextPreview = canPlay ? index : null;
+              if (nextPreview !== playingChapter) {
+                playingChapter = nextPreview;
+                setPreviewChapter(nextPreview);
               }
             },
             scrollTrigger: {
@@ -296,6 +303,22 @@ export default function ServiceScope({
               start: "top top",
               end: "bottom bottom",
               scrub: 0.22,
+              snap: {
+                inertia: false,
+                delay: 0.24,
+                duration: { min: 0.12, max: 0.22 },
+                ease: "power2.out",
+                snapTo: (progress, trigger) => {
+                  if (!trigger) return progress;
+                  const index = Math.min(
+                    services.length - 1,
+                    Math.floor(progress * services.length),
+                  );
+                  const center = (index + chapterCenter) / services.length;
+                  const distance = Math.abs(center - progress) * (trigger.end - trigger.start);
+                  return distance <= chapterSnapDistance ? center : progress;
+                },
+              },
               invalidateOnRefresh: true,
               onUpdate: (self) =>
                 node.style.setProperty(
@@ -376,7 +399,6 @@ export default function ServiceScope({
           tl.to({}, { duration: 0.38 }, services.length - 0.38);
         }, node);
         return () => {
-          startPreviews.kill();
           ctx.revert();
           timeline.current = null;
           setPreviewChapter(null);
@@ -493,12 +515,7 @@ export default function ServiceScope({
         const progress = (index + chapterCenter) / services.length;
         window.scrollTo({
           top:
-            node.getBoundingClientRect().top +
-            window.scrollY +
-            (node.offsetHeight -
-              (node.querySelector<HTMLElement>(".services-stage")?.offsetHeight ??
-                innerHeight)) *
-              progress,
+            Math.round(trigger.start + (trigger.end - trigger.start) * progress),
           behavior: "instant",
         });
       } else if (compactStageRef.current) {
@@ -712,10 +729,15 @@ export default function ServiceScope({
                   index={j}
                   active={
                     !selection &&
+                    !docHidden &&
                     (!isInteractiveStage || active === i) &&
                     (!isInteractiveStage || !media.autoplaySrc || previewChapter === i)
                   }
                   autoplaySrc={isInteractiveStage ? media.autoplaySrc : undefined}
+                  warmPreview={
+                    !!media.autoplaySrc &&
+                    autoplayOrder.indexOf(media.projectId) < warmedCount
+                  }
                   label={`${service.shortTitle} — ${j + 1}`}
                   onOpen={(origin, ratio, thumbnail) =>
                     setSelection({

@@ -152,17 +152,13 @@ export default function ServiceMediaViewer({
         className="viewer-content"
         style={{ "--viewer-ratio": mediaRatio } as CSSProperties}
       >
-        <div
-          ref={frame}
-          className="viewer-frame"
-          style={{ aspectRatio: mediaRatio }}
-        >
-          <div className="viewer-project">
-            <div>
-              <p>PROJECT</p>
-              <h2>{selection.media.projectName}</h2>
-            </div>
-            {selection.media.projectId && <Link
+        <header className="viewer-project">
+          <div>
+            <p>PROJECT</p>
+            <h2>{selection.media.projectName}</h2>
+          </div>
+          {selection.media.projectId && (
+            <Link
               href={`/work/${selection.media.projectId}`}
               className="glass-button viewer-project-link"
               aria-label={`View project details — ${selection.media.projectName}`}
@@ -173,8 +169,14 @@ export default function ServiceMediaViewer({
             >
               <span>View project details</span>
               <Arrow />
-            </Link>}
-          </div>
+            </Link>
+          )}
+        </header>
+        <div
+          ref={frame}
+          className="viewer-frame"
+          style={{ aspectRatio: mediaRatio }}
+        >
           <img
             className={
               video && videoReady

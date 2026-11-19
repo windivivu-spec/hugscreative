@@ -17,7 +17,7 @@ const LOADING_FAILSAFE_MS = 8000;
 // covered without a viewport-dependent React render or moving the cube.
 const GRID_CELLS = 240;
 
-export default function PagePreloader() {
+export default function PagePreloader({ onStart }: { onStart?: () => void }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [done, setDone] = useState(false);
 
@@ -191,6 +191,7 @@ export default function PagePreloader() {
       frame = requestAnimationFrame(() => {
         root.dataset.phase = "spinning";
         timeline.play(0);
+        if (!media.matches) onStart?.();
       });
     };
 
@@ -247,7 +248,7 @@ export default function PagePreloader() {
       document.body.style.overflow = previousOverflow;
       if (html.dataset.preloader !== "done") delete html.dataset.preloader;
     };
-  }, []);
+  }, [onStart]);
 
   if (done) return null;
 

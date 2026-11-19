@@ -8,6 +8,7 @@ export default function FloatingMediaCard({
   index,
   active = true,
   autoplaySrc,
+  warmPreview = false,
   label,
   onOpen,
 }: {
@@ -15,6 +16,7 @@ export default function FloatingMediaCard({
   index: number;
   active?: boolean;
   autoplaySrc?: string;
+  warmPreview?: boolean;
   label: string;
   onOpen: (origin: DOMRect, ratio: number, thumbnail?: string) => void;
 }) {
@@ -132,11 +134,12 @@ export default function FloatingMediaCard({
           <small>INDEPENDENT IN SPIRIT. CREATIVE BY NATURE.</small>
         </>
       )}
-      {previewSrc && active && (
+      {previewSrc && (active || (autoplaySrc && warmPreview)) && (
         <VideoPreview
           src={previewSrc}
+          enabled={active}
           playOnHover={!autoplaySrc}
-          preload="none"
+          preload={autoplaySrc ? "auto" : "none"}
         />
       )}
     </button>
