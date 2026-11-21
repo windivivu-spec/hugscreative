@@ -17,12 +17,16 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/social-card.png",
+        url: "/social-card-hero-v3.png",
         width: 1200,
         height: 630,
         alt: "HUGs Creative — design, video, web and social",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/social-card-hero-v3.png"],
   },
 };
 export default function RootLayout({
