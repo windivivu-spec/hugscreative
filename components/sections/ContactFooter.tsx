@@ -160,7 +160,7 @@ export default function ContactFooter({
                     <span className="footer-meta-sep" aria-hidden="true">
                       /
                     </span>
-                    <time className="footer-clock">{daNangTime} ICT</time>
+                    <time className="footer-clock">{daNangTime} UTC+7</time>
                   </>
                 )}
               </div>

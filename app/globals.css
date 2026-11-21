@@ -5171,8 +5171,12 @@ body {
 .services-v2.is-motion { height: 480svh; }
 .services-v2.is-motion .services-stage { position: sticky; top: 0; height: 100svh; min-height: 650px; overflow: clip; }
 .services-v2.is-motion .services-top { position: absolute; left: var(--gutter); right: var(--gutter); top: 100px; padding: 0; }
-.services-v2.is-motion .service-scene { position: absolute; inset: 0; min-height: 0; }
-.services-v2.is-motion .services-bottom { position: absolute; bottom: 24px; left: var(--gutter); right: var(--gutter); padding: 0 0 14px; }
+.services-v2.is-motion .service-scene { position: absolute; inset: 0; min-height: 0; touch-action: pan-y pinch-zoom; cursor: grab; }
+.services-v2.is-compact-stage .service-scene { cursor: grab; }
+.services-v2 .services-stage[data-swiping="true"],
+.services-v2 .services-stage[data-swiping="true"] * { cursor: grabbing !important; user-select: none; }
+.services-v2.is-motion .services-bottom { position: absolute; bottom: 24px; left: var(--gutter); right: var(--gutter); padding: 0 0 14px; gap: 16px 24px; }
+.services-v2.is-motion .services-bottom-meta { display: inline-flex; align-items: center; gap: 16px; flex-shrink: 0; }
 .services-v2.is-motion .services-reading-progress { left: 0; right: 0; bottom: 0; }
 .services-v2.is-motion .services-halo { display: block; position: absolute; width: 65vw; height: 65vw; border: 1px solid #ffffff06; border-radius: 50%; left: 18%; top: 12%; pointer-events: none; }
 .services-bottom-meta { display: contents; }
@@ -5637,11 +5641,11 @@ body {
 .service-media-viewer[open] { padding: max(96px, calc(env(safe-area-inset-top) + 76px)) 0 max(24px, env(safe-area-inset-bottom)); }
 .viewer-content { position: relative; width: min(88vw, 1100px, max(320px, calc((100dvh - 300px) * var(--viewer-ratio)))); display: grid; gap: 18px; }
 .viewer-content .viewer-frame { width: min(100%, calc((100dvh - 300px) * var(--viewer-ratio))); justify-self: center; }
-.viewer-project { position: absolute; z-index: 3; inset: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; padding: 14px 18px 40px; border: 0; border-radius: 0; background: linear-gradient(180deg, #000b 0%, #0007 55%, transparent 100%); font-family: OVSoge, Geist, sans-serif; transition: opacity 220ms ease; pointer-events: none; }
-.viewer-project > div { min-width: 0; flex: 1 1 100px; }
+.viewer-project { position: absolute; z-index: 3; inset: 0 0 auto; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px 20px; padding: 14px; border: 0; border-radius: 0; background: linear-gradient(180deg, #0005 0%, #0002 55%, transparent 100%); font-family: OVSoge, Geist, sans-serif; transition: opacity 220ms ease; pointer-events: none; }
+.viewer-project > div { min-width: 0; flex: 1 1 100px; width: fit-content; max-width: min(60%, 220px); padding: 9px 12px 8px; border: 1px solid #ffffff24; border-radius: 18px; background: #0808089c; backdrop-filter: blur(14px); }
 .viewer-project p { color: var(--muted); font-size: 9px; font-weight: 400; letter-spacing: .1em; line-height: 1.4; margin-bottom: 2px; }
 .viewer-project h2 { font-family: OVSoge, Geist, sans-serif; font-size: 19px; font-weight: 400; line-height: 1.3; letter-spacing: 0; overflow-wrap: anywhere; }
-.viewer-project-link { pointer-events: auto; flex-shrink: 0; max-width: 100%; min-height: 44px; padding: 9px 16px; font-family: OVSoge, Geist, sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0; gap: 14px; }
+.viewer-project-link { pointer-events: auto; flex-shrink: 0; max-width: 100%; min-height: 44px; padding: 9px 16px; border: 1px solid #ffffff28; background: #0808089c; backdrop-filter: blur(14px); font-family: OVSoge, Geist, sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0; gap: 14px; }
 .viewer-project-link svg { width: 14px; height: 14px; }
 .viewer-close { top: max(20px, env(safe-area-inset-top)); right: max(20px, env(safe-area-inset-right)); }
 @media (max-width: 700px) {

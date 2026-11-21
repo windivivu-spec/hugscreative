@@ -46,8 +46,8 @@ export default function Hero() {
           quality={90}
         />
         <VideoPreview
-          src="/media/Video/hero.mp4"
-          mobileSrc="/media/Video/hero.mp4"
+          src="/media/Video/HUGs_Hero_OptionA_v2_Desktop_web.webm"
+          mobileSrc="/media/Video/HUGs_Hero_OptionA_v2_Mobile_web.webm"
           preload="auto"
           playbackRate={1.15}
         />

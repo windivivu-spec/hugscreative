@@ -152,31 +152,31 @@ export default function ServiceMediaViewer({
         className="viewer-content"
         style={{ "--viewer-ratio": mediaRatio } as CSSProperties}
       >
-        <header className="viewer-project">
-          <div>
-            <p>PROJECT</p>
-            <h2>{selection.media.projectName}</h2>
-          </div>
-          {selection.media.projectId && (
-            <Link
-              href={`/work/${selection.media.projectId}`}
-              className="glass-button viewer-project-link"
-              aria-label={`View project details — ${selection.media.projectName}`}
-              onNavigate={() => {
-                dialog.current?.querySelector("video")?.pause();
-                onClose();
-              }}
-            >
-              <span>View project details</span>
-              <Arrow />
-            </Link>
-          )}
-        </header>
         <div
           ref={frame}
           className="viewer-frame"
           style={{ aspectRatio: mediaRatio }}
         >
+          <header className="viewer-project">
+            <div>
+              <p>PROJECT</p>
+              <h2>{selection.media.projectName}</h2>
+            </div>
+            {selection.media.projectId && (
+              <Link
+                href={`/work/${selection.media.projectId}`}
+                className="glass-button viewer-project-link"
+                aria-label={`View project details — ${selection.media.projectName}`}
+                onNavigate={() => {
+                  dialog.current?.querySelector("video")?.pause();
+                  onClose();
+                }}
+              >
+                <span>View project details</span>
+                <Arrow />
+              </Link>
+            )}
+          </header>
           <img
             className={
               video && videoReady

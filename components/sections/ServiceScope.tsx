@@ -47,20 +47,26 @@ export default function ServiceScope({
   warmPreviews?: boolean;
 }) {
   const root = useRef<HTMLElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const chapterNav = useRef<HTMLElement>(null);
   const timeline = useRef<gsap.core.Timeline | null>(null);
+  const scrollTween = useRef<gsap.core.Tween | null>(null);
   const compactTransition = useRef<gsap.core.Timeline | null>(null);
   const compactSettle = useRef<gsap.core.Tween | null>(null);
   const compactDrift = useRef<gsap.core.Tween | null>(null);
+  const activeRef = useRef(0);
   const compactActiveRef = useRef(0);
   const compactStageRef = useRef(false);
   const swipe = useRef<{
+    mode: "compact" | "scroll";
     pointerId: number;
     x: number;
     y: number;
     horizontal: boolean;
     target?: number;
     navStart: number;
+    scrollStart: number;
+    startChapter: number;
   } | null>(null);
   const suppressClickUntil = useRef(0);
   const [selection, setSelection] = useState<MediaSelection | null>(null);
@@ -73,6 +79,7 @@ export default function ServiceScope({
   const [docHidden, setDocHidden] = useState(false);
   const [timerNonce, setTimerNonce] = useState(0);
   const [touching, setTouching] = useState(false);
+  const [swiping, setSwiping] = useState(false);
   const [warmedCount, setWarmedCount] = useState(0);
   const isInteractiveStage = animated || compactStage;
 
@@ -150,6 +157,7 @@ export default function ServiceScope({
       chapterNav.current?.style.removeProperty("scroll-snap-type");
       gsap.set(scenes, { clearProps: "transform" });
       compactActiveRef.current = next;
+      activeRef.current = next;
       setActive(next);
       setPreviewChapter(null);
       node.style.setProperty(
@@ -285,6 +293,7 @@ export default function ServiceScope({
               const index = Math.min(services.length - 1, Math.floor(time));
               if (index !== currentChapter) {
                 currentChapter = index;
+                activeRef.current = index;
                 setActive(index);
               }
               const chapterTime = time - index;
@@ -399,6 +408,8 @@ export default function ServiceScope({
           tl.to({}, { duration: 0.38 }, services.length - 0.38);
         }, node);
         return () => {
+          scrollTween.current?.kill();
+          scrollTween.current = null;
           ctx.revert();
           timeline.current = null;
           setPreviewChapter(null);
@@ -421,6 +432,7 @@ export default function ServiceScope({
         );
         const startIdx = Math.min(services.length - 1, compactActiveRef.current);
         compactActiveRef.current = startIdx;
+        activeRef.current = startIdx;
         setActive(startIdx);
         setPreviewChapter(startIdx);
         node.style.setProperty(
@@ -507,17 +519,40 @@ export default function ServiceScope({
     transitionCompactScene,
   ]);
 
+  const scrollToChapter = useCallback((index: number, instant = false) => {
+    const trigger = timeline.current?.scrollTrigger;
+    if (!trigger) return;
+    const clampedIndex = ((index % services.length) + services.length) % services.length;
+    const progress = (clampedIndex + chapterCenter) / services.length;
+    const destination = Math.round(
+      trigger.start + (trigger.end - trigger.start) * progress,
+    );
+    scrollTween.current?.kill();
+    scrollTween.current = null;
+    if (instant || Math.abs(window.scrollY - destination) < 2) {
+      window.scrollTo({ top: destination, behavior: "instant" });
+      return;
+    }
+    const proxy = { y: window.scrollY };
+    scrollTween.current = gsap.to(proxy, {
+      y: destination,
+      duration: 0.44,
+      ease: "power2.out",
+      onUpdate: () => {
+        window.scrollTo({ top: proxy.y, behavior: "instant" });
+      },
+      onComplete: () => {
+        scrollTween.current = null;
+      },
+    });
+  }, []);
+
   const jump = useCallback(
-    (index: number) => {
+    (index: number, instant = false) => {
       const node = root.current;
       const trigger = timeline.current?.scrollTrigger;
       if (node && trigger) {
-        const progress = (index + chapterCenter) / services.length;
-        window.scrollTo({
-          top:
-            Math.round(trigger.start + (trigger.end - trigger.start) * progress),
-          behavior: "instant",
-        });
+        scrollToChapter(index, instant);
       } else if (compactStageRef.current) {
         setAutoPaused(true);
         transitionCompactScene(index);
@@ -528,14 +563,36 @@ export default function ServiceScope({
           [index]?.scrollIntoView({ block: "start", behavior: "instant" });
       }
     },
-    [transitionCompactScene],
+    [scrollToChapter, transitionCompactScene],
   );
 
-  const finishSwipe = (commit: boolean) => {
+  const stepChapter = useCallback(
+    (delta: -1 | 1) => {
+      const base = compactStageRef.current
+        ? compactActiveRef.current
+        : activeRef.current;
+      jump((base + delta + services.length) % services.length);
+    },
+    [jump],
+  );
+
+  const finishSwipe = (commit: boolean, signedDx = 0) => {
     const gesture = swipe.current;
     swipe.current = null;
     setTouching(false);
-    if (!gesture?.horizontal || gesture.target === undefined || !root.current) return;
+    setSwiping(false);
+    if (!gesture?.horizontal || !root.current) return;
+
+    if (gesture.mode === "scroll") {
+      const from = gesture.startChapter;
+      const next = commit
+        ? (from + (signedDx < 0 ? 1 : -1) + services.length) % services.length
+        : from;
+      scrollToChapter(next);
+      return;
+    }
+
+    if (gesture.target === undefined) return;
     const node = root.current;
     const scenes = Array.from(node.querySelectorAll<HTMLElement>(".service-scene"));
     const from = compactActiveRef.current;
@@ -551,6 +608,7 @@ export default function ServiceScope({
       onComplete: () => {
         if (commit) {
           compactActiveRef.current = next;
+          activeRef.current = next;
           setActive(next);
           node.style.setProperty("--services-progress", `${((next + 1) / services.length) * 100}%`);
           setAutoPaused(true);
@@ -575,21 +633,29 @@ export default function ServiceScope({
       finishSwipe(false);
       return;
     }
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    const mode = compactStageRef.current
+      ? "compact"
+      : timeline.current?.scrollTrigger
+        ? "scroll"
+        : null;
     if (
-      !compactStageRef.current ||
+      !mode ||
       selection ||
-      event.pointerType === "mouse" ||
       (event.target as Element).closest(
         ".services-bottom, a, button:not(.floating-card)",
       )
     )
       return;
     swipe.current = {
+      mode,
       pointerId: event.pointerId,
       x: event.clientX,
       y: event.clientY,
       horizontal: false,
       navStart: chapterNav.current?.scrollLeft ?? 0,
+      scrollStart: window.scrollY,
+      startChapter: mode === "compact" ? compactActiveRef.current : activeRef.current,
     };
     setTouching(true);
   };
@@ -601,11 +667,39 @@ export default function ServiceScope({
     const dy = Math.abs(event.clientY - gesture.y);
     if (!gesture.horizontal && dy > 12 && dy >= dx) {
       finishSwipe(false);
-    } else if (dx > 12 && dx > dy * 1.3) {
+      return;
+    }
+    if (!gesture.horizontal && dx > 12 && dx > dy * 1.3) {
       gesture.horizontal = true;
+      setSwiping(true);
+      window.getSelection()?.removeAllRanges();
+      try {
+        event.currentTarget.setPointerCapture(event.pointerId);
+      } catch {
+        // Ignore if pointer capture is unavailable.
+      }
     }
     if (!gesture.horizontal || !root.current) return;
     const signedDx = event.clientX - gesture.x;
+
+    if (gesture.mode === "scroll") {
+      const trigger = timeline.current?.scrollTrigger;
+      if (!trigger) return;
+      scrollTween.current?.kill();
+      scrollTween.current = null;
+      const chapterSpan = (trigger.end - trigger.start) / services.length;
+      const dragWidth = Math.min(480, Math.max(260, root.current.clientWidth * 0.42));
+      const targetScroll = Math.max(
+        trigger.start,
+        Math.min(
+          trigger.end,
+          gesture.scrollStart - (signedDx / dragWidth) * chapterSpan,
+        ),
+      );
+      window.scrollTo({ top: targetScroll, behavior: "instant" });
+      return;
+    }
+
     const from = compactActiveRef.current;
     const next = (from + (signedDx < 0 ? 1 : -1) + services.length) % services.length;
     const scenes = Array.from(root.current.querySelectorAll<HTMLElement>(".service-scene"));
@@ -661,16 +755,45 @@ export default function ServiceScope({
     if (!gesture || gesture.pointerId !== event.pointerId) return;
     const dx = event.clientX - gesture.x;
     const dy = event.clientY - gesture.y;
-    if (!gesture.horizontal) { finishSwipe(false); return; }
+    if (!gesture.horizontal) {
+      finishSwipe(false);
+      return;
+    }
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      try {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      } catch {
+        // Ignore if already released.
+      }
+    }
     // A drag over an artwork must not also open its media viewer.
     suppressClickUntil.current = performance.now() + 500;
-    finishSwipe(Math.abs(dx) >= 48 && Math.abs(dx) > Math.abs(dy) * 1.3);
+    finishSwipe(Math.abs(dx) >= 48 && Math.abs(dx) > Math.abs(dy) * 1.3, dx);
   };
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || !isInteractiveStage || selection) return;
+    let cooldownUntil = 0;
+    const onWheel = (event: WheelEvent) => {
+      if ((event.target as Element).closest(".service-chapter-nav")) return;
+      const absX = Math.abs(event.deltaX);
+      const absY = Math.abs(event.deltaY);
+      if (absX < 24 || absX <= absY * 1.5) return;
+      event.preventDefault();
+      const now = performance.now();
+      if (now < cooldownUntil) return;
+      cooldownUntil = now + 520;
+      stepChapter(event.deltaX > 0 ? 1 : -1);
+    };
+    stage.addEventListener("wheel", onWheel, { passive: false });
+    return () => stage.removeEventListener("wheel", onWheel);
+  }, [isInteractiveStage, selection, stepChapter]);
 
   useEffect(() => {
     const navigate = () => {
       if (location.hash === "#event-photography") {
-        jump(services.findIndex((service) => service.slug === "event-photography"));
+        jump(services.findIndex((service) => service.slug === "event-photography"), true);
         if (compactStageRef.current) {
           root.current?.scrollIntoView({ behavior: "smooth", block: "start" });
         }
@@ -688,7 +811,9 @@ export default function ServiceScope({
       aria-label="What we do — six creative services"
     >
       <div
+        ref={stageRef}
         className="services-stage"
+        data-swiping={swiping ? "true" : undefined}
         onPointerDownCapture={startSwipe}
         onPointerMoveCapture={moveSwipe}
         onPointerUpCapture={endSwipe}
@@ -815,41 +940,41 @@ export default function ServiceScope({
             ))}
           </nav>
           <div className="services-bottom-meta">
-            {compactStage && (
+            {isInteractiveStage && (
               <div
                 className="service-stage-controls"
-                aria-label="Service slideshow controls"
+                aria-label="Service chapter controls"
               >
                 <button
                   type="button"
                   className="circle-button"
-                  onClick={() =>
-                    jump((active - 1 + services.length) % services.length)
-                  }
+                  onClick={() => stepChapter(-1)}
                   aria-label="Previous service"
                 >
                   <Arrow direction="left" />
                 </button>
-                <button
-                  type="button"
-                  className="service-auto-toggle"
-                  aria-pressed={autoPaused}
-                  aria-label={
-                    autoPaused
-                      ? "Resume automatic service rotation"
-                      : "Pause automatic service rotation"
-                  }
-                  onClick={() => {
-                    setAutoPaused((p) => !p);
-                    setTimerNonce((n) => n + 1);
-                  }}
-                >
-                  {autoPaused ? "PLAY" : "PAUSE"}
-                </button>
+                {compactStage && (
+                  <button
+                    type="button"
+                    className="service-auto-toggle"
+                    aria-pressed={autoPaused}
+                    aria-label={
+                      autoPaused
+                        ? "Resume automatic service rotation"
+                        : "Pause automatic service rotation"
+                    }
+                    onClick={() => {
+                      setAutoPaused((p) => !p);
+                      setTimerNonce((n) => n + 1);
+                    }}
+                  >
+                    {autoPaused ? "PLAY" : "PAUSE"}
+                  </button>
+                )}
                 <button
                   type="button"
                   className="circle-button"
-                  onClick={() => jump((active + 1) % services.length)}
+                  onClick={() => stepChapter(1)}
                   aria-label="Next service"
                 >
                   <Arrow direction="right" />
